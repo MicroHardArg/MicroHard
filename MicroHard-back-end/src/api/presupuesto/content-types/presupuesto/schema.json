@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "presupuestos",
+  "info": {
+    "singularName": "presupuesto",
+    "pluralName": "presupuestos",
+    "displayName": "Presupuesto"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cliente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "presupuestos"
+    },
+    "item": {
+      "type": "string"
+    },
+    "descripcion": {
+      "type": "text"
+    },
+    "unidad": {
+      "type": "string"
+    },
+    "cantidad": {
+      "type": "integer"
+    },
+    "unitario": {
+      "type": "decimal"
+    },
+    "precio": {
+      "type": "decimal"
+    },
+    "IVA": {
+      "type": "decimal"
+    },
+    "total": {
+      "type": "decimal"
+    }
+  }
+}
