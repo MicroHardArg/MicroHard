@@ -20,8 +20,8 @@ export default function ClientsCreate(){
       })
     }
 
-    function handleSubmit(e){
-      e.preventDefault();
+    const handleSubmit = async (event) => {
+      event.preventDefault();
       console.log(input)
       dispatch(postActivity(input))
       alert("Client created!!!")
@@ -34,6 +34,22 @@ export default function ClientsCreate(){
         phoneNumber:"",
         creationDate:""
      })
+
+     try {
+      const response = await fetch('https://star-link-back-end-production.up.railway.app/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(input)
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+
+
     }
 
 
@@ -121,6 +137,11 @@ export default function ClientsCreate(){
                    />
                     
                 </div>
+                <br />
+      <div className="text-4xl bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+type="submit" >
+      <button type="submit">Upload Client</button>
+      </div>
     </form>
 
     </div>
