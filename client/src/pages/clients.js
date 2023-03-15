@@ -54,17 +54,20 @@ export default function ClientsCreate(){
 
 
   return (
-    <div>
+    <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive min-h-screen w-full  mt-20 mb-20'>
 
-<div className="home">
-<div className="derecha">
-    <Link href= '/home'><button className="color">Return</button></Link>
+      
+<div className="mx-10">
+    <Link href= '/'><button className="text-white text-5xl">←</button></Link>
 </div>
-<h1>Create Clients</h1>
-<form onSubmit={(e)=>handleSubmit(e)}>
-   <div>
-                   <label>Name:</label>
+<div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center">
+
+<h1 className='text-3xl font-extrabold sm:text-5xl'>Create Clients</h1>
+<form className='bg-white p-5 mt-20 rounded-xl mx-auto w-full max-w-[550px] border-slate-600' onSubmit={(e)=>handleSubmit(e)}>
+              <div className='mb-3'>
+                   <label className='mb-3 block text-base font-medium text-black'>Name:</label>
                    <input 
+                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text" 
                     value= {input.name}
                     name= "name" 
@@ -74,9 +77,10 @@ export default function ClientsCreate(){
               </div>
 
               
-              <div>
-                     <label>Cuit:</label>
+              <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium text-black'>Cuit:</label>
                    <input 
+                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.cuit}
                      name= "cuit"
@@ -85,9 +89,10 @@ export default function ClientsCreate(){
                     
                 </div>
 
-                <div>
-                     <label>email:</label>
+                <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium text-black'>Email:</label>
                    <input 
+                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.email}
                      name= "email"
@@ -96,9 +101,10 @@ export default function ClientsCreate(){
                     
                 </div>
 
-               <div>
-                     <label>Fiscal Address:</label>
+               <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium text-black'>Fiscal Address:</label>
                    <input 
+                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.fiscalAddress}
                      name= "fiscalAddress"
@@ -106,9 +112,10 @@ export default function ClientsCreate(){
                     />
                     
                 </div>
-                <div>
-                  <label>Contact Person:</label>
+                <div className='mb-3'>
+                  <label className='mb-3 block text-base font-medium text-black'>Contact Person:</label>
                    <input 
+                   class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text"    
                      value= {input.contacPerson}
                     name="contactPerson"
@@ -116,9 +123,10 @@ export default function ClientsCreate(){
                   />
                   
                </div>
-               <div>
-                  <label>Phone Number:</label>
+               <div className='mb-3'>
+                  <label className='mb-3 block text-base font-medium text-black'>Phone Number:</label>
                   <input 
+                  class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="num" 
                   value= {input.phoneNumber}
                   name="phoneNumber"
@@ -127,9 +135,10 @@ export default function ClientsCreate(){
                     
                 </div>
 
-                <div>
-                  <label>Creation Date:</label>
+                <div className='mb-3'>
+                  <label className='mb-3 block text-base font-medium text-black'>Creation Date:</label>
                   <input 
+                  class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="date" 
                   value= {input.creationDate}
                   name="creationDate"
@@ -138,7 +147,7 @@ export default function ClientsCreate(){
                     
                 </div>
                 <br />
-      <div className="text-4xl bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      <div className="text-4xl bg-zinc-600 hover:bg-zinc-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 type="submit" >
       <button type="submit">Upload Client</button>
       </div>
