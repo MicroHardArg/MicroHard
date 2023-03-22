@@ -24,7 +24,7 @@ export default function ClientsCreate(){
       event.preventDefault();
       console.log(input)
      // dispatch(postActivity(input))
-      alert("Client created!!!")
+      alert("Cliente Creado!!")
       setInput({
         nombre:"",
         CUIT:"",
