@@ -4,13 +4,13 @@ import Link from 'next/link'
 export default function ClientsCreate(){
     
     const [input, setInput] = useState({
-        name:"",
-        cuit:"",
+        nombre:"",
+        CUIT:"",
         email:"",
-        fiscalAddress:"",
-        contacPerson:"",
-        phoneNumber:"",
-        creationDate:""
+        direccion:"",
+        contacto:"",
+        telefono:"",
+        createtAt:""
      })
 
      function handleChange(e){
@@ -23,20 +23,20 @@ export default function ClientsCreate(){
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
-      dispatch(postActivity(input))
+     // dispatch(postActivity(input))
       alert("Client created!!!")
       setInput({
-        name:"",
-        cuit:"",
+        nombre:"",
+        CUIT:"",
         email:"",
-        fiscalAddress:"",
-        contacPerson:"",
-        phoneNumber:"",
-        creationDate:""
+        direccion:"",
+        contacto:"",
+        telefono:"",
+        createtAt:""
      })
 
      try {
-      const response = await fetch('https://star-link-back-end-production.up.railway.app/', {
+      const response = await fetch('http://localhost:1337/api/clientes/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -77,8 +77,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text" 
-                    value= {input.name}
-                    name= "name" 
+                    value= {input.nombre}
+                    name= "nombre" 
                     onChange={(e)=> handleChange(e)}
                     />
            
@@ -90,8 +90,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
-                     value= {input.cuit}
-                     name= "cuit"
+                     value= {input.CUIT}
+                     name= "CUIT"
                  onChange={(e)=> handleChange(e)}
                     />
                     
@@ -114,8 +114,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.fiscalAddress}
-                     name= "fiscalAddress"
+                     value= {input.direccion}
+                     name= "direccion"
                  onChange={(e)=> handleChange(e)}
                     />
                     
@@ -125,8 +125,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text"    
-                     value= {input.contacPerson}
-                    name="contactPerson"
+                     value= {input.contacto}
+                    name="contacto"
                   onChange={(e)=> handleChange(e)}
                   />
                   
@@ -136,8 +136,8 @@ export default function ClientsCreate(){
                   <input 
                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="num" 
-                  value= {input.phoneNumber}
-                  name="phoneNumber"
+                  value= {input.telefono}
+                  name="telefono"
                  onChange={(e)=> handleChange(e)}
                    />
                     
@@ -148,8 +148,8 @@ export default function ClientsCreate(){
                   <input 
                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="date" 
-                  value= {input.creationDate}
-                  name="creationDate"
+                  value= {input.createtAt}
+                  name="createAt"
                  onChange={(e)=> handleChange(e)}
                    />
                     
