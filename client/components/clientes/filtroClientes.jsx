@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 
 
@@ -50,7 +51,11 @@ function Table({ data, searchTerm }) {
                         </div>
                     </td>
                     <td class="px-6 py-4">
+
                         <Link href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Info</Link>
+
+                      
+
                     </td>
                 </tr>
                  ))}
