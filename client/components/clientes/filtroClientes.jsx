@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+
 function Table({ data, searchTerm }) {
     const filteredData = data.filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -47,7 +50,7 @@ function Table({ data, searchTerm }) {
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <a href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Info</a>
+                        <Link href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Info</Link>
                     </td>
                 </tr>
                  ))}
