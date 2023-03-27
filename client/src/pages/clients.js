@@ -4,39 +4,45 @@ import Link from 'next/link'
 export default function ClientsCreate(){
     
     const [input, setInput] = useState({
-        name:"",
-        cuit:"",
+        data:{
+        nombre:"",
+        CUIT:"",
         email:"",
-        fiscalAddress:"",
-        contacPerson:"",
-        phoneNumber:"",
-        creationDate:""
-     })
+        direccion:"",
+        contacto:"",
+        telefono:""
+        }
+       })
 
-     function handleChange(e){
-      setInput({
+       function handleChange(e) {
+        setInput({
           ...input,
-          [e.target.name] : e.target.value
-      })
-    }
+          data: {
+            ...input.data,
+            [e.target.name]: e.target.value
+          }
+        });
+      }
+      
 
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
-      dispatch(postActivity(input))
-      alert("Client created!!!")
+     // dispatch(postActivity(input))
+      alert("Cliente Creado!!")
       setInput({
-        name:"",
-        cuit:"",
-        email:"",
-        fiscalAddress:"",
-        contacPerson:"",
-        phoneNumber:"",
-        creationDate:""
-     })
+        data:{
+          nombre:"",
+          CUIT:"",
+          email:"",
+          direccion:"",
+          contacto:"",
+          telefono:""
+          }
+       })
 
      try {
-      const response = await fetch('https://star-link-back-end-production.up.railway.app/', {
+      const response = await fetch('http://localhost:1337/api/clientes/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -71,15 +77,14 @@ export default function ClientsCreate(){
 <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-40">
 
 <h1 className='text-3xl font-extrabold sm:text-5xl text-white'>Create Clients</h1>
-
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white ' onSubmit={(e)=>handleSubmit(e)}>
               <div className='mb-3'>
                    <label className='mb-3 block text-base font-medium text-gray-200'>Name:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text" 
-                    value= {input.name}
-                    name= "name" 
+                    value= {input.nombre}
+                    name= "nombre" 
                     onChange={(e)=> handleChange(e)}
                     />
            
@@ -91,8 +96,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
-                     value= {input.cuit}
-                     name= "cuit"
+                     value= {input.CUIT}
+                     name= "CUIT"
                  onChange={(e)=> handleChange(e)}
                     />
                     
@@ -115,8 +120,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.fiscalAddress}
-                     name= "fiscalAddress"
+                     value= {input.direccion}
+                     name= "direccion"
                  onChange={(e)=> handleChange(e)}
                     />
                     
@@ -126,8 +131,8 @@ export default function ClientsCreate(){
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text"    
-                     value= {input.contacPerson}
-                    name="contactPerson"
+                     value= {input.contacto}
+                    name="contacto"
                   onChange={(e)=> handleChange(e)}
                   />
                   
@@ -137,40 +142,30 @@ export default function ClientsCreate(){
                   <input 
                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="num" 
-                  value= {input.phoneNumber}
-                  name="phoneNumber"
+                  value= {input.telefono}
+                  name="telefono"
                  onChange={(e)=> handleChange(e)}
                    />
                     
                 </div>
 
-                <div className='mb-3'>
+                {/* <div className='mb-3'>
                   <label className='mb-3 block text-base font-medium text-gray-200'>Creation Date:</label>
                   <input 
                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="date" 
-                  value= {input.creationDate}
-                  name="creationDate"
+                  value= {input.createtAt}
+                  name="createAt"
                  onChange={(e)=> handleChange(e)}
                    />
                     
-                </div>
-         <div className='pt-3 pb-3'>      
+                </div> */}
+                <br />
       <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded-full focus:outline-none focus:shadow-outline"
 type="submit" >
       <button type="submit">Upload Client</button>
       </div>
-      </div>
     </form>
-
-    <div className='pt-10'> 
-        
-        <Link href= '/'>
-          <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
-          
-          </Link>
-    </div>
-    
 
     </div>
     </div>
