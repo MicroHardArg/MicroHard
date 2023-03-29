@@ -4,7 +4,8 @@
   "info": {
     "singularName": "proyecto",
     "pluralName": "proyectos",
-    "displayName": "Proyecto"
+    "displayName": "Proyecto",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -24,6 +25,15 @@
       "type": "string"
     },
     "horas": {
+      "type": "decimal"
+    },
+    "precio": {
+      "type": "decimal"
+    },
+    "IVA": {
+      "type": "decimal"
+    },
+    "total": {
       "type": "decimal"
     }
   }
