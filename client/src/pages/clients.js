@@ -167,6 +167,14 @@ type="submit" >
       </div>
     </form>
 
+    <div className='pt-10'> 
+        
+        <Link href= '/'>
+          <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
+          
+          </Link>
+    </div>
+
     </div>
     </div>
 

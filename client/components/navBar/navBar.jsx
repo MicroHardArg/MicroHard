@@ -84,7 +84,7 @@ export default function NavBar() {
     <Link className=" scale-100" href="/">
         <div className=' flex text-xl items-center '>
 
-           <h1>Logo</h1>
+           <img src="logo scj.png" alt="Logo" height={110} width={110} />
 
         </div>
 
