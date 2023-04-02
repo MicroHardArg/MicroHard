@@ -38,13 +38,16 @@ export default function BudgetsCreate() {
 
 
     try {
-        const response = await fetch('https://star-link-back-end-production.up.railway.app/', {
+        const response = await fetch('http://localhost:1337/api/presupuestos/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(input)
         });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
         const data = await response.json();
         console.log(data);
       } catch (error) {
@@ -65,9 +68,9 @@ export default function BudgetsCreate() {
         <table>
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3 text-center">
+              {/* <th scope="col" className="px-6 py-3 text-center">
                 Item
-              </th>
+              </th> */}
               <th scope="col" className="px-6 py-3 text-center">
                 Descripcion
               </th>
@@ -77,9 +80,9 @@ export default function BudgetsCreate() {
               <th scope="col" className="px-6 py-3 text-center">
                IVA
               </th>
-              <th scope="col" className="px-6 py-3 text-center">
+              {/* <th scope="col" className="px-6 py-3 text-center">
                 Cantidad
-              </th>
+              </th> */}
               <th scope="col" className="px-6 py-3 text-center">
                 Total 
               </th>
@@ -87,14 +90,14 @@ export default function BudgetsCreate() {
           </thead>
           <tbody>
             <tr>
-              <td className="px-8 py-20 text-center">
+              {/* <td className="px-8 py-20 text-center">
                 <input
                   type="text"
                   value={input.item}
                   name="item"
                   onChange={handleChange}
                 />
-              </td>
+              </td> */}
               <td className="px-8 py-20 text-center">
                 <input
                   type="text"
@@ -105,7 +108,7 @@ export default function BudgetsCreate() {
               </td>
               <td className="px-8 py-20 text-center">
                 <input
-                  type="decimal"
+                  type="num"
                   value={input.precio}
                   name="precio"
                   onChange={handleChange}
@@ -113,23 +116,23 @@ export default function BudgetsCreate() {
               </td>
               <td className="px-8 py-20 text-center">
                 <input
-                  type="decimal"
+                  type="num"
                   value={input.IVA}
                   name="IVA"
                   onChange={handleChange}
                 />
               </td>
-              <td className="px-8 py-20 text-center">
+              {/* <td className="px-8 py-20 text-center">
                 <input
                   type="decimal"
                   value={input.cantidad}
                   name="cantidad"
                   onChange={handleChange}
                 />
-              </td>
+              </td> */}
               <td className="px-8 py-20 text-center">
                 <input
-                  type="decimal"
+                  type="num"
                   value={input.total}
                   name="total"
                   onChange={handleChange}
@@ -139,9 +142,10 @@ export default function BudgetsCreate() {
               </tbody>
               </table>
               <br />
-      <div className="text-4xl bg-indigo-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+               
+      <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline "
     type="submit" >
-      <button type="submit">Upload Presupueto</button>
+      <button type="submit">Upload Presupuesto</button>
       </div>
 
 

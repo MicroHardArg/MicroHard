@@ -1,14 +1,14 @@
 import React, {useState} from 'react'
 import Link from 'next/link'
 
-export default function ProjectsCreate(){
+export default function ServicioRecurrenteCreate(){
     
     const [input, setInput] = useState({
-      data:{
-        descripcion:"",
-        materiales:"",
-        horas:""
-           }
+        data:{
+          servicio:"",
+          descripion:"",
+          precio:"",
+             }
      })
 
      function handleChange(e) {
@@ -24,17 +24,17 @@ export default function ProjectsCreate(){
     const handleSubmit = async (event) => {
         event.preventDefault();
       console.log(input)
-      alert("Project created!!!")
+      alert("Servicio Recurrente Creado!!!")
       setInput({
-        data:{
-          descripcion:"",
-          materiales:"",
-          horas:"",
-           }
-     })
+          data:{
+            servicio:"",
+            descripion:"",
+            precio:"",
+               }
+       })
 
      try {
-        const response = await fetch('http://localhost:1337/api/proyectos/', {
+        const response = await fetch('http://localhost:1337/api/recurrentes/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -69,14 +69,26 @@ export default function ProjectsCreate(){
 
               
 
-<h1  className='text-3xl font-extrabold sm:text-5xl text-white'>Crear Proyecto</h1>
+<h1  className='text-3xl font-extrabold sm:text-5xl text-white'>Crear Servicio Recurrente</h1>
 
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white ' onSubmit={(e)=>handleSubmit(e)}>
                 
               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Descripcion:</label>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Servicio:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    type="text" 
+                     value= {input.servicio}
+                     name= "servicio"
+                 onChange={(e)=> handleChange(e)}
+                    />
+                    
+                </div>
+
+                <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium text-gray-200' >Descripcion:</label>
+                   <input 
+                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.descripcion}
                      name= "descripcion"
@@ -85,35 +97,24 @@ export default function ProjectsCreate(){
                     
                 </div>
 
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200' >Materiales Utilizados:</label>
-                   <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="text" 
-                     value= {input.materiales}
-                     name= "materiales"
-                 onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200'>Horas de laboradas:</label>
+                     <label className='mb-3 block text-base font-medium text-gray-200'>Precio:</label>
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
-                     value= {input.horas}
-                     name= "horas"
+                     value= {input.precio}
+                     name= "precio"
                  onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
+              
 
                
         <div className=' pt-3 pb-3'>   
       <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline "
         type="submit" >
-      <button type="submit">Upload Proyecto</button>
+      <button type="submit">Upload Servicio</button>
       </div>
       </div> 
     </form>
