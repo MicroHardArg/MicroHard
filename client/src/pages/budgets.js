@@ -3,41 +3,36 @@ import Link from 'next/link';
 
 export default function BudgetsCreate() {
   const [input, setInput] = useState({
-    creationDate: '',
-    item: '',
-    description: '',
-    unit: '',
-    quantity: '',
-    unitPrice: '',
-    totalPrice: '',
-    subTotal: '',
-    iva: '',
-    Total: '',
+    data:{
+      descripcion:"",
+      precio:"",
+      IVA:"",
+      total:""
+         }
+    
   });
 
   function handleChange(e) {
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      data: {
+        ...input.data,
+        [e.target.name]: e.target.value
+      }
     });
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(input);
-    dispatch(postActivity(input));
-    alert('Budget created!!!');
+    alert('Presupuesto Creado!!!');
     setInput({
-      creationDate: '',
-      item: '',
-      description: '',
-      unit: '',
-      quantity: '',
-      unitPrice: '',
-      totalPrice: '',
-      subTotal: '',
-      iva: '',
-      total: '',
+      data:{
+        descripcion:"",
+        precio:"",
+        IVA:"",
+        total:""
+           }
     });
 
 
@@ -55,8 +50,6 @@ export default function BudgetsCreate() {
       } catch (error) {
         console.error(error);
       }
-
-
   }
 
 
@@ -88,19 +81,19 @@ export default function BudgetsCreate() {
                 Item
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                Description
+                Descripcion
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                Unit
+                precio
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                Quantity
+               IVA
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                Unit Price
+                Cantidad
               </th>
               <th scope="col" className="px-6 py-3 text-center">
-                Total Price
+                Total 
               </th>
               <th scope="col" className="px-6 py-3 text-center"></th>
               <th scope="col" className="px-6 py-3 text-center"></th>
@@ -122,43 +115,47 @@ export default function BudgetsCreate() {
                 <input
                 class="w-full rounded-md border  border-[#fdfafa] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text"
-                  value={input.description}
-                  name="description"
+                  value={input.descripcion}
+                  name="descripcion"
                   onChange={handleChange}
                 />
               </td>
               <td className="px-8 py-20 text-center bg-stone-800 border-b border-b-gray-200">
                 <input
+
                 class="w-full rounded-md border  border-[#fdfafa] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="text"
-                  value={input.unit}
-                  name="unit"
-                  onChange={handleChange}
+                type="decimal"
+                value={input.precio}
+                name="precio"
+                onChange={handleChange}
                 />
               </td>
               <td className="px-8 py-20 text-center bg-stone-800 border-b border-b-gray-200">
                 <input
+
                 class="w-full rounded-md border  border-[#fdfafa] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="text"
-                  value={input.quantity}
-                  name="quantity"
-                  onChange={handleChange}
+                type="decimal"
+                value={input.IVA}
+                name="IVA"
+                onChange={handleChange}
                 />
               </td>
               <td className="px-8 py-20 text-center bg-stone-800 border-b border-b-gray-200">
                 <input
+
                 class="w-full rounded-md border  border-[#fdfafa] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="text"
-                  value={input.unitPrice}
-                  name="unitPrice"
-                  onChange={handleChange}
+                type="decimal"
+                value={input.cantidad}
+                name="cantidad" 
+                onChange={handleChange}
                 />
               </td>
               <td className="px-8 py-20 text-center bg-stone-800 border-b border-b-gray-200">
                 <input
+
                  class="w-full rounded-md border  border-[#fdfafa] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="text"
-                  value={input.totalPrice}
+                 type="decimal"
+                 value={input.total}
                   name="total"
                   onChange={handleChange}
                 />
@@ -172,7 +169,7 @@ export default function BudgetsCreate() {
         <div className='pt-10 px-80'>      
       <div className="text-4xl bg-blue-900  hover:bg-blue-700 text-white font-bold py-2  rounded-full focus:outline-none focus:shadow-outline cursor-pointer"
     type="submit" >
-      <button type="submit">Upload Budget</button>
+      <button type="submit">Upload Presupuesto</button>
       </div>
       </div>
 
