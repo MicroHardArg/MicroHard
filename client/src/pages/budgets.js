@@ -63,6 +63,19 @@ export default function ProjectsCreate(){
         }
         const data = await response.json();
         console.log(data);
+
+        /* setInput({
+          data:{
+            cliente:"",
+            descripcion:"",
+            precio:"",
+            iva:"",
+            total:""
+          }
+        })
+
+        alert("Presupuesto creado satisfactoriamente") */
+        // LIMPIAR LOS CAMPOS DESPUES DE SUBMIT
       } catch (error) {
         console.error(error);
       }

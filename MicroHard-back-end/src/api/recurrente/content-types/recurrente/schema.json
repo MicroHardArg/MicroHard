@@ -32,6 +32,12 @@
     },
     "renovable": {
       "type": "boolean"
+    },
+    "iva": {
+      "type": "decimal"
+    },
+    "total": {
+      "type": "decimal"
     }
   }
 }
