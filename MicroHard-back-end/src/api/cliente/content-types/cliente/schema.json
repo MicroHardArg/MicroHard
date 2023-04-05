@@ -50,10 +50,10 @@
       "target": "api::proyecto.proyecto",
       "mappedBy": "cliente"
     },
-    "cliente_recurrentes": {
+    "recurrentes": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::cliente-recurrente.cliente-recurrente",
+      "target": "api::recurrente.recurrente",
       "mappedBy": "cliente"
     }
   }
