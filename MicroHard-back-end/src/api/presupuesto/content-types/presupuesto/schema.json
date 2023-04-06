@@ -29,6 +29,12 @@
     },
     "total": {
       "type": "decimal"
+    },
+    "presupuesto_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::presupuesto-item.presupuesto-item",
+      "mappedBy": "presupuesto"
     }
   }
 }

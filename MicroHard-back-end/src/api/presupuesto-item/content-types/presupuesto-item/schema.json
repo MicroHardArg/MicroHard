@@ -4,7 +4,8 @@
   "info": {
     "singularName": "presupuesto-item",
     "pluralName": "presupuesto-items",
-    "displayName": "PresupuestoItem"
+    "displayName": "PresupuestoItem",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,6 +20,12 @@
     "cantidad": {
       "type": "integer",
       "required": true
+    },
+    "presupuesto": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::presupuesto.presupuesto",
+      "inversedBy": "presupuesto_items"
     }
   }
 }
