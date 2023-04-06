@@ -1,23 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
 
-export default function ProjectsCreate(){
+export default function ServicioRecurrenteCreate(){
     
     const [input, setInput] = useState({
-      data:{
-        cliente:"",
-        descripcion:"",
-        materiales:"",
-        horas:0,
-        precio:0,
-        iva:0,
-        total:0
-           }
+        data:{
+          cliente:"",
+          servicio:"",
+          descripcion:"",
+          fecha:"",
+          precio:"",
+          iva:"",
+          total:"",
+          renovable:""
+             }
      })
 
-    const [clients, setClients]= useState([]);
+     const [clients, setClients]= useState([]);
 
-    useEffect(() => {
+     useEffect(() => {
       async function fetchClients() {
         const response = await fetch('http://localhost:1337/api/clientes');
         const json = await response.json();
@@ -41,21 +42,22 @@ export default function ProjectsCreate(){
     const handleSubmit = async (event) => {
         event.preventDefault();
       console.log(input)
-      alert("Proyecto creado satisfactoriamente")
+      alert("Servicio recurrente creado satisfactoriamente")
       setInput({
-        data:{
-          cliente:"",
-          descripcion:"",
-          materiales:"",
-          horas:0,
-          precio:0,
-          iva:0,
-          total:0
-           }
-     })
+          data:{
+            cliente:"",
+            servicio:"",
+            descripcion:"",
+            fecha:"",
+            precio:"",
+            iva:"",
+            total:"",
+            renovable:""
+               }
+       })
 
      try {
-        const response = await fetch('http://localhost:1337/api/proyectos/', {
+        const response = await fetch('http://localhost:1337/api/recurrentes/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -90,7 +92,7 @@ export default function ProjectsCreate(){
 
               
 
-<h1  className='text-3xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Proyecto</h1>
+<h1  className='text-3xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Servicio Recurrente</h1>
 
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white ' onSubmit={(e)=>handleSubmit(e)}>
 
@@ -111,9 +113,21 @@ export default function ProjectsCreate(){
                       ))}
                   </select>  
                 </div>
-                
-              <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Descripción:</label>
+
+                <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Servicio:</label>
+                   <input 
+                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    type="text" 
+                     value= {input.servicio}
+                     name= "servicio"
+                 onChange={(e)=> handleChange(e)}
+                    />
+                    
+                </div>
+
+                <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Descripcion:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
@@ -124,31 +138,19 @@ export default function ProjectsCreate(){
                     
                 </div>
 
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200' >Materiales Utilizados:</label>
+              <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Fecha:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="text" 
-                     value= {input.materiales}
-                     name= "materiales"
+                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    type="date"
+                     value= {input.fecha}
+                     name= "fecha"
                  onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
 
-               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200'>Horas laboradas:</label>
-                   <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.horas}
-                     name= "horas"
-                 onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
-                <div className='mb-3'>
+              <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -159,8 +161,8 @@ export default function ProjectsCreate(){
                     />
                     
                 </div>
-
-                <div className='mb-3'>
+                
+              <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -173,9 +175,9 @@ export default function ProjectsCreate(){
                 </div>
 
                 <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
+                     <label className='mb-3 block text-base font-medium text-gray-200' >Total:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.total}
                      name= "total"
@@ -184,11 +186,27 @@ export default function ProjectsCreate(){
                     
                 </div>
 
+               <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium text-gray-200'>Renovable:</label>
+                  <select 
+                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    value= {input.renovable}
+                    name= "renovable"
+                    onChange={(e)=> handleChange(e)}
+                    >
+                    <option value='true'>True</option>
+                    <option value='false'>False</option>
+
+                  </select>
+                    
+                </div>
+              
+
                
         <div className=' pt-3 pb-3'>   
       <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline "
         type="submit" >
-      <button type="submit">Crear Proyecto</button>
+      <button type="submit">Crear Servicio Recurrente</button>
       </div>
       </div> 
     </form>

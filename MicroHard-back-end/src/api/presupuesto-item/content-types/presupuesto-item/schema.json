@@ -11,12 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "presupuesto": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::presupuesto.presupuesto",
-      "inversedBy": "presupuesto_items"
-    },
     "item": {
       "type": "relation",
       "relation": "oneToOne",

@@ -5,12 +5,12 @@ export default function ClientsCreate(){
     
     const [input, setInput] = useState({
         data:{
-        nombre:"",
-        CUIT:"",
-        email:"",
-        direccion:"",
-        contacto:"",
-        telefono:""
+          nombre:"",
+          CUIT:"",
+          email:"",
+          direccion:"",
+          contacto:"",
+          telefono:""
         }
        })
 
@@ -29,7 +29,7 @@ export default function ClientsCreate(){
       event.preventDefault();
       console.log(input)
      // dispatch(postActivity(input))
-      alert("Cliente Creado!!")
+      alert("Cliente creado satisfactoriamente")
       setInput({
         data:{
           nombre:"",
@@ -71,15 +71,12 @@ export default function ClientsCreate(){
     <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-20 mb-20 absolute'>
 
       
-{/* <div className="mx-10">
-    <Link href= '/'><button className="text-white text-5xl">←</button></Link>
-</div> */}
 <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-40">
 
-<h1 className='text-3xl font-extrabold sm:text-5xl text-white'>Create Clients</h1>
+<h1 className='text-3xl font-extrabold sm:text-5xl text-white'>Ingresa nuevo cliente</h1>
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white ' onSubmit={(e)=>handleSubmit(e)}>
               <div className='mb-3'>
-                   <label className='mb-3 block text-base font-medium text-gray-200'>Name:</label>
+                   <label className='mb-3 block text-base font-medium text-gray-200'>Nombre:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text" 
@@ -92,7 +89,7 @@ export default function ClientsCreate(){
 
               
               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Cuit:</label>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>CUIT:</label>
                    <input 
                    class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
@@ -116,7 +113,7 @@ export default function ClientsCreate(){
                 </div>
 
                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200'>Fiscal Address:</label>
+                     <label className='mb-3 block text-base font-medium text-gray-200'>Dirección Fiscal:</label>
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
@@ -127,7 +124,7 @@ export default function ClientsCreate(){
                     
                 </div>
                 <div className='mb-3'>
-                  <label className='mb-3 block text-base font-medium text-gray-200'>Contact Person:</label>
+                  <label className='mb-3 block text-base font-medium text-gray-200'>Persona de Contacto:</label>
                    <input 
                    class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text"    
@@ -138,7 +135,7 @@ export default function ClientsCreate(){
                   
                </div>
                <div className='mb-3'>
-                  <label className='mb-3 block text-base font-medium text-gray-200'>Phone Number:</label>
+                  <label className='mb-3 block text-base font-medium text-gray-200'>Teléfono:</label>
                   <input 
                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="num" 
@@ -149,31 +146,22 @@ export default function ClientsCreate(){
                     
                 </div>
 
-                {/* <div className='mb-3'>
-                  <label className='mb-3 block text-base font-medium text-gray-200'>Creation Date:</label>
-                  <input 
-                  class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="date" 
-                  value= {input.createtAt}
-                  name="createAt"
-                 onChange={(e)=> handleChange(e)}
-                   />
-                    
-                </div> */}
                 <br />
       <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4  rounded-full focus:outline-none focus:shadow-outline"
 type="submit" >
-      <button type="submit">Upload Client</button>
+      <button type="submit">Crear Cliente</button>
       </div>
     </form>
 
     <div className='pt-10'> 
         
+
         <Link href= '/'>
           <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
           
           </Link>
     </div>
+
 
     </div>
     </div>

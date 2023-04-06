@@ -4,7 +4,8 @@
   "info": {
     "singularName": "recurrente",
     "pluralName": "recurrentes",
-    "displayName": "Recurrente"
+    "displayName": "Recurrente",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,6 +19,24 @@
       "type": "text"
     },
     "precio": {
+      "type": "decimal"
+    },
+    "cliente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "recurrentes"
+    },
+    "fecha": {
+      "type": "date"
+    },
+    "renovable": {
+      "type": "boolean"
+    },
+    "iva": {
+      "type": "decimal"
+    },
+    "total": {
       "type": "decimal"
     }
   }

@@ -30,7 +30,7 @@
     "precio": {
       "type": "decimal"
     },
-    "IVA": {
+    "iva": {
       "type": "decimal"
     },
     "total": {
