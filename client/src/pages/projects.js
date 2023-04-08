@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import Link from 'next/link'
 
 export default function ProjectsCreate(){
@@ -8,14 +8,40 @@ export default function ProjectsCreate(){
         cliente:"",
         descripcion:"",
         materiales:"",
-        horas:0,
-        precio:0,
-        iva:0,
-        total:0
+        horas:"",
+        precio:"",
+        iva:"",
+        total:""
            }
      })
 
     const [clients, setClients]= useState([]);
+
+    useEffect(() => {
+      console.log("USE EFFECT ENTERED")
+      var { precio, iva, total} = input.data;
+      if (!precio) {
+        iva="";
+        total="";
+      }
+      if (precio) {
+        precio=precio.toString().replace("," , ".");
+        iva=(parseFloat(precio)*0.21).toFixed(2);
+        let prevTotal = (parseFloat(precio)+parseFloat(iva)).toFixed(2);
+        total = parseFloat(prevTotal.toString().replace(",", ".")).toFixed(2);
+        
+      }
+      setInput((input) => ({
+        ...input,
+        data: {
+          ...input.data,
+          precio,
+          iva,
+          total
+        },
+      }));
+      console.log("IVA & TOTAL", input);
+    }, [input.data.precio]);
 
     useEffect(() => {
       async function fetchClients() {
@@ -41,16 +67,16 @@ export default function ProjectsCreate(){
     const handleSubmit = async (event) => {
         event.preventDefault();
       console.log(input)
-      alert("Proyecto creado satisfactoriamente")
+      //alert("Proyecto creado satisfactoriamente")
       setInput({
         data:{
           cliente:"",
           descripcion:"",
           materiales:"",
-          horas:0,
-          precio:0,
-          iva:0,
-          total:0
+          horas:"",
+          precio:"",
+          iva:"",
+          total:""
            }
      })
 
@@ -63,10 +89,13 @@ export default function ProjectsCreate(){
           body: JSON.stringify(input)
         });
         if (!response.ok) {
+          alert("No se pudo crear el proyecto");
           throw new Error('Network response was not ok');
         }
+        alert("Proyecto creado satisfactoriamente");
         const data = await response.json();
         console.log(data);
+        
       } catch (error) {
         console.error(error);
       }
@@ -92,14 +121,14 @@ export default function ProjectsCreate(){
 
 <h1  className='text-3xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Proyecto</h1>
 
-<form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white ' onSubmit={(e)=>handleSubmit(e)}>
+<form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white' onSubmit={(e)=>handleSubmit(e)}>
 
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Cliente:</label>
                    <select 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                    value= {input.cliente}
+                    value= {input.data.cliente}
                     name= "cliente"
                     onChange={(e)=> handleChange(e)}
                     >
@@ -117,7 +146,7 @@ export default function ProjectsCreate(){
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.descripcion}
+                     value= {input.data.descripcion}
                      name= "descripcion"
                  onChange={(e)=> handleChange(e)}
                     />
@@ -129,7 +158,7 @@ export default function ProjectsCreate(){
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.materiales}
+                     value= {input.data.materiales}
                      name= "materiales"
                  onChange={(e)=> handleChange(e)}
                     />
@@ -140,8 +169,8 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium text-gray-200'>Horas laboradas:</label>
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.horas}
+                    //type="number" 
+                     value= {input.data.horas}
                      name= "horas"
                  onChange={(e)=> handleChange(e)}
                     />
@@ -152,8 +181,8 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.precio}
+                    //type="number" 
+                     value= {input.data.precio}
                      name= "precio"
                  onChange={(e)=> handleChange(e)}
                     />
@@ -164,9 +193,10 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.iva}
+                    //type="number" 
+                     value= {input.data.iva}
                      name= "iva"
+                     readOnly
                  onChange={(e)=> handleChange(e)}
                     />
                     
@@ -176,8 +206,8 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.total}
+                    //type="number" 
+                     value= {input.data.total}
                      name= "total"
                  onChange={(e)=> handleChange(e)}
                     />
