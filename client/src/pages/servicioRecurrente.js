@@ -6,7 +6,7 @@ export default function ServicioRecurrenteCreate(){
     const [input, setInput] = useState({
         data:{
           cliente:"",
-          servicio:"",
+          // servicio:"",
           descripcion:"",
           fecha:"",
           precio:"",
@@ -46,7 +46,7 @@ export default function ServicioRecurrenteCreate(){
       setInput({
           data:{
             cliente:"",
-            servicio:"",
+            // servicio:"",
             descripcion:"",
             fecha:"",
             precio:"",
@@ -99,7 +99,7 @@ export default function ServicioRecurrenteCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Cliente:</label>
                    <select 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                     value= {input.cliente}
                     name= "cliente"
@@ -114,22 +114,11 @@ export default function ServicioRecurrenteCreate(){
                   </select>  
                 </div>
 
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Servicio:</label>
-                   <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="text" 
-                     value= {input.servicio}
-                     name= "servicio"
-                 onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
+              
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Descripcion:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.descripcion}
                      name= "descripcion"
@@ -141,7 +130,7 @@ export default function ServicioRecurrenteCreate(){
               <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Fecha:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="date"
                      value= {input.fecha}
                      name= "fecha"
@@ -153,7 +142,7 @@ export default function ServicioRecurrenteCreate(){
               <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.precio}
                      name= "precio"
@@ -165,7 +154,7 @@ export default function ServicioRecurrenteCreate(){
               <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.iva}
                      name= "iva"
@@ -177,7 +166,7 @@ export default function ServicioRecurrenteCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200' >Total:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.total}
                      name= "total"
@@ -189,7 +178,7 @@ export default function ServicioRecurrenteCreate(){
                <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200'>Renovable:</label>
                   <select 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     value= {input.renovable}
                     name= "renovable"
                     onChange={(e)=> handleChange(e)}

@@ -97,7 +97,7 @@ export default function ProjectsCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Cliente:</label>
                    <select 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                     value= {input.cliente}
                     name= "cliente"
@@ -115,7 +115,7 @@ export default function ProjectsCreate(){
               <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Descripción:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.descripcion}
                      name= "descripcion"
@@ -127,7 +127,7 @@ export default function ProjectsCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200' >Materiales Utilizados:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.materiales}
                      name= "materiales"
@@ -139,7 +139,7 @@ export default function ProjectsCreate(){
                <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200'>Horas laboradas:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.horas}
                      name= "horas"
@@ -151,7 +151,7 @@ export default function ProjectsCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.precio}
                      name= "precio"
@@ -163,7 +163,7 @@ export default function ProjectsCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.iva}
                      name= "iva"
@@ -175,7 +175,7 @@ export default function ProjectsCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.total}
                      name= "total"
