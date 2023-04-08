@@ -78,7 +78,7 @@ export default function ClientsCreate(){
               <div className='mb-3'>
                    <label className='mb-3 block text-base font-medium text-gray-200'>Nombre:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text" 
                     value= {input.nombre}
                     name= "nombre" 
@@ -91,7 +91,7 @@ export default function ClientsCreate(){
               <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>CUIT:</label>
                    <input 
-                   class="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="num" 
                      value= {input.CUIT}
                      name= "CUIT"
@@ -103,7 +103,7 @@ export default function ClientsCreate(){
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200'>Email:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.email}
                      name= "email"
@@ -115,7 +115,7 @@ export default function ClientsCreate(){
                <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200'>Dirección Fiscal:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                      value= {input.direccion}
                      name= "direccion"
@@ -126,7 +126,7 @@ export default function ClientsCreate(){
                 <div className='mb-3'>
                   <label className='mb-3 block text-base font-medium text-gray-200'>Persona de Contacto:</label>
                    <input 
-                   class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text"    
                      value= {input.contacto}
                     name="contacto"
@@ -137,7 +137,7 @@ export default function ClientsCreate(){
                <div className='mb-3'>
                   <label className='mb-3 block text-base font-medium text-gray-200'>Teléfono:</label>
                   <input 
-                  class="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="num" 
                   value= {input.telefono}
                   name="telefono"
