@@ -27,9 +27,7 @@ export default function ClientsCreate(){
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      console.log(input)
-     // dispatch(postActivity(input))
-      alert("Cliente creado satisfactoriamente")
+      console.log(input);
       setInput({
         data:{
           nombre:"",
@@ -49,14 +47,17 @@ export default function ClientsCreate(){
         },
         body: JSON.stringify(input)
       });
+      if (!response.ok) {
+        alert("No se pudo crear al cliente");
+        throw new Error("Network response was not ok");
+      }
+      alert("Cliente creado satisfactoriamente");
       const data = await response.json();
       console.log(data);
     } catch (error) {
       console.error(error);
     }
-
-
-    }
+  };
 
 
   return (
@@ -80,7 +81,7 @@ export default function ClientsCreate(){
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   type="text" 
-                    value= {input.nombre}
+                    value= {input.data.nombre}
                     name= "nombre" 
                     onChange={(e)=> handleChange(e)}
                     />
@@ -92,10 +93,9 @@ export default function ClientsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>CUIT:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.CUIT}
+                     value= {input.data.CUIT}
                      name= "CUIT"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -105,9 +105,9 @@ export default function ClientsCreate(){
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.email}
+                     value= {input.data.email}
                      name= "email"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -117,9 +117,9 @@ export default function ClientsCreate(){
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.direccion}
+                     value= {input.data.direccion}
                      name= "direccion"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -128,9 +128,9 @@ export default function ClientsCreate(){
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text"    
-                     value= {input.contacto}
+                    value= {input.data.contacto}
                     name="contacto"
-                  onChange={(e)=> handleChange(e)}
+                    onChange={(e)=> handleChange(e)}
                   />
                   
                </div>
@@ -138,10 +138,9 @@ export default function ClientsCreate(){
                   <label className='mb-3 block text-base font-medium text-gray-200'>Teléfono:</label>
                   <input 
                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                  type="num" 
-                  value= {input.telefono}
+                  value= {input.data.telefono}
                   name="telefono"
-                 onChange={(e)=> handleChange(e)}
+                  onChange={(e)=> handleChange(e)}
                    />
                     
                 </div>

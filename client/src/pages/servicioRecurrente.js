@@ -6,7 +6,7 @@ export default function ServicioRecurrenteCreate(){
     const [input, setInput] = useState({
         data:{
           cliente:"",
-          // servicio:"",
+          servicio:"",
           descripcion:"",
           fecha:"",
           precio:"",
@@ -19,11 +19,34 @@ export default function ServicioRecurrenteCreate(){
      const [clients, setClients]= useState([]);
 
      useEffect(() => {
+      var { precio, iva, total } = input.data;
+      if (!precio) {
+        iva="";
+        total="";
+      }
+      if (precio) {
+        precio=precio.toString().replace("," , ".");
+        iva=(parseFloat(precio)*0.21).toFixed(2);
+        let prevTotal = (parseFloat(precio)+parseFloat(iva)).toFixed(2);
+        total = parseFloat(prevTotal.toString().replace(",", ".")).toFixed(2);
+        
+      }
+      setInput((input) => ({
+        ...input,
+        data: {
+          ...input.data,
+          precio,
+          iva,
+          total
+        },
+      }));
+    }, [input.data.precio]);
+
+     useEffect(() => {
       async function fetchClients() {
         const response = await fetch('http://localhost:1337/api/clientes');
         const json = await response.json();
         const data= json.data;
-        console.log("DATA",data);
         setClients(data);
       }
       fetchClients();
@@ -40,13 +63,12 @@ export default function ServicioRecurrenteCreate(){
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-      console.log(input)
-      alert("Servicio recurrente creado satisfactoriamente")
+      event.preventDefault();
+      console.log(input);
       setInput({
           data:{
             cliente:"",
-            // servicio:"",
+            servicio:"",
             descripcion:"",
             fecha:"",
             precio:"",
@@ -65,8 +87,10 @@ export default function ServicioRecurrenteCreate(){
           body: JSON.stringify(input)
         });
         if (!response.ok) {
+          alert("No se pudo crear el Servicio Recurrente");
           throw new Error('Network response was not ok');
         }
+        alert("Servicio Recurrente creado satisfactoriamente");
         const data = await response.json();
         console.log(data);
       } catch (error) {
@@ -101,7 +125,7 @@ export default function ServicioRecurrenteCreate(){
                    <select 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                    value= {input.cliente}
+                    value= {input.data.cliente}
                     name= "cliente"
                     onChange={(e)=> handleChange(e)}
                     >
@@ -114,15 +138,26 @@ export default function ServicioRecurrenteCreate(){
                   </select>  
                 </div>
 
+                <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Servicio:</label>
+                   <input 
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                     type="text" 
+                     value= {input.data.servicio}
+                     name= "servicio"
+                     onChange={(e)=> handleChange(e)}
+                    />
+                    
+                </div>
               
                 <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Descripcion:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="text" 
-                     value= {input.descripcion}
+                     type="text" 
+                     value= {input.data.descripcion}
                      name= "descripcion"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -131,10 +166,10 @@ export default function ServicioRecurrenteCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Fecha:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="date"
-                     value= {input.fecha}
+                     type="date"
+                     value= {input.data.fecha}
                      name= "fecha"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -143,10 +178,9 @@ export default function ServicioRecurrenteCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.precio}
+                     value= {input.data.precio}
                      name= "precio"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -155,10 +189,10 @@ export default function ServicioRecurrenteCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.iva}
+                     value= {input.data.iva}
                      name= "iva"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
+                     readOnly
                     />
                     
                 </div>
@@ -167,10 +201,9 @@ export default function ServicioRecurrenteCreate(){
                      <label className='mb-3 block text-base font-medium text-gray-200' >Total:</label>
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="num" 
-                     value= {input.total}
+                     value= {input.data.total}
                      name= "total"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -179,12 +212,13 @@ export default function ServicioRecurrenteCreate(){
                      <label className='mb-3 block text-base font-medium text-gray-200'>Renovable:</label>
                   <select 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    value= {input.renovable}
+                    value= {input.data.renovable}
                     name= "renovable"
                     onChange={(e)=> handleChange(e)}
                     >
-                    <option value='true'>True</option>
-                    <option value='false'>False</option>
+                      <option value="">Selecciona una opcion</option>
+                      <option value='true'>Si</option>
+                      <option value='false'>No</option>
 
                   </select>
                     
