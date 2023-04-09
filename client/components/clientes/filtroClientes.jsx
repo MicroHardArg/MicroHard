@@ -3,13 +3,13 @@ import Link from "next/link";
 
 function Table({ data, searchTerm }) {
     console.log(data); 
-    console.log(searchTerm)
-    const filteredData = Array.isArray(data) ? data.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    console.log(searchTerm);
+    // const filteredData = data.data.filter((item) =>
+    const filteredData = Array.isArray(data.data) ? data.data.filter((item) =>
+      item.attributes.nombre.toLowerCase().includes(searchTerm.toLowerCase())
     ) : [];
   
-  
-  
+    
     return (
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -38,8 +38,8 @@ function Table({ data, searchTerm }) {
                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                     <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>  
                             <div class="pl-3">
-                            <div class="text-base font-semibold">{item.name}</div>
-                            <div class="font-normal text-gray-500">{item.email}</div>
+                            <div class="text-base font-semibold">{item.attributes.nombre}</div>
+                            <div class="font-normal text-gray-500">{item.attributes.email}</div>
                         </div>  
                     </th>
                    
