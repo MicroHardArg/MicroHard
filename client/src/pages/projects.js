@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
 
 export default function ProjectsCreate(){
@@ -18,7 +18,6 @@ export default function ProjectsCreate(){
     const [clients, setClients]= useState([]);
 
     useEffect(() => {
-      console.log("USE EFFECT ENTERED")
       var { precio, iva, total} = input.data;
       if (!precio) {
         iva="";
@@ -40,7 +39,6 @@ export default function ProjectsCreate(){
           total
         },
       }));
-      console.log("IVA & TOTAL", input);
     }, [input.data.precio]);
 
     useEffect(() => {
@@ -48,7 +46,6 @@ export default function ProjectsCreate(){
         const response = await fetch('http://localhost:1337/api/clientes');
         const json = await response.json();
         const data= json.data;
-        console.log("DATA",data);
         setClients(data);
       }
       fetchClients();
@@ -65,9 +62,8 @@ export default function ProjectsCreate(){
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+      event.preventDefault();
       console.log(input)
-      //alert("Proyecto creado satisfactoriamente")
       setInput({
         data:{
           cliente:"",
@@ -169,10 +165,9 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium text-gray-200'>Horas laboradas:</label>
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    //type="number" 
                      value= {input.data.horas}
                      name= "horas"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -181,10 +176,9 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    //type="number" 
                      value= {input.data.precio}
                      name= "precio"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -193,11 +187,10 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    //type="number" 
                      value= {input.data.iva}
                      name= "iva"
                      readOnly
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
@@ -206,10 +199,9 @@ export default function ProjectsCreate(){
                      <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    //type="number" 
                      value= {input.data.total}
                      name= "total"
-                 onChange={(e)=> handleChange(e)}
+                     onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
