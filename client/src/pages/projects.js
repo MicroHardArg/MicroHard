@@ -110,16 +110,16 @@ export default function ProjectsCreate(){
 <div  className='flex w-full  h-full bottom-0 ' >
 
 <div className=' pb-0 '>
-            <img src="clientes.jpg" alt="backgroud" className='h-full w-full fixed bg-cover' />
+            <img src="clientes.jpg" alt="backgroud" className='h-full w-full bg-cover' />
             </div>
 
-            <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-20 mb-20 absolute'>
+            <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-6 mb-20 absolute'>
 
-            <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-40">
+            <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-32">
 
               
 
-<h1  className='text-3xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Proyecto</h1>
+<h1  className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Proyecto</h1>
 
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white' onSubmit={(e)=>handleSubmit(e)}>
 
@@ -223,10 +223,10 @@ export default function ProjectsCreate(){
       </div> 
     </form>
 
-    <div className='pt-10'> 
+    <div className='pt-8'> 
         
     <Link href= '/'>
-      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Home</button>
+      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
       
       </Link>
 </div>
