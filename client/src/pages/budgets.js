@@ -76,7 +76,7 @@ export default function BudgetsCreate() {
     <div  className='flex w-full  h-full bottom-0  '>
 
     <div className=' pb-0 '>
-            <img src="presupuesto.jpg" alt="backgroud" className='h-full w-full fixed bg-cover' />
+            <img src="presupuesto.jpg" alt="backgroud" className='h-full w-full absolute bg-cover' />
             </div>
             
 
