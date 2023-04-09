@@ -65,7 +65,7 @@ export default function ClientsCreate(){
 
 <div className='flex w-full  h-full bottom-0 '>
          <div className=' pb-0 '>
-            <img src="clientes.jpg" alt="backgroud" className='h-full w-full fixed bg-cover' />
+            <img src="clientes.jpg" alt="backgroud" className='h-full w-full bg-cover' />
             </div>
 
     <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-20 mb-20 absolute'>
