@@ -27,7 +27,7 @@ export default function ClientsCreate(){
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      console.log("INPUT", input);
+      console.log(input);
       setInput({
         data:{
           nombre:"",
