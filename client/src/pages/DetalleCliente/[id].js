@@ -40,6 +40,9 @@ export const MyPage = () => {
       }
     }, [router.query.id])
 
+
+   
+
   
   const tabs = [
     {
@@ -93,9 +96,10 @@ export const MyPage = () => {
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-xl text-left text-gray-100 dark:text-gray-100">
               <thead class="text-xs text-white uppercase bg-gray-600 border-b border-blue-400 dark:text-white">
+                 
                   <tr>
                       <th scope="col" class="px-6 py-3">
-                          Nombre
+                          Id del Proyecto
                       </th>
                       <th scope="col" class="px-6 py-3">
                       Descripcion
@@ -112,27 +116,33 @@ export const MyPage = () => {
                   </tr>
               </thead>
               <tbody>
+              {data.presupuestos.map((presupuesto) => (
+ 
                   <tr class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
-                          Presupuesto 1
+                          {presupuesto.id}
                       </th>
                       <td class="px-6 py-4">
-                          Cable + cinta
+                      {presupuesto.attributes.descripcion}
                       </td>
                       <td class="px-6 py-4">
-                          $20.000
+                      {presupuesto.attributes.precio}
                       </td>
                       <td class="px-6 py-4">
-                          21%
+                      {presupuesto.attributes.iva}
                       </td>
                       <td class="px-6 py-4">
-                          <a href="#" class="font-medium text-white hover:underline">$24.200</a>
+                          <a href="#" class="font-medium text-white hover:underline">{presupuesto.attributes.total}</a>
                       </td>
                   </tr>
+                
+))}
               </tbody>
           </table>
+          
       </div>
-      </div>,
+      </div>
+      ,
     },
 
     {
@@ -150,7 +160,7 @@ export const MyPage = () => {
               <thead class="text-xs text-white uppercase bg-gray-600 border-b border-amber-400 dark:text-white">
                   <tr>
                       <th scope="col" class="px-6 py-3">
-                          Nombre del Proyecto
+                          Id del Proyecto
                       </th>
                       <th scope="col" class="px-6 py-3">
                       Descripcion
@@ -159,25 +169,52 @@ export const MyPage = () => {
                           Horas de trabajo
                       </th>
                       <th scope="col" class="px-6 py-3">
+                          Materiales
+                      </th>
+                      <th scope="col" class="px-6 py-3">
                           Precio
                       </th>
+                      <th scope="col" class="px-6 py-3">
+                          Iva
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Total
+                      </th>
+
+
+
                   </tr>
               </thead>
               <tbody>
+              {data.proyectos.map((proyecto) => (
+
                   <tr class="bg-gray-600 border-b border-amber-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
-                          Proyecto 1
+                      {proyecto.id}
                       </th>
                       <td class="px-6 py-4">
-                          Items varios
+                      {proyecto.attributes.descripcion}
                       </td>
                       <td class="px-6 py-4">
-                          8hs
+                      {proyecto.attributes.horas}
                       </td>
                       <td class="px-6 py-4">
-                          $60.000
+                      {proyecto.attributes.materiales}
                       </td>
+                      <td class="px-6 py-4">
+                      {proyecto.attributes.precio}
+                      </td>
+                      <td class="px-6 py-4">
+                      {proyecto.attributes.iva}
+                      </td>
+                      <td class="px-6 py-4">
+                      {proyecto.attributes.total}
+                      </td>
+
+
+
                   </tr>
+                  ))}
               </tbody>
           </table>
       </div>
