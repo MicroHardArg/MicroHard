@@ -329,7 +329,7 @@ export const MyPage = () => {
        <div>
 
    
-          <div className="bg-white p-4 rounded-lg shadow-lg w-full h-full">
+          <div className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
             <div className="flex justify-between mb-4">
               <div>
                 <h1 className="text-lg font-bold">Remito de venta</h1>
@@ -363,51 +363,27 @@ export const MyPage = () => {
               </div>
             </div>
 {/* //Factura */}
+
+{/* seleccionar proyecto */}
             <div>
       <select
-        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        className="block appearance-none w-full bg-blue-50 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         value={productoSeleccionado}
         onChange={(event) => setProductoSeleccionado(event.target.value)}
       >
-        <option value="">Seleccione un proyecto</option>
+        <option value="" >Seleccione un proyecto</option>
         {data.proyectos.map((proyecto) => (
-          <option key={proyecto.id} value={proyecto.attributes.descripcion}>
+          <option key={proyecto.id} value={proyecto.attributes.descripcion} >
             {proyecto.attributes.descripcion}
             {proyecto.attributes.horas}
           </option>
           
         ))}
       </select>
-      <table className="w-full text-sm">
-        <thead className="bg-gray-500">
-          <tr>
-            <th className="py-2 text-left text-gray-100">Producto</th>
-            <th className="py-2 text-left text-gray-100">Horas de trabajo</th>
-            <th className="py-2 text-left text-gray-100">materiales</th>
-            <th className="py-2 text-left text-gray-100">total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productosFiltrados.map((proyecto) => (
-            <tr
-              key={proyecto.id}
-              className="bg-white p-4 rounded-lg shadow-lg w-full h-full"
-            >
-              <td className="py-2">{proyecto.attributes.descripcion}</td>
-              <td className="py-2">{proyecto.attributes.horas}</td>
-              <td className="py-2">{proyecto.attributes.materiales}</td>
-              <td className="py-2">{proyecto.attributes.total}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      {/* seleccionar presupuesto */}
 
-    {/* seleccionar presupuesto */}
-
-    <div>
       <select
-        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        className="block appearance-none w-full bg-blue-100 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         value={presupuestoSeleccionado}
         onChange={(event) => setPresupuestoSeleccionado(event.target.value)}
       >
@@ -420,30 +396,50 @@ export const MyPage = () => {
           
         ))}
       </select>
-      <table className="w-full text-sm">
+
+      <table className="w-full text-xl ">
         <thead className="bg-gray-500">
           <tr>
-            <th className="py-2 text-left text-gray-100">Producto</th>
-            <th className="py-2 text-left text-gray-100">precio</th>
-            <th className="py-2 text-left text-gray-100">iva</th>
-            <th className="py-2 text-left text-gray-100">total</th>
+            <th className="py-2 px-8 text-left text-gray-100 ">Producto</th>
+            <th className="py-2 text-center text-gray-100">Horas de trabajo/precio</th>
+            <th className="py-2 text-center text-gray-100">materiales/iva</th>
+            <th className="py-2 text-center text-gray-100">total</th>
           </tr>
         </thead>
         <tbody>
-          {productosFiltrados.map((presupuesto) => (
+          {productosFiltrados.map((proyecto) => (
+            <tr
+              key={proyecto.id}
+              className="bg-white p-6 rounded-lg shadow-lg w-full h-full"
+            >
+              <td className="py-2 px-8">{proyecto.attributes.descripcion}</td>
+              <td className="py-2 text-center">{proyecto.attributes.horas}</td>
+              <td className="py-2 text-center">{proyecto.attributes.materiales}</td>
+              <td className="py-2 text-center">{proyecto.attributes.total}</td>
+            </tr>
+          ))}
+                 {presupuestoFiltrados.map((presupuesto) => (
             <tr
               key={presupuesto.id}
               className="bg-white p-4 rounded-lg shadow-lg w-full h-full"
             >
-              <td className="py-2">{presupuesto.attributes.descripcion}</td>
-              <td className="py-2">{presupuesto.attributes.precio}</td>
-              <td className="py-2">{presupuesto.attributes.iva}</td>
-              <td className="py-2">{presupuesto.attributes.total}</td>
+              <td className="py-2 px-8 ">{presupuesto.attributes.descripcion}</td>
+              <td className="py-2 text-center">{presupuesto.attributes.precio}</td>
+              <td className="py-2 text-center">{presupuesto.attributes.iva}</td>
+              <td className="py-2 text-center">{presupuesto.attributes.total}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+
+  
+
+ 
+      
+   
+ 
+
 
 
   <button onClick={handleGenerarFactura} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
