@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Tabs from '/components/clientes/detalleCliente';
 import Link from 'next/link';
 
+
 export const MyPage = () => {
     const [data, setData] = useState({ clientes: [], presupuestos: [], proyectos: [], recurrentes: [], usuarios: [] });
     const [cliente, setCliente] = useState(null);
@@ -13,6 +14,18 @@ export const MyPage = () => {
       const clienteData = data.clientes && data.clientes.find((cliente) => cliente.id === parseInt(id));
       setCliente(clienteData);
     };
+//Select para proyectos
+    const [productoSeleccionado, setProductoSeleccionado] = useState("");
+
+    const productosFiltrados = data.proyectos.filter(
+      (proyecto) => proyecto.attributes.descripcion === productoSeleccionado
+    );
+    //Select para presupuestos
+    const [presupuestoSeleccionado, setPresupuestoSeleccionado] = useState("");
+
+    const presupuestoFiltrados = data.presupuestos.filter(
+      (presupuesto) => presupuesto.attributes.descripcion === presupuestoSeleccionado
+    );
   
     useEffect(() => {
       const fetchClienteData = async () => {
@@ -42,8 +55,18 @@ export const MyPage = () => {
 
 
    
+    const presupuestos = cliente && cliente.data && cliente.data.presupuestos;
 
-  
+
+   
+        const [numeroFactura, setNumeroFactura] = useState(1); // initialize invoice number to 1
+      
+        // increment the invoice number when the user clicks the "Generar" button
+        const handleGenerarFactura = () => {
+          setNumeroFactura(numeroFactura + 1);
+        };
+   
+
   const tabs = [
     {
       title: (
@@ -116,9 +139,9 @@ export const MyPage = () => {
                   </tr>
               </thead>
               <tbody>
-              {data.presupuestos.map((presupuesto) => (
+              {presupuestos && presupuestos.map((presupuesto) => (
  
-                  <tr class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
+                  <tr key={presupuesto.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
                           {presupuesto.id}
                       </th>
@@ -242,7 +265,7 @@ export const MyPage = () => {
               <th scope="col" class="px-6 py-3">
                   Descripcion
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" class="px-6 py-3">Ñ
                   Total de la deuda
               </th>
 
@@ -302,7 +325,128 @@ export const MyPage = () => {
  <span className='text-gray-100'>Factura</span>
     </a>
     ,
-      content: <div>Contenido de la pestaña 6</div>,
+      content:
+       <div>
+
+   
+          <div className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
+            <div className="flex justify-between mb-4">
+              <div>
+                <h1 className="text-lg font-bold">Remito de venta</h1>
+                <h1 className="text-lg font-bold">Fecha:</h1>
+                <div className="p-2 bg-gray-100 rounded-lg">
+                <input type="date" value="2022-12-31" className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-blue-500 focus:outline-none focus:shadow-outline-blue" />
+</div>
+
+              </div>
+              <div>
+                <img src="/logo scj.png" alt="Logo de la empresa" className="h-24 " />
+              </div>
+            </div>
+            <div>
+  <div className="flex justify-between mb-4">
+    {cliente && cliente.attributes && (
+      <div>
+        <p className="font-bold font-serif uppercase">Cliente: {cliente.attributes.nombre}</p>
+        <p>{cliente.attributes.contacto}</p>
+        <p>{cliente.attributes.direccion}</p>
+        <p>CABA, Argentina</p>
+      </div>
+    )}
+  </div>
+</div>
+
+              <div>
+                <p className="font-bold text-right ">Número de boleta:</p>
+                <p className="font-bold text-right">{numeroFactura}</p>
+
+              </div>
+            </div>
+{/* //Factura */}
+
+{/* seleccionar proyecto */}
+            <div>
+      <select
+        className="block appearance-none w-full bg-blue-50 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        value={productoSeleccionado}
+        onChange={(event) => setProductoSeleccionado(event.target.value)}
+      >
+        <option value="" >Seleccione un proyecto</option>
+        {data.proyectos.map((proyecto) => (
+          <option key={proyecto.id} value={proyecto.attributes.descripcion} >
+            {proyecto.attributes.descripcion}
+            {proyecto.attributes.horas}
+          </option>
+          
+        ))}
+      </select>
+      {/* seleccionar presupuesto */}
+
+      <select
+        className="block appearance-none w-full bg-blue-100 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        value={presupuestoSeleccionado}
+        onChange={(event) => setPresupuestoSeleccionado(event.target.value)}
+      >
+        <option value="">Seleccione un presupuesto</option>
+        {data.presupuestos.map((presupuesto) => (
+          <option key={presupuesto.id} value={presupuesto.attributes.descripcion}>
+            {presupuesto.attributes.descripcion}
+            {presupuesto.attributes.horas}
+          </option>
+          
+        ))}
+      </select>
+
+      <table className="w-full text-xl ">
+        <thead className="bg-gray-500">
+          <tr>
+            <th className="py-2 px-8 text-left text-gray-100 ">Producto</th>
+            <th className="py-2 text-center text-gray-100">Horas de trabajo/precio</th>
+            <th className="py-2 text-center text-gray-100">materiales/iva</th>
+            <th className="py-2 text-center text-gray-100">total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {productosFiltrados.map((proyecto) => (
+            <tr
+              key={proyecto.id}
+              className="bg-white p-6 rounded-lg shadow-lg w-full h-full"
+            >
+              <td className="py-2 px-8">{proyecto.attributes.descripcion}</td>
+              <td className="py-2 text-center">{proyecto.attributes.horas}</td>
+              <td className="py-2 text-center">{proyecto.attributes.materiales}</td>
+              <td className="py-2 text-center">{proyecto.attributes.total}</td>
+            </tr>
+          ))}
+                 {presupuestoFiltrados.map((presupuesto) => (
+            <tr
+              key={presupuesto.id}
+              className="bg-white p-4 rounded-lg shadow-lg w-full h-full"
+            >
+              <td className="py-2 px-8 ">{presupuesto.attributes.descripcion}</td>
+              <td className="py-2 text-center">{presupuesto.attributes.precio}</td>
+              <td className="py-2 text-center">{presupuesto.attributes.iva}</td>
+              <td className="py-2 text-center">{presupuesto.attributes.total}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+  
+
+ 
+      
+   
+ 
+
+
+
+  <button onClick={handleGenerarFactura} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Generar factura
+    </button>
+
+      </div>,
     },
   ];
 
@@ -315,7 +459,7 @@ export const MyPage = () => {
       style={{
         backgroundImage: "url('/clientes.jpg')",
         backgroundSize: 'cover',
-        minHeight: '100vh', // opcional, para asegurarse de que el fondo ocupe toda la altura de la pantalla
+        minHeight: '100vh', 
       }}
     >
    
@@ -327,5 +471,8 @@ export const MyPage = () => {
 </div>
 
   );
-};
+    };
+
+
+
 export default MyPage;
