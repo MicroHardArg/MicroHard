@@ -35,6 +35,10 @@
     },
     "total": {
       "type": "decimal"
+    },
+    "tipo": {
+      "type": "string",
+      "default": "Proyecto"
     }
   }
 }
