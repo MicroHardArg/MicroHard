@@ -38,6 +38,10 @@
     },
     "total": {
       "type": "decimal"
+    },
+    "tipo": {
+      "type": "string",
+      "default": "Recurrente"
     }
   }
 }

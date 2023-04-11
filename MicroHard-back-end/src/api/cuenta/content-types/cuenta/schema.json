@@ -18,23 +18,20 @@
       "target": "api::cliente.cliente",
       "inversedBy": "cuenta"
     },
-    "presupuesto": {
-      "type": "decimal"
+    "tipo": {
+      "type": "enumeration",
+      "enum": [
+        "Presupuesto",
+        "Proyecto",
+        "Recurrente",
+        "Abono"
+      ]
     },
-    "proyecto": {
-      "type": "decimal"
-    },
-    "recurrente": {
+    "monto": {
       "type": "decimal"
     },
     "deuda": {
       "type": "decimal"
-    },
-    "abono": {
-      "type": "decimal"
-    },
-    "tipo": {
-      "type": "string"
     }
   }
 }
