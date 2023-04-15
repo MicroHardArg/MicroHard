@@ -1,6 +1,15 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import LandingPage from '../../components/landingPage/landingPage'
+import Carrusel from '../../components/carrusel/carrusel'
+
+
+const items = [
+  { id: 1, src: "https://flowbite.com/docs/images/carousel/carousel-1.svg" },
+  { id: 2, src: "https://flowbite.com/docs/images/carousel/carousel-2.svg" },
+  { id: 3, src: "https://flowbite.com/docs/images/carousel/carousel-3.svg" },
+  { id: 4, src: "https://flowbite.com/docs/images/carousel/carousel-2.svg" },
+];
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +27,24 @@ export default function Home() {
         <div>
          <LandingPage/> 
         </div>
+
+    <div className=' pt-16 pb-20 pl-8 pr-8'>
+      <div className="container mx-auto">
+
+      <Carrusel>
+      {items.map((item) => (
+        <div key={item.id} className="px-2">
+          <img
+            src={item.src}
+            alt="carousel item"
+            className="w-full max-h-screen object-cover"
+          />
+        </div>
+      ))}
+      </Carrusel>
+      </div>
+      </div>
+
       </main>
 
     </>

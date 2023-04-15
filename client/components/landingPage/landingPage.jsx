@@ -1,5 +1,5 @@
 import React from 'react'
-import Carrusel from '../carrusel/carrusel'
+
 
 export default function LandingPage() {
   return (
@@ -8,10 +8,7 @@ export default function LandingPage() {
         <div className='flex w-full  h-full'>
             <img src="home.jpg" alt="backgroud" className=' absolute bg-cover' />
         </div>
-        <div className=' pt-48 '>
-          <Carrusel/>
         </div>
-
-    </div>
+   
   )
 }
