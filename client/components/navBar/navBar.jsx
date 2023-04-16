@@ -102,9 +102,9 @@ export default function NavBar() {
   
 
   return (
-     <div className=' bg-zinc-800 w-full ml-0'>
+     <div className=' bg-zinc-800 w-full ml-0'> 
 
-    <div className="max-w-2xl ">
+    <div className="max-w-2xl">
     
     <nav className="border-gray-200 top-0 w-full bg-transparent z-50 "> 
  
