@@ -8,7 +8,8 @@ export default function AbonoCreate() {
       cliente: "",
       monto: "",
       fecha: "",
-      nota: ""
+      nota: "",
+      tipo: "Abono"
     }
   })
 
@@ -20,6 +21,7 @@ export default function AbonoCreate() {
       const clientsResponse = await fetch('http://localhost:1337/api/clientes');
       const clientsJson = await clientsResponse.json();
       const clientsData = clientsJson.data;
+      console.log(clientsData)
       setClients(clientsData);
 
       const cuentaResponse = await fetch('http://localhost:1337/api/cuenta');
@@ -37,6 +39,7 @@ export default function AbonoCreate() {
         [e.target.name]: e.target.value
       }
     });
+    console.log(input)
   }
 
   const handleSubmit = async (event) => {
@@ -47,7 +50,7 @@ export default function AbonoCreate() {
     }
 
     try {
-      const response = await fetch("http://localhost:1337/api/abono/", {
+      const response = await fetch("http://localhost:1337/api/abonos/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,19 +61,19 @@ export default function AbonoCreate() {
         alert("No se pudo crear el abono");
         throw new Error("Network response was not ok");
       }
-
+      alert("Abono creado satisfactoriamente");
       const abono = await response.json();
       console.log(abono);
 
-      const newSaldo = cuenta.saldo + parseFloat(input.data.monto);
-      const cuentaUpdateResponse = await fetch("http://localhost:1337/api/cuenta", {
+      const newDeuda = cuenta.deuda + parseFloat(input.data.monto);
+      const cuentaUpdateResponse = await fetch("http://localhost:1337/api/cuentas", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           data: {
-            saldo: newSaldo.toFixed(2)
+            deuda: newDeuda.toFixed(2)
           }
         }),
       });
@@ -86,6 +89,7 @@ export default function AbonoCreate() {
           monto: "",
           fecha: "",
           nota: "",
+          tipo: "Abono"
         },
       });
 
@@ -149,7 +153,7 @@ export default function AbonoCreate() {
                      <label className='mb-3 block text-base font-medium text-gray-200' >Fecha:</label>
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="date" 
+                    type="date value=YYYY-MM-DD" 
                      value= {input.data.fecha}
                      name= "fecha"
                  onChange={(e)=> handleChange(e)}
