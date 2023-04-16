@@ -4,7 +4,8 @@
   "info": {
     "singularName": "abono",
     "pluralName": "abonos",
-    "displayName": "Abono"
+    "displayName": "Abono",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,10 @@
     },
     "nota": {
       "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "default": "Abono"
     }
   }
 }
