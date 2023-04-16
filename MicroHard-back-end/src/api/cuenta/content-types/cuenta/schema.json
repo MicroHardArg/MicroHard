@@ -16,7 +16,6 @@
       "type": "enumeration",
       "enum": [
         "Presupuesto",
-        "Proyecto",
         "Recurrente",
         "Abono"
       ]
