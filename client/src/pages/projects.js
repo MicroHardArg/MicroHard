@@ -7,39 +7,21 @@ export default function ProjectsCreate(){
       data:{
         cliente:"",
         descripcion:"",
-        materiales:"",
-        horas:"",
-        precio:"",
-        iva:"",
-        total:""
+        horas:""
            }
      })
 
-    const [clients, setClients]= useState([]);
+    const [selectedItems, setSelectedItems]= useState({
+       id:"",
+       item:"",
+       cantidad:""
+     });
 
-    useEffect(() => {
-      var { precio, iva, total} = input.data;
-      if (!precio) {
-        iva="";
-        total="";
-      }
-      if (precio) {
-        precio=precio.toString().replace("," , ".");
-        iva=(parseFloat(precio)*0.21).toFixed(2);
-        let prevTotal = (parseFloat(precio)+parseFloat(iva)).toFixed(2);
-        total = parseFloat(prevTotal.toString().replace(",", ".")).toFixed(2);
-        
-      }
-      setInput((input) => ({
-        ...input,
-        data: {
-          ...input.data,
-          precio,
-          iva,
-          total
-        },
-      }));
-    }, [input.data.precio]);
+    const [finalItems, setFinalItems]= useState([]);
+
+    const [items, setItems]= useState([]);
+
+    const [clients, setClients]= useState([]);
 
     useEffect(() => {
       async function fetchClients() {
@@ -51,7 +33,17 @@ export default function ProjectsCreate(){
       fetchClients();
     }, []);
 
-     function handleChange(e) {
+    useEffect(() => {
+      async function fetchItems() {
+        const response = await fetch('http://localhost:1337/api/items');
+        const json = await response.json();
+        const data= json.data;
+        setItems(data);
+      }
+      fetchItems();
+    }, []);
+
+    function handleChange(e) {
       setInput({
         ...input,
         data: {
@@ -61,6 +53,38 @@ export default function ProjectsCreate(){
       });
     }
 
+    function handleItemName(e) {
+      var itemId = e.target.value;
+      const selectedItem = items.find((item) => item.id == itemId);
+      setSelectedItems({
+        ...selectedItems,
+        id: selectedItem.id,
+        item: selectedItem.attributes.nombre,
+      })
+    }
+
+    function handleItem(e) {
+      setSelectedItems({
+        ...selectedItems,
+        [e.target.name]: e.target.value
+      })
+    }
+    
+    function addItem() {
+      finalItems.push(selectedItems);
+      setSelectedItems({
+        id:"",
+        item:"",
+        cantidad:""
+      })
+      document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
+    };
+
+    function handleRemoveItem(id) {
+      const list = finalItems.filter((item) => item.id !== id);
+      setFinalItems(list);
+    };
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
@@ -68,27 +92,38 @@ export default function ProjectsCreate(){
         data:{
           cliente:"",
           descripcion:"",
-          materiales:"",
-          horas:"",
-          precio:"",
-          iva:"",
-          total:""
+          horas:""
            }
      })
+      setSelectedItems({
+        id:"",
+        item:"",
+        cantidad:""
+      })
+      setFinalItems([]);
 
      try {
+        let body={
+          data:{
+            cliente: input.data.cliente,
+            descripcion: input.data.descripcion,
+            horas: input.data.horas,
+            items: finalItems
+               }
+        }
+        console.log("BODY", body);
         const response = await fetch('http://localhost:1337/api/proyectos/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(input)
+          body: JSON.stringify(body)
         });
         if (!response.ok) {
-          alert("No se pudo crear el proyecto");
+          alert("No se pudo crear el Pre-presupuesto");
           throw new Error('Network response was not ok');
         }
-        alert("Proyecto creado satisfactoriamente");
+        alert("Pre-presupuesto creado satisfactoriamente");
         const data = await response.json();
         console.log(data);
         
@@ -115,7 +150,7 @@ export default function ProjectsCreate(){
 
               
 
-<h1  className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Proyecto</h1>
+<h1  className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Pre-presupuesto</h1>
 
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white' onSubmit={(e)=>handleSubmit(e)}>
 
@@ -150,57 +185,52 @@ export default function ProjectsCreate(){
                 </div>
 
                 <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200' >Materiales Utilizados:</label>
-                   <input 
-                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Items:</label>
+                   <select 
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
-                     value= {input.data.materiales}
-                     name= "materiales"
-                 onChange={(e)=> handleChange(e)}
-                    />
-                    
+                    name= "item"
+                    onChange={(e)=> handleItemName(e)}
+                    >
+                      <option value="">Selecciona un Item</option>
+                      {items.map((item) => (
+                        <option key={item.id} value={item.id}>
+                        {item.attributes.nombre}
+                        </option>
+                      ))}
+                  </select>  
+                  <input
+                  id='amount'
+                  className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  value={selectedItems.cantidad}
+                  name='cantidad'
+                  placeholder='Cantidad'
+                  onChange={(e)=> handleItem(e)}
+                  />
+                  <button
+                  type='button'
+                  onClick={(e)=> addItem(e)}>
+                    Agregar
+                  </button>
+
+                  <ul>
+                    {finalItems.map((item) => (
+                      <li key={item.id}>
+                        Item: {item.item}, Cantidad: {item.cantidad || 1}
+                        <button 
+                          onClick={() => handleRemoveItem(item.id)}>X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200'>Horas laboradas:</label>
+                <div className='mb-3'>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Horas laboradas:</label>
                    <input 
-                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                      value= {input.data.horas}
                      name= "horas"
-                     onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.precio}
-                     name= "precio"
-                     onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.iva}
-                     name= "iva"
-                     readOnly
-                     onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.total}
-                     name= "total"
                      onChange={(e)=> handleChange(e)}
                     />
                     
@@ -210,7 +240,7 @@ export default function ProjectsCreate(){
         <div className=' pt-3 pb-3'>   
       <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline "
         type="submit" >
-      <button type="submit">Crear Proyecto</button>
+      <button type="submit">Crear Pre-presupuesto</button>
       </div>
       </div> 
     </form>
@@ -218,7 +248,7 @@ export default function ProjectsCreate(){
     <div className='pt-8'> 
         
     <Link href= '/'>
-      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
+      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Volver</button>
       
       </Link>
 </div>
