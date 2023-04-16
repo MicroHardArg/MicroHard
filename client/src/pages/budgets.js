@@ -25,66 +25,44 @@ export default function BudgetsCreate(){
 
     const [clients, setClients]= useState([]);
 
-    /* useEffect(() => {
-      var { precio, iva, total} = input.data;
-      if (!precio) {
-        iva="";
-        total="";
-      }
+    useEffect(() => {
+      var {precio, iva}= selectedItems;
+      var {total}= input.data;
+
       if (precio) {
         precio=precio.toString().replace("," , ".");
-        iva=(parseFloat(precio)*0.21).toFixed(2);
-        let prevTotal = (parseFloat(precio)+parseFloat(iva)).toFixed(2);
-        total = parseFloat(prevTotal.toString().replace(",", ".")).toFixed(2);
-        
       }
-      setInput((input) => ({
-        ...input,
-        data: {
-          ...input.data,
-          precio,
-          iva,
-          total
-        },
-      }));
-    }, [input.data.precio]); */
 
-    /* useEffect(() => {
-      if (selectedItems.precio || selectedItems.iva || input.total>0) {
-        var {precio, iva}= selectedItems;
-        var {total}= input.data;
-  
-        let prevPrecio=precio.toString().replace("," , ".");
-        let prevIva=iva.toString().replace("," , ".");
-        let prevTotal=total.toString().replace("," , ".");
-  
-        let numPrecio= parseFloat(prevPrecio).toFixed(2);
-        let numIva= parseFloat(prevIva).toFixed(2);
-        let numTotal= parseFloat(prevTotal).toFixed(2);
-  
+      if (iva) {
+        iva=iva.toString().replace("," , ".");
+      }
+
+      if (total) {
+        total=total.toString().replace("," , ".");
+      }
+
         setSelectedItems({
           ...selectedItems,
-          precio: numPrecio,
-          iva: numIva
+          precio: precio,
+          iva: iva
         })
   
         setInput((input) => ({
           ...input,
           data: {
             ...input.data,
-            total: numTotal
+            total: total
           },
         }));
-      }
-    }, [selectedItems, input.data.total]); */
+    }, [selectedItems.precio, selectedItems.iva, input.data.total]);
 
     useEffect(() => {
       let total=0;
 
       finalItems.map((item) => {
-        let precio= parseFloat(item.precio);
-        let iva= parseFloat(item.iva);
-        let cantidad= parseInt(item.cantidad);
+        let precio= parseFloat(item.precio || 0);
+        let iva= parseFloat(item.iva || 0);
+        let cantidad= parseInt(item.cantidad || 1);
         let totalItem= (precio+iva)*cantidad;
         total+=totalItem;
       })
@@ -143,7 +121,6 @@ export default function BudgetsCreate(){
         ...selectedItems,
         [e.target.name]: e.target.value
       })
-      console.log("ITEM CAMBIADO", selectedItems);
     }
     
     function addItem() {
@@ -310,7 +287,7 @@ export default function BudgetsCreate(){
                   <ul>
                     {finalItems.map((item) => (
                       <li key={item.id}>
-                        Item: {item.item}, Precio: {item.precio}, IVA: {item.iva}, Cantidad: {item.cantidad} = {(item.precio+item.iva)*item.cantidad}
+                        Item: {item.item}, Precio: {item.precio || 0}, IVA: {item.iva || 0}, Cantidad: {item.cantidad || 1} = {(parseFloat(item.precio || 0)+parseFloat(item.iva || 0))*parseFloat(item.cantidad || 1)}
                         <button 
                           onClick={() => handleRemoveItem(item.id)}>X
                         </button>
@@ -342,7 +319,7 @@ export default function BudgetsCreate(){
     <div className='pt-8'> 
         
     <Link href= '/'>
-      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
+      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Volver</button>
       
       </Link>
 </div>
