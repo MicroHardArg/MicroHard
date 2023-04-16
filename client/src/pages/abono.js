@@ -125,9 +125,9 @@ export default function AbonoCreate() {
                     name= "cliente"
                     onChange={(e)=> handleChange(e)}
                     >
-                      <option value="">Selecciona un cliente</option>
+                      <option value="" className=' text-black bg-zinc-200'>Selecciona un cliente</option>
                       {clients.map((client) => (
-                        <option key={client.id} value={client.id}>
+                        <option className=' text-black bg-zinc-200' key={client.id} value={client.id}>
                         {client.attributes.nombre}
                         </option>
                       ))}
