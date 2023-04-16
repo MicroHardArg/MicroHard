@@ -10,37 +10,13 @@ export default function ServicioRecurrenteCreate(){
           descripcion:"",
           fecha:"",
           precio:"",
-          iva:"",
-          total:"",
           renovable:""
              }
      })
 
      const [clients, setClients]= useState([]);
 
-     useEffect(() => {
-      var { precio, iva, total } = input.data;
-      if (!precio) {
-        iva="";
-        total="";
-      }
-      if (precio) {
-        precio=precio.toString().replace("," , ".");
-        iva=(parseFloat(precio)*0.21).toFixed(2);
-        let prevTotal = (parseFloat(precio)+parseFloat(iva)).toFixed(2);
-        total = parseFloat(prevTotal.toString().replace(",", ".")).toFixed(2);
-        
-      }
-      setInput((input) => ({
-        ...input,
-        data: {
-          ...input.data,
-          precio,
-          iva,
-          total
-        },
-      }));
-    }, [input.data.precio]);
+     
 
      useEffect(() => {
       async function fetchClients() {
@@ -71,9 +47,7 @@ export default function ServicioRecurrenteCreate(){
             servicio:"",
             descripcion:"",
             fecha:"",
-            precio:"",
-            iva:"",
-            total:"",
+            monto:"",
             renovable:""
                }
        })
@@ -175,38 +149,17 @@ export default function ServicioRecurrenteCreate(){
                 </div>
 
               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Monto:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.precio}
-                     name= "precio"
+                     value= {input.data.monto}
+                     name= "monto"
                      onChange={(e)=> handleChange(e)}
                     />
                     
                 </div>
                 
-              <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.iva}
-                     name= "iva"
-                     onChange={(e)=> handleChange(e)}
-                     readOnly
-                    />
-                    
-                </div>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium text-gray-200' >Total:</label>
-                   <input 
-                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.total}
-                     name= "total"
-                     onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
+          
 
                <div className='mb-3'>
                      <label className='mb-3 block text-base font-medium text-gray-200'>Renovable:</label>
