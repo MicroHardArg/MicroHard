@@ -18,9 +18,6 @@
     "descripcion": {
       "type": "text"
     },
-    "precio": {
-      "type": "decimal"
-    },
     "cliente": {
       "type": "relation",
       "relation": "manyToOne",
@@ -32,9 +29,6 @@
     },
     "renovable": {
       "type": "boolean"
-    },
-    "iva": {
-      "type": "decimal"
     },
     "total": {
       "type": "decimal"
