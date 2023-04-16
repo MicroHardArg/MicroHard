@@ -21,24 +21,15 @@
     "descripcion": {
       "type": "text"
     },
-    "precio": {
-      "type": "decimal"
-    },
-    "iva": {
-      "type": "decimal"
-    },
     "total": {
       "type": "decimal"
-    },
-    "presupuesto_items": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::presupuesto-item.presupuesto-item",
-      "mappedBy": "presupuesto"
     },
     "tipo": {
       "type": "string",
       "default": "Presupuesto"
+    },
+    "items": {
+      "type": "json"
     }
   }
 }
