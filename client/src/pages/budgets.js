@@ -7,8 +7,6 @@ export default function BudgetsCreate(){
       data:{
         cliente:"",
         descripcion:"",
-        precio:"",
-        iva:"",
         total:""
            }
      })
@@ -16,6 +14,8 @@ export default function BudgetsCreate(){
     const [selectedItems, setSelectedItems]= useState({
        id:"",
        item:"",
+       precio:"",
+       iva:"",
        cantidad:""
      });
 
@@ -25,7 +25,7 @@ export default function BudgetsCreate(){
 
     const [clients, setClients]= useState([]);
 
-    useEffect(() => {
+    /* useEffect(() => {
       var { precio, iva, total} = input.data;
       if (!precio) {
         iva="";
@@ -47,7 +47,56 @@ export default function BudgetsCreate(){
           total
         },
       }));
-    }, [input.data.precio]);
+    }, [input.data.precio]); */
+
+    /* useEffect(() => {
+      if (selectedItems.precio || selectedItems.iva || input.total>0) {
+        var {precio, iva}= selectedItems;
+        var {total}= input.data;
+  
+        let prevPrecio=precio.toString().replace("," , ".");
+        let prevIva=iva.toString().replace("," , ".");
+        let prevTotal=total.toString().replace("," , ".");
+  
+        let numPrecio= parseFloat(prevPrecio).toFixed(2);
+        let numIva= parseFloat(prevIva).toFixed(2);
+        let numTotal= parseFloat(prevTotal).toFixed(2);
+  
+        setSelectedItems({
+          ...selectedItems,
+          precio: numPrecio,
+          iva: numIva
+        })
+  
+        setInput((input) => ({
+          ...input,
+          data: {
+            ...input.data,
+            total: numTotal
+          },
+        }));
+      }
+    }, [selectedItems, input.data.total]); */
+
+    useEffect(() => {
+      let total=0;
+
+      finalItems.map((item) => {
+        let precio= parseFloat(item.precio);
+        let iva= parseFloat(item.iva);
+        let cantidad= parseInt(item.cantidad);
+        let totalItem= (precio+iva)*cantidad;
+        total+=totalItem;
+      })
+
+      setInput({
+        ...input,
+        data: {
+          ...input.data,
+          total: total
+        }
+      });
+    }, [selectedItems, finalItems]);
 
     useEffect(() => {
       async function fetchClients() {
@@ -89,12 +138,12 @@ export default function BudgetsCreate(){
       })
     }
 
-    function handleItemAmount(e) {
-      var amount = e.target.value;
+    function handleItem(e) {
       setSelectedItems({
         ...selectedItems,
-        cantidad: amount
+        [e.target.name]: e.target.value
       })
+      console.log("ITEM CAMBIADO", selectedItems);
     }
     
     function addItem() {
@@ -102,6 +151,8 @@ export default function BudgetsCreate(){
       setSelectedItems({
         id:"",
         item:"",
+        precio:"",
+        iva:"",
         cantidad:""
       })
       document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
@@ -119,14 +170,14 @@ export default function BudgetsCreate(){
         data:{
           cliente:"",
           descripcion:"",
-          precio:"",
-          iva:"",
           total:""
            }
      })
       setSelectedItems({
         id:"",
         item:"",
+        precio:"",
+        iva:"",
         cantidad:""
       })
       setFinalItems([]);
@@ -136,8 +187,6 @@ export default function BudgetsCreate(){
           data:{
             cliente: input.data.cliente,
             descripcion: input.data.descripcion,
-            precio: input.data.precio,
-            iva: input.data.iva,
             total: input.data.total,
             items: finalItems
                }
@@ -231,12 +280,26 @@ export default function BudgetsCreate(){
                       ))}
                   </select>  
                   <input
+                  className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  value={selectedItems.precio}
+                  name='precio'
+                  placeholder='Precio'
+                  onChange={(e)=> handleItem(e)}
+                  />
+                  <input
+                  className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  value={selectedItems.iva}
+                  name='iva'
+                  placeholder='IVA'
+                  onChange={(e)=> handleItem(e)}
+                  />
+                  <input
                   id='amount'
                   className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   value={selectedItems.cantidad}
                   name='cantidad'
                   placeholder='Cantidad'
-                  onChange={(e)=> handleItemAmount(e)}
+                  onChange={(e)=> handleItem(e)}
                   />
                   <button
                   type='button'
@@ -247,36 +310,13 @@ export default function BudgetsCreate(){
                   <ul>
                     {finalItems.map((item) => (
                       <li key={item.id}>
-                        {item.item}, {item.cantidad}
+                        Item: {item.item}, Precio: {item.precio}, IVA: {item.iva}, Cantidad: {item.cantidad} = {(item.precio+item.iva)*item.cantidad}
                         <button 
                           onClick={() => handleRemoveItem(item.id)}>X
                         </button>
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Precio:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.precio}
-                     name= "precio"
-                     onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>IVA:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.iva}
-                     name= "iva"
-                     readOnly
-                     onChange={(e)=> handleChange(e)}
-                    />
-                    
                 </div>
 
                 <div className='mb-3'>

@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "cliente": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::cliente.cliente",
-      "inversedBy": "cuenta"
-    },
     "tipo": {
       "type": "enumeration",
       "enum": [
@@ -32,6 +26,12 @@
     },
     "deuda": {
       "type": "decimal"
+    },
+    "cliente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "cuentas"
     }
   }
 }

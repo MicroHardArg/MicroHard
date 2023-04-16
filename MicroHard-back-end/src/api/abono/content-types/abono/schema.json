@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "abonos",
+  "info": {
+    "singularName": "abono",
+    "pluralName": "abonos",
+    "displayName": "Abono"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cliente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "abonos"
+    },
+    "monto": {
+      "type": "decimal"
+    },
+    "fecha": {
+      "type": "date"
+    },
+    "nota": {
+      "type": "string"
+    }
+  }
+}

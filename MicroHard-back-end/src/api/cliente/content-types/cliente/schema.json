@@ -4,7 +4,8 @@
   "info": {
     "singularName": "cliente",
     "pluralName": "clientes",
-    "displayName": "Cliente"
+    "displayName": "Cliente",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -56,10 +57,16 @@
       "target": "api::recurrente.recurrente",
       "mappedBy": "cliente"
     },
-    "cuenta": {
+    "cuentas": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::cuenta.cuenta",
+      "mappedBy": "cliente"
+    },
+    "abonos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::abono.abono",
       "mappedBy": "cliente"
     }
   }

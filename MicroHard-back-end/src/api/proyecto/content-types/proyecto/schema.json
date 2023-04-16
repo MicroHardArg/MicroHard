@@ -21,24 +21,15 @@
     "descripcion": {
       "type": "text"
     },
-    "materiales": {
-      "type": "string"
-    },
     "horas": {
-      "type": "decimal"
-    },
-    "precio": {
-      "type": "decimal"
-    },
-    "iva": {
-      "type": "decimal"
-    },
-    "total": {
       "type": "decimal"
     },
     "tipo": {
       "type": "string",
       "default": "Proyecto"
+    },
+    "items": {
+      "type": "json"
     }
   }
 }
