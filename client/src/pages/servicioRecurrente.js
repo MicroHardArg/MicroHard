@@ -110,9 +110,9 @@ export default function ServicioRecurrenteCreate(){
               <img src="clientes.jpg" alt="backgroud" className='h-full w-full bg-cover' /> 
             </div>
 
-            <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-8 mb-20 absolute'>
+            <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-1 absolute'>
 
-            <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-32    ">
+            <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-2 lg:items-center pb-28   ">
 
               
 
@@ -129,9 +129,9 @@ export default function ServicioRecurrenteCreate(){
                     name= "cliente"
                     onChange={(e)=> handleChange(e)}
                     >
-                      <option value="">Selecciona un cliente</option>
+                      <option value="" className=' text-black  bg-gray-200'>Selecciona un cliente</option>
                       {clients.map((client) => (
-                        <option key={client.id} value={client.id}>
+                        <option className=' text-black bg-gray-200' key={client.id} value={client.id}>
                         {client.attributes.nombre}
                         </option>
                       ))}
@@ -216,9 +216,9 @@ export default function ServicioRecurrenteCreate(){
                     name= "renovable"
                     onChange={(e)=> handleChange(e)}
                     >
-                      <option value="">Selecciona una opcion</option>
-                      <option value='true'>Si</option>
-                      <option value='false'>No</option>
+                      <option className=' text-black bg-zinc-200' value="">Selecciona una opcion</option>
+                      <option value='true' className=' text-black bg-zinc-200'>Si</option>
+                      <option value='false' className=' text-black bg-zinc-200' >No</option>
 
                   </select>
                     
@@ -233,11 +233,11 @@ export default function ServicioRecurrenteCreate(){
       </div>
       </div> 
     </form>
-    <div className='pt-8 '> 
+    <div className='pt-5 '> 
         
 
       <Link href= '/'>
-        <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Return</button>
+        <button className="text-gray-50  bg-blue-900 px-10  hover:bg-blue-700 rounded-full">Return</button>
         
         </Link>
   </div>
