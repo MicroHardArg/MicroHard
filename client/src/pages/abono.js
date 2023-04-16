@@ -1,85 +1,114 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-export default function abonoCreate(){
-    
-    const [input, setInput] = useState({
-      data:{
-        cliente:"",
-        monto:"",
-        fecha:"",
-        nota:""
-          }
-     })
+export default function AbonoCreate() {
 
-    const [clients, setClients]= useState([]);
+  const [input, setInput] = useState({
+    data: {
+      cliente: "",
+      monto: "",
+      fecha: "",
+      nota: ""
+    }
+  })
 
-      
-     useEffect(() => {
-      async function fetchClients() {
-        const response = await fetch('http://localhost:1337/api/clientes');
-        const json = await response.json();
-        const data= json.data;
-        setClients(data);
+  const [clients, setClients] = useState([]);
+  const [cuenta, setCuenta] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const clientsResponse = await fetch('http://localhost:1337/api/clientes');
+      const clientsJson = await clientsResponse.json();
+      const clientsData = clientsJson.data;
+      setClients(clientsData);
+
+      const cuentaResponse = await fetch('http://localhost:1337/api/cuenta');
+      const cuentaJson = await cuentaResponse.json();
+      setCuenta(cuentaJson.data);
+    }
+    fetchData();
+  }, []);
+
+  function handleChange(e) {
+    setInput({
+      ...input,
+      data: {
+        ...input.data,
+        [e.target.name]: e.target.value
       }
-      fetchClients();
-    }, []);
+    });
+  }
 
-     function handleChange(e) {
-      setInput({
-        ...input,
-        data: {
-          ...input.data,
-          [e.target.name]: e.target.value
-        }
-      });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!validateInput()) {
+      return;
     }
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      console.log(input)
-      setInput({
-        data:{
-            cliente:"",
-            monto:"",
-            fecha:"",
-            nota:""
-           }
-     })
-
-     try {
-        const response = await fetch('http://localhost:1337/api/abono/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(input)
-        });
-        if (!response.ok) {
-          alert("No se pudo crear el abono");
-          throw new Error('Network response was not ok');
-        }
-        alert("Abono cargado satisfactoriamente");
-        const data = await response.json();
-        console.log(data);
-        
-      } catch (error) {
-        console.error(error);
+    try {
+      const response = await fetch("http://localhost:1337/api/abono/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+      if (!response.ok) {
+        alert("No se pudo crear el abono");
+        throw new Error("Network response was not ok");
       }
-    };
 
-    return (
+      const abono = await response.json();
+      console.log(abono);
+
+      const newSaldo = cuenta.saldo + parseFloat(input.data.monto);
+      const cuentaUpdateResponse = await fetch("http://localhost:1337/api/cuenta", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: {
+            saldo: newSaldo.toFixed(2)
+          }
+        }),
+      });
+      if (!cuentaUpdateResponse.ok) {
+        alert("No se pudo actualizar la cuenta");
+        throw new Error("Network response was not ok");
+      }
+
+      alert("Abono cargado satisfactoriamente");
+      setInput({
+        data: {
+          cliente: "",
+          monto: "",
+          fecha: "",
+          nota: "",
+        },
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  function validateInput() {
+    // validate input
+    return true;
+  }
+
+  return (
     <div>
+      <div className='flex w-full h-full bottom-0 '>
+        <div className=' pb-0 '>
+          <img src="clientes.jpg" alt="backgroud" className='h-full w-full bg-cover' />
+        </div>
 
-<div  className='flex w-full  h-full bottom-0 ' >
+        <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-6 mb-20 absolute'>
+          <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-32">
 
-<div className=' pb-0 '>
-            <img src="clientes.jpg" alt="backgroud" className='h-full w-full bg-cover' />
-            </div>
-
-            <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-6 mb-20 absolute'>
-
-            <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-32">
 
               
 
