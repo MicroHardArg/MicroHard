@@ -61,6 +61,12 @@
       "relation": "oneToOne",
       "target": "api::cuenta.cuenta",
       "mappedBy": "cliente"
+    },
+    "abonos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::abono.abono",
+      "mappedBy": "cliente"
     }
   }
 }
