@@ -9,7 +9,7 @@ export default function ServicioRecurrenteCreate(){
           servicio:"",
           descripcion:"",
           fecha:"",
-          precio:"",
+          total:"",
           renovable:""
              }
      })
@@ -47,7 +47,7 @@ export default function ServicioRecurrenteCreate(){
             servicio:"",
             descripcion:"",
             fecha:"",
-            monto:"",
+            total:"",
             renovable:""
                }
        })
@@ -149,11 +149,11 @@ export default function ServicioRecurrenteCreate(){
                 </div>
 
               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Monto:</label>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.monto}
-                     name= "monto"
+                     value= {input.data.total}
+                     name= "total"
                      onChange={(e)=> handleChange(e)}
                     />
                     
@@ -190,7 +190,7 @@ export default function ServicioRecurrenteCreate(){
         
 
       <Link href= '/'>
-        <button className="text-gray-50  bg-blue-900 px-10  hover:bg-blue-700 rounded-full">Return</button>
+        <button className="text-gray-50  bg-blue-900 px-10  hover:bg-blue-700 rounded-full">Volver</button>
         
         </Link>
   </div>
