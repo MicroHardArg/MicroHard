@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
 
-export default function ProjectsCreate(){
+export default function EstimateCreate(){
     
     const [input, setInput] = useState({
       data:{
@@ -120,10 +120,10 @@ export default function ProjectsCreate(){
           body: JSON.stringify(body)
         });
         if (!response.ok) {
-          alert("No se pudo crear el Pre-presupuesto");
+          alert("No se pudo crear la Estimación");
           throw new Error('Network response was not ok');
         }
-        alert("Pre-presupuesto creado satisfactoriamente");
+        alert("Estimación creada satisfactoriamente");
         const data = await response.json();
         console.log(data);
         
@@ -150,7 +150,7 @@ export default function ProjectsCreate(){
 
               
 
-<h1  className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nuevo Pre-presupuesto</h1>
+<h1  className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nueva Estimación</h1>
 
 <form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white' onSubmit={(e)=>handleSubmit(e)}>
 
@@ -240,7 +240,7 @@ export default function ProjectsCreate(){
         <div className=' pt-3 pb-3'>   
       <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline "
         type="submit" >
-      <button type="submit">Crear Pre-presupuesto</button>
+      <button type="submit">Crear Estimación</button>
       </div>
       </div> 
     </form>
