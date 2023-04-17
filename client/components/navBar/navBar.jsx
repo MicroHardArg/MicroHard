@@ -133,7 +133,7 @@ export default function NavBar() {
                 <div id="dropdownNavbar" className="hidden bg-zinc-400 text-base z-10 list-none divide-y divide-gray-300 rounded shadow my-4 w-44">
                     <ul className="py-1" aria-labelledby="dropdownLargeButton">
                     <li>
-                        <a href="/FiltroClientes/FiltroClientes" className="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Clientes</a>
+                        <a href="/FiltroClientes" className="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Clientes</a>
                     </li>
                     <li>
                         <a href="/clients" className="text-sm hover:bg-gray-100 text-gray-700 block px-4 py-2">Crear Cliente</a>
@@ -146,7 +146,7 @@ export default function NavBar() {
             </li>
             <li>
 
-            <a href="/projects" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">P-presupuesto</a>
+            <a href="/projects" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Estimacion</a>
             </li>
             <li>
             <a href="/budgets" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Presupuestos</a>
