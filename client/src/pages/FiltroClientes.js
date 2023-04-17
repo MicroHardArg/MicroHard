@@ -1,6 +1,7 @@
+import React from 'react'
 import { useState, useEffect } from 'react';
-import SearchBar from '/components/searchBar/searchBar';
-import Table from '../../../components/clientes/filtroClientes';
+import SearchBar from '../../components/searchBar/searchBar';
+import Table from '../../components/clientes/filtroClientes';
 
 
 function MyPage() {
