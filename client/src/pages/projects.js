@@ -105,7 +105,7 @@ export default function ProjectsCreate(){
      try {
         let body={
           data:{
-            cliente: input.data.cliente,
+            cliente: parseInt(input.data.cliente),
             descripcion: input.data.descripcion,
             horas: input.data.horas,
             items: finalItems

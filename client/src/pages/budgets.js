@@ -162,7 +162,7 @@ export default function BudgetsCreate(){
      try {
         let body={
           data:{
-            cliente: input.data.cliente,
+            cliente: parseInt(input.data.cliente),
             descripcion: input.data.descripcion,
             total: input.data.total,
             items: finalItems
