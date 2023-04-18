@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-export default function AbonoCreate() {
 
+function validate(input) {
+  let errors = {};
+  if (!input.fecha) {
+      errors.fecha = 'Se requiere una fecha en el formato YYYY-MM-DD';
+  } else {
+      const regex = /^\d{4}-\d{2}-\d{2}$/;
+      if (!regex.test(input.fecha)) {
+          errors.fecha = 'El formato de fecha debe ser YYYY-MM-DD';
+      }
+  }
+  return errors;
+};
+
+
+export default function AbonoCreate() {
+  const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
     data: {
       cliente: "",
@@ -39,64 +54,57 @@ export default function AbonoCreate() {
         [e.target.name]: e.target.value
       }
     });
-    console.log(input)
+    setErrors(validate({
+      ...input,
+      data: {
+        ...input.data,
+        [e.target.name]: e.target.value
+      }
+  }));
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!validateInput()) {
+  
+    const validationErrors = validate(input.data);
+    setErrors(validationErrors);
+  
+    if (Object.keys(validationErrors).length > 0) {
       return;
     }
-
+  
     try {
-      const response = await fetch("http://localhost:1337/api/abonos/", {
+      const abonoResponse = fetch("http://localhost:1337/api/abonos/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(input),
       });
-      if (!response.ok) {
-        alert("No se pudo crear el abono");
-        throw new Error("Network response was not ok");
-      }
-      alert("Abono creado satisfactoriamente");
-      const abono = await response.json();
-      console.log(abono);
-
-      const newDeuda = cuenta.deuda + parseFloat(input.data.monto);
-      const cuentaUpdateResponse = await fetch("http://localhost:1337/api/cuentas", {
-        method: "PUT",
+    
+      const cuentaResponse = fetch("http://localhost:1337/api/cuentas/", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          data: {
-            deuda: newDeuda.toFixed(2)
-          }
-        }),
+        body: JSON.stringify(input),
       });
-      if (!cuentaUpdateResponse.ok) {
-        alert("No se pudo actualizar la cuenta");
+    
+      const [abono, cuenta] = await Promise.all([abonoResponse, cuentaResponse]);
+    
+      if (!abono || !cuenta) {
+        alert("No se pudieron crear los recursos");
         throw new Error("Network response was not ok");
       }
-
-      alert("Abono cargado satisfactoriamente");
-      setInput({
-        data: {
-          cliente: "",
-          monto: "",
-          fecha: "",
-          nota: "",
-          tipo: "Abono"
-        },
-      });
-
+    
+      alert("Recursos creados satisfactoriamente");
+      console.log(await abono.json(), await cuenta.json());
+    
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   function validateInput() {
     // validate input
@@ -158,6 +166,9 @@ export default function AbonoCreate() {
                      name= "fecha"
                  onChange={(e)=> handleChange(e)}
                     />
+                    {errors.fecha && (
+                        <p className='text-xl font-extrabold sm:text-1xl text-white'>{errors.fecha}</p>
+                    )}
                     
                 </div>
 
