@@ -169,20 +169,41 @@ export default function BudgetsCreate(){
                }
         }
         console.log("BODY", body);
-        const response = await fetch('http://localhost:1337/api/presupuestos/', {
+
+        let account={
+          data:{
+            cliente: parseInt(input.data.cliente),
+            tipo: "Presupuesto",
+            monto: input.data.total
+          }
+        }
+        console.log("ACCOUNT", account);
+
+        const budgetResponse = await fetch('http://localhost:1337/api/presupuestos/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(body)
         });
-        if (!response.ok) {
+
+        const accountResponse= await fetch('http://localhost:1337/api/cuentas/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(account)
+        });
+
+        if (!budgetResponse.ok || !accountResponse.ok) {
           alert("No se pudo crear el Presupuesto");
           throw new Error('Network response was not ok');
         }
         alert("Presupuesto creado satisfactoriamente");
-        const data = await response.json();
-        console.log(data);
+        const budgetData = await budgetResponse.json();
+        const accountData= await accountResponse.json();
+        console.log(budgetData);
+        console.log(accountData);
         
       } catch (error) {
         console.error(error);

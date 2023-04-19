@@ -30,7 +30,7 @@
     "renovable": {
       "type": "boolean"
     },
-    "total": {
+    "monto": {
       "type": "decimal"
     },
     "tipo": {
