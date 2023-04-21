@@ -194,6 +194,7 @@ export default function BudgetsCreate(){
           },
           body: JSON.stringify(account)
         });
+        console.log(account)
 
         if (!budgetResponse.ok || !accountResponse.ok) {
           alert("No se pudo crear el Presupuesto");
