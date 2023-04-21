@@ -8,25 +8,32 @@ export default function ServicioRecurrenteCreate(){
           cliente:"",
           servicio:"",
           descripcion:"",
+          monto:"",
           fecha:"",
-          total:"",
-          renovable:""
+          renovable:"",
+          tipo: "Recurrente"
              }
      })
 
      const [clients, setClients]= useState([]);
+     const [cuenta, setCuenta] = useState(null);
 
      
 
      useEffect(() => {
-      async function fetchClients() {
-        const response = await fetch('http://localhost:1337/api/clientes');
-        const json = await response.json();
-        const data= json.data;
-        setClients(data);
-      }
-      fetchClients();
-    }, []);
+     async function fetchData() {
+      const clientsResponse = await fetch('http://localhost:1337/api/clientes');
+      const clientsJson = await clientsResponse.json();
+      const clientsData = clientsJson.data;
+      console.log(clientsData)
+      setClients(clientsData);
+
+      const cuentaResponse = await fetch('http://localhost:1337/api/cuenta');
+      const cuentaJson = await cuentaResponse.json();
+      setCuenta(cuentaJson.data);
+    }
+    fetchData();
+  }, []);
 
      function handleChange(e) {
       setInput({
@@ -36,45 +43,49 @@ export default function ServicioRecurrenteCreate(){
           [e.target.name]: e.target.value
         }
       });
-    }
+   }
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      console.log(input);
-      setInput({
-          data:{
-            cliente:"",
-            servicio:"",
-            descripcion:"",
-            fecha:"",
-            total:"",
-            renovable:""
-               }
-       })
-
+      
+    
+    if (input.data.renovable === "true"){
      try {
-        const response = await fetch('http://localhost:1337/api/recurrentes/', {
+        const servicioResponse = await fetch('http://localhost:1337/api/recurrentes/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(input)
         });
-        if (!response.ok) {
-          alert("No se pudo crear el Servicio Recurrente");
-          throw new Error('Network response was not ok');
-        }
-        alert("Servicio Recurrente creado satisfactoriamente");
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
+        const cuentaResponse = fetch("http://localhost:1337/api/cuentas/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
     
-
-
+const [servicio, cuenta] = await Promise.all([abonoResponse, cuentaResponse]);
+    
+      if (!servicio || !cuenta) {
+        alert("No se pudieron crear los recursos");
+        throw new Error("Network response was not ok");
+      }
+    
+      alert("Recursos creados satisfactoriamente");
+      console.log(await abono.json(), await cuenta.json());
+    
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+function validateInput() {
+    // validate input
+    return true;
+  }
+    
   return (
     <div>
 
@@ -149,11 +160,11 @@ export default function ServicioRecurrenteCreate(){
                 </div>
 
               <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Total:</label>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'>Monto:</label>
                    <input 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.total}
-                     name= "total"
+                     value= {input.data.monto}
+                     name= "monto"
                      onChange={(e)=> handleChange(e)}
                     />
                     
