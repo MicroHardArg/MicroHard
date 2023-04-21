@@ -16,7 +16,6 @@ export default function ServicioRecurrenteCreate(){
      })
 
      const [clients, setClients]= useState([]);
-     const [cuenta, setCuenta] = useState(null);
 
      
 
@@ -27,10 +26,6 @@ export default function ServicioRecurrenteCreate(){
       const clientsData = clientsJson.data;
       console.log(clientsData)
       setClients(clientsData);
-
-      const cuentaResponse = await fetch('http://localhost:1337/api/cuenta');
-      const cuentaJson = await cuentaResponse.json();
-      setCuenta(cuentaJson.data);
     }
     fetchData();
   }, []);
@@ -47,9 +42,19 @@ export default function ServicioRecurrenteCreate(){
 
     const handleSubmit = async (event) => {
       event.preventDefault();
+
+      setInput({
+        data:{
+          cliente:"",
+          servicio:"",
+          descripcion:"",
+          monto:"",
+          fecha:"",
+          renovable:"",
+          tipo: "Recurrente"
+             }
+      });
       
-    
-    if (input.data.renovable === "true"){
      try {
         const servicioResponse = await fetch('http://localhost:1337/api/recurrentes/', {
           method: 'POST',
@@ -66,7 +71,7 @@ export default function ServicioRecurrenteCreate(){
         body: JSON.stringify(input),
       });
     
-const [servicio, cuenta] = await Promise.all([abonoResponse, cuentaResponse]);
+const [servicio, cuenta] = await Promise.all([servicioResponse, cuentaResponse]);
     
       if (!servicio || !cuenta) {
         alert("No se pudieron crear los recursos");
@@ -74,17 +79,12 @@ const [servicio, cuenta] = await Promise.all([abonoResponse, cuentaResponse]);
       }
     
       alert("Recursos creados satisfactoriamente");
-      console.log(await abono.json(), await cuenta.json());
+      console.log(await servicio.json(), await cuenta.json());
     
     } catch (error) {
       console.error(error);
     }
-  };
 }
-function validateInput() {
-    // validate input
-    return true;
-  }
     
   return (
     <div>
