@@ -11,10 +11,10 @@ export default function NavBar() {
 
   const [showDropdown, setShowDropdown] = useState({
     clientState: false,
-    proyectState: false,
+    estimateState: false,
     presupuestState: false,
     filtroClienteState:false,
-    servicioRecurenteState:false,
+    recurringState:false,
     crearRecurenteState:false,
     enlazarRecurenteState:false,
     userState: false,
@@ -31,10 +31,10 @@ export default function NavBar() {
         name === "clientState"
           ? !showDropdown.clientState
           : (showDropdown.clientState = false),
-      proyectState:
+      estimateState:
         name === "proyectState"
-          ? !showDropdown.proyectState
-          : (showDropdown.proyectState = false),
+          ? !showDropdown.estimateState
+          : (showDropdown.estimateState = false),
        presupuestState:
           name === "presupuestState"
             ? !showDropdown.presupuestState
@@ -51,8 +51,8 @@ export default function NavBar() {
                 name === "filtroClienteState"
                   ? !showDropdown.userState
                   : (showDropdown.userState = false),
-        servicioRecurenteState:
-                  name === "servicioRecurenteState"
+        recurringState:
+                  name === "recurringState"
                     ? !showDropdown.userState
                     : (showDropdown.userState = false),
         crearRecurenteState:
@@ -81,11 +81,11 @@ export default function NavBar() {
       setIsNavOpen(false);
       setShowDropdown({
         clientState: false,
-        proyectState: false,
+        estimateState: false,
         presupuestState: false,
         filtroClienteState: false,
         filtroClienteState: false,
-        servicioRecurenteState: false,
+        recurringState: false,
         crearRecurenteState: false,
         enlazarRecurenteState: false,
       });
@@ -146,13 +146,13 @@ export default function NavBar() {
             </li>
             <li>
 
-            <a href="/projects" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Estimacion</a>
+            <a href="/estimates" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Estimacion</a>
             </li>
             <li>
             <a href="/budgets" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Presupuestos</a>
             </li>
             <li>
-            <a href="/servicioRecurrente" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Servicios</a>
+            <a href="/recurring" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Servicios</a>
             </li>
 
             <li className=' pl-80'>

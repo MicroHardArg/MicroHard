@@ -136,26 +136,33 @@ export default function EstimateCreate(){
 
 
   return (
-    <div>
 
-<div  className='flex w-full  h-full bottom-0 ' >
+<div class="antialiased fot-nsans bg-zinc-800">
+           
+            
+  <img src="home.jpg" alt="backgroud" className='h-full w-full fixed bg-cover' /> 
 
-<div className=' pb-0 '>
-            <img src="clientes.jpg" alt="backgroud" className='h-full w-full bg-cover' />
+    <div class="container mx-auto px-4 sm:px-8 pb-48 absolute ">
+
+        <div class="pt-16">
+
+            <div className='pb-2 text-center'>
+
+            <h2 className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nueva Estimación</h2>
+
             </div>
+    <form>
+    
 
-            <div className='lg:bg-diagonal-section bg-home-bg overflow-hidden bg-no-repeat bg-center bg-home-responsive  w-full  mt-6 mb-20 absolute'>
+            <div class="my-2 flex sm:flex-row flex-col">
 
-            <div className="mx-auto  bg-opacity-75 text-center rounded-lg max-w-screen-xl px-4 py-10 lg:items-center pb-32">
+                <div class="flex flex-row mb-1 sm:mb-0">
 
-              
+                    <div class="relative">
 
-<h1  className='text-xl font-extrabold sm:text-5xl text-white'>Crear Nueva Estimación</h1>
+                    <div className='mb-3'>
 
-<form className='bg-zinc-800  p-5 mt-10 rounded-xl mx-auto w-full max-w-[550px] border-white border-0 shadow-sm shadow-white' onSubmit={(e)=>handleSubmit(e)}>
-
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Cliente:</label>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                    <select 
                    className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
@@ -163,31 +170,55 @@ export default function EstimateCreate(){
                     name= "cliente"
                     onChange={(e)=> handleChange(e)}
                     >
-                      <option value="">Selecciona un cliente</option>
+                      <option className='bg-zinc-300 text-black' value="">Selecciona un cliente</option>
                       {clients.map((client) => (
-                        <option key={client.id} value={client.id}>
+                        <option className='bg-zinc-300 text-black' key={client.id} value={client.id}>
                         {client.attributes.nombre}
                         </option>
                       ))}
-                  </select>  
-                </div>
-                
-              <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Descripción:</label>
-                   <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="text" 
-                     value= {input.data.descripcion}
-                     name= "descripcion"
-                 onChange={(e)=> handleChange(e)}
-                    />
-                    
-                </div>
+                  </select> 
 
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Items:</label>
+                </div>
+                    </div>               
+                </div>    
+            </div>
+
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+
+                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+
+                    <table class="min-w-full leading-normal">
+
+                        <thead>
+
+                            <tr>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
+                                    Items
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
+                                    Descripción
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
+                                    Cantidad
+                                </th>
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
+                                    Horas laborales
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+   
+                                          
+                                    <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                    <select 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     type="text" 
                     name= "item"
                     onChange={(e)=> handleItemName(e)}
@@ -198,68 +229,78 @@ export default function EstimateCreate(){
                         {item.attributes.nombre}
                         </option>
                       ))}
-                  </select>  
+                  </select>    
+
+
+                </td>
+                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <label className='mb-3 block text-base font-medium  text-gray-200'></label>
+                   <input 
+                   className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    type="text" 
+                     value= {input.data.descripcion}
+                     name= "descripcion"
+                     placeholder='Descripcion'
+                 onChange={(e)=> handleChange(e)}
+                    />
+                                </td>
+
+
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm pb-2">
+                  
                   <input
                   id='amount'
-                  className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                  className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
                   value={selectedItems.cantidad}
                   name='cantidad'
                   placeholder='Cantidad'
                   onChange={(e)=> handleItem(e)}
                   />
-                  <button
-                  type='button'
-                  onClick={(e)=> addItem(e)}>
-                    Agregar
-                  </button>
+                 </td>
 
-                  <ul>
-                    {finalItems.map((item) => (
-                      <li key={item.id}>
-                        Item: {item.item}, Cantidad: {item.cantidad || 1}
-                        <button 
-                          onClick={() => handleRemoveItem(item.id)}>X
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
 
-                <div className='mb-3'>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'>Horas laboradas:</label>
+
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+
+                <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                    <input 
-                   className="w-full rounded-md border border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                   className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
                      value= {input.data.horas}
                      name= "horas"
+                     placeholder='Horas Laborales'
                      onChange={(e)=> handleChange(e)}
                     />
+                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
                     
+                    <div
+                        class="px-5 py-3 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+
+                        <div class="inline-flex mt-2 xs:mt-0 space-x-5">
+
+                        <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
+                          type="submit" >
+                          <button type="submit">Crear Estimación</button>
+                        </div>
+
+                        <button
+                        type='button'
+                        className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
+                        onClick={(e)=> addItem(e)}> Agregar Fila </button>
+
+                        </div>
+                    </div>
                 </div>
-
-               
-        <div className=' pt-3 pb-3'>   
-      <div className="text-4xl bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline "
-        type="submit" >
-      <button type="submit">Crear Estimación</button>
-      </div>
-      </div> 
-    </form>
-
-    <div className='pt-8'> 
-        
-    <Link href= '/'>
-      <button className="text-gray-50  bg-blue-900 px-10 py-1 hover:bg-blue-700 rounded-full">Volver</button>
-      
-      </Link>
+            </div>
+ </form>
+        </div>
+    </div>
 </div>
 
-    </div>
+    )
+    }
 
-    </div>
-
-    </div>
-
-    </div>
-    
-  )
-}
+  
