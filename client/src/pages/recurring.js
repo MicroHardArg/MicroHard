@@ -1,61 +1,58 @@
-import React, {useState, useEffect} from 'react'
-import Link from 'next/link'
 
-export default function ServicioRecurrenteCreate(){
-    
-    const [input, setInput] = useState({
-        data:{
-          cliente:"",
-          servicio:"",
-          descripcion:"",
-          monto:"",
-          fecha:"",
-          renovable:"",
-          tipo: "Recurrente"
-             }
-     })
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
-     const [clients, setClients]= useState([]);
+export default function ServicioRecurrenteCreate() {
+  const [input, setInput] = useState({
+    data: {
+      cliente: "",
+      servicio: "",
+      descripcion: "",
+      monto: "",
+      fecha: "",
+      renovable: "",
+      tipo: "Recurrente",
+    },
+  });
 
-     
+  const [clients, setClients] = useState([]);
+  const [cuenta, setCuenta] = useState(null);
 
-     useEffect(() => {
-     async function fetchData() {
-      const clientsResponse = await fetch('http://localhost:1337/api/clientes');
+  useEffect(() => {
+    async function fetchData() {
+      const clientsResponse = await fetch("http://localhost:1337/api/clientes");
+
       const clientsJson = await clientsResponse.json();
       const clientsData = clientsJson.data;
-      console.log(clientsData)
+      console.log(clientsData);
       setClients(clientsData);
+
+
+      const cuentaResponse = await fetch("http://localhost:1337/api/cuenta");
+      const cuentaJson = await cuentaResponse.json();
+      setCuenta(cuentaJson.data);
+
     }
     fetchData();
   }, []);
 
-     function handleChange(e) {
-      setInput({
-        ...input,
-        data: {
-          ...input.data,
-          [e.target.name]: e.target.value
-        }
-      });
-   }
+  function handleChange(e) {
+    setInput({
+      ...input,
+      data: {
+        ...input.data,
+        [e.target.name]: e.target.value,
+      },
+    });
+  }
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
 
-      setInput({
-        data:{
-          cliente:"",
-          servicio:"",
-          descripcion:"",
-          monto:"",
-          fecha:"",
-          renovable:"",
-          tipo: "Recurrente"
-             }
-      });
-      
-     try {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (input.data.renovable === "true") {
+      try {
+
         const servicioResponse = await fetch('http://localhost:1337/api/recurrentes/', {
           method: 'POST',
           headers: {
@@ -63,28 +60,38 @@ export default function ServicioRecurrenteCreate(){
           },
           body: JSON.stringify(input)
         });
-        const cuentaResponse = fetch("http://localhost:1337/api/cuentas/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
-      });
     
-const [servicio, cuenta] = await Promise.all([servicioResponse, cuentaResponse]);
+
+        const cuentaResponse = await fetch("http://localhost:1337/api/cuentas/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(input.data),
+        });
     
-      if (!servicio || !cuenta) {
-        alert("No se pudieron crear los recursos");
-        throw new Error("Network response was not ok");
+        if (!servicioResponse.ok || !cuentaResponse.ok) {
+          alert("No se pudieron crear los recursos");
+          throw new Error("Network response was not ok");
+        }
+
+    
+        alert("Recursos creados satisfactoriamente");
+        console.log(await servicioResponse.json(), await cuentaResponse.json());
+        
+      } catch (error) {
+        console.error(error);
       }
-    
-      alert("Recursos creados satisfactoriamente");
-      console.log(await servicio.json(), await cuenta.json());
-    
-    } catch (error) {
-      console.error(error);
     }
-}
+
+    
+  };
+
+  function validateInput() {
+    // validate input
+    return true;
+  }
+
     
   return (
     <div>

@@ -1,7 +1,11 @@
+import ServicioRecurrenteCreate from '../pages/api/recurring'
+
+
 // define la función que se ejecutará mensualmente
 function tareaMensual() {
     // código a ejecutar
     console.log("Tarea mensual realizada.");
+    ServicioRecurrenteCreate();
   }
   
   // calcula la fecha de la próxima ejecución
