@@ -4,8 +4,9 @@ import SearchBar from '../../components/searchBar/searchBar';
 import Table from '../../components/clientes/filtroClientes';
 
 
-function MyPage() {
+function FiltroCliente() {
     const [data, setData] = useState([]);
+    
     const [searchTerm, setSearchTerm] = useState('');
   
     useEffect(() => {
@@ -27,4 +28,4 @@ function MyPage() {
     );
   }
   
-  export default MyPage;
+  export default FiltroCliente;
