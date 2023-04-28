@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import Link from 'next/link'
 
 export default function EstimateCreate(){
     
@@ -112,6 +111,12 @@ export default function EstimateCreate(){
                }
         }
         console.log("BODY", body);
+
+        if (!input.data.cliente) {
+          alert("Llena los campos necesarios");
+          throw new Error("Input error");
+        };
+
         const response = await fetch('http://localhost:1337/api/proyectos/', {
           method: 'POST',
           headers: {
@@ -183,6 +188,18 @@ export default function EstimateCreate(){
                 </div>    
             </div>
 
+            <div>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'></label>
+                            <input 
+                            className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                             type="text" 
+                              value= {input.data.descripcion}
+                              name= "descripcion"
+                              placeholder='Descripcion'
+                          onChange={(e)=> handleChange(e)}
+                             />
+                     </div>
+
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
 
                 <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -195,10 +212,6 @@ export default function EstimateCreate(){
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
                                     Items
-                                </th>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
-                                    Descripción
                                 </th>
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
@@ -233,17 +246,6 @@ export default function EstimateCreate(){
 
 
                 </td>
-                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <label className='mb-3 block text-base font-medium  text-gray-200'></label>
-                   <input 
-                   className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="text" 
-                     value= {input.data.descripcion}
-                     name= "descripcion"
-                     placeholder='Descripcion'
-                 onChange={(e)=> handleChange(e)}
-                    />
-                                </td>
 
 
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm pb-2">
@@ -273,6 +275,20 @@ export default function EstimateCreate(){
                 </td>
 
                             </tr>
+
+                            {finalItems.map((item) => (
+                      <tr key={item.id}>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {item.item}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {item.cantidad || 1}
+                        </td>
+                        <button class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                          onClick={() => handleRemoveItem(item.id)}>Eliminar
+                        </button>
+                      </tr>
+                    ))}
                         </tbody>
                     </table>
                     
@@ -281,15 +297,15 @@ export default function EstimateCreate(){
 
                         <div class="inline-flex mt-2 xs:mt-0 space-x-5">
 
-                        <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
-                          type="submit" >
-                          <button type="submit">Crear Estimación</button>
-                        </div>
-
                         <button
                         type='button'
                         className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
                         onClick={(e)=> addItem(e)}> Agregar Fila </button>
+
+                        <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
+                          type="submit" >
+                          <button type="submit" onClick={(e) => handleSubmit(e)}>Crear Estimación</button>
+                        </div>
 
                         </div>
                     </div>
@@ -301,6 +317,4 @@ export default function EstimateCreate(){
 </div>
 
     )
-    }
-
-  
+  }
