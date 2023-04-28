@@ -17,7 +17,7 @@ module.exports = {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }) {
-      const recurringServices= await strapi.db.query('api::recurrente.recurrente').findMany();
+      /* const recurringServices= await strapi.db.query('api::recurrente.recurrente').findMany();
       console.log("ALL", recurringServices);
   
       recurringServices.forEach(service => {
@@ -37,7 +37,7 @@ module.exports = {
             nextMonth.setMonth(nextMonth.getMonth() + 1);
             console.log("NEXT MONTH", nextMonth); */
   
-            if (now >= nextDay) {
+            /* if (now >= nextDay) {
               console.log(`NOW: ${now} es mayor o igual que NEXTDAY: ${nextDay}`);
               console.log("FECHA QUE SE GUARDA", nextDay.toISOString().substring(0, 10));
               try {
@@ -60,7 +60,7 @@ module.exports = {
               clearInterval(intervalId);
             }
             console.log("HIZO UN CHEQUEO");
-          }, 30000); // checks every 30s
+          }, 30000); // checks every 30s */
   
             /* if (now >= nextMonth) {
               await strapi.db.query('api::recurrente.recurrente').create({
@@ -77,7 +77,7 @@ module.exports = {
               clearInterval(intervalId);
             }
           }, 86400000); */ // checks every 24 hours
-        }
-      });
+//        }
+//      });
   },
 };
