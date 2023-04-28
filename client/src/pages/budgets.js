@@ -188,7 +188,7 @@ export default function BudgetsCreate(){
           data:{
             cliente: parseInt(input.data.cliente),
             descripcion: input.data.descripcion,
-            total: input.data.total,
+            total: parseFloat(input.data.total),
             items: finalItems
                }
         }
@@ -198,7 +198,7 @@ export default function BudgetsCreate(){
           data:{
             cliente: parseInt(input.data.cliente),
             tipo: "Presupuesto",
-            monto: input.data.total
+            monto: parseFloat(input.data.total)
           }
         }
         console.log("ACCOUNT", account);
