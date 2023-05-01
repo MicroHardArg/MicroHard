@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import Link from 'next/link'
 
 export default function BudgetsCreate(){
     
@@ -16,7 +15,8 @@ export default function BudgetsCreate(){
        item:"",
        precio:"",
        iva:"",
-       cantidad:""
+       cantidad:"",
+       subtotal: ""
      });
 
     const [finalItems, setFinalItems]= useState([]);
@@ -25,8 +25,10 @@ export default function BudgetsCreate(){
 
     const [clients, setClients]= useState([]);
 
+    // Parses the numbers and replaces the commas
+
     useEffect(() => {
-      var {precio, iva}= selectedItems;
+      var {precio, iva, subtotal}= selectedItems;
       var {total}= input.data;
 
       if (precio) {
@@ -37,6 +39,10 @@ export default function BudgetsCreate(){
         iva=iva.toString().replace("," , ".");
       }
 
+      if (subtotal) {
+        subtotal=subtotal.toString().replace("," , ".");
+      }
+
       if (total) {
         total=total.toString().replace("," , ".");
       }
@@ -44,7 +50,8 @@ export default function BudgetsCreate(){
         setSelectedItems({
           ...selectedItems,
           precio: precio,
-          iva: iva
+          iva: iva,
+          subtotal: subtotal
         })
   
         setInput((input) => ({
@@ -54,7 +61,22 @@ export default function BudgetsCreate(){
             total: total
           },
         }));
-    }, [selectedItems.precio, selectedItems.iva, input.data.total]);
+    }, [selectedItems.precio, selectedItems.iva, selectedItems.subtotal, input.data.total]);
+
+    // Calculates the total for each item
+
+    useEffect(() => {
+      let {precio, iva, cantidad}= selectedItems;
+
+      let subtotal=(parseFloat(precio||0)+parseFloat(iva||0))*parseFloat(cantidad||1);
+
+      setSelectedItems({
+        ...selectedItems,
+        subtotal: parseFloat(subtotal).toFixed(2)
+      })
+    }, [selectedItems.precio, selectedItems.iva, selectedItems.cantidad]);
+
+    // Calculates the total for the whole budget
 
     useEffect(() => {
       let total=0;
@@ -71,7 +93,7 @@ export default function BudgetsCreate(){
         ...input,
         data: {
           ...input.data,
-          total: total
+          total: parseFloat(total).toFixed(2)
         }
       });
     }, [selectedItems, finalItems]);
@@ -130,7 +152,8 @@ export default function BudgetsCreate(){
         item:"",
         precio:"",
         iva:"",
-        cantidad:""
+        cantidad:"",
+        subtotal:""
       })
       document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
     };
@@ -155,7 +178,8 @@ export default function BudgetsCreate(){
         item:"",
         precio:"",
         iva:"",
-        cantidad:""
+        cantidad:"",
+        subtotal:""
       })
       setFinalItems([]);
 
@@ -179,6 +203,11 @@ export default function BudgetsCreate(){
         }
         console.log("ACCOUNT", account);
 
+        if (!input.data.cliente || !input.data.total) {
+          alert("Se necesita al menos un cliente y un total");
+          throw new Error("Input error");
+        }
+
         const budgetResponse = await fetch('http://localhost:1337/api/presupuestos/', {
           method: 'POST',
           headers: {
@@ -194,7 +223,6 @@ export default function BudgetsCreate(){
           },
           body: JSON.stringify(account)
         });
-        console.log(account)
 
         if (!budgetResponse.ok || !accountResponse.ok) {
           alert("No se pudo crear el Presupuesto");
@@ -261,6 +289,18 @@ export default function BudgetsCreate(){
                              </div>               
                          </div>    
                      </div>
+
+                     {/* <div>
+                     <label className='mb-3 block text-base font-medium  text-gray-200'></label>
+                            <input 
+                            className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                             type="text" 
+                              value= {input.data.descripcion}
+                              name= "descripcion"
+                              placeholder='Descripcion'
+                          onChange={(e)=> handleChange(e)}
+                             />
+                     </div> */}
          
                      <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
          
@@ -277,7 +317,11 @@ export default function BudgetsCreate(){
                                          </th>
                                          <th
                                              class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
-                                             Descripción
+                                             Precio
+                                         </th>
+                                         <th
+                                             class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
+                                             IVA
                                          </th>
                                          <th
                                              class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
@@ -285,11 +329,7 @@ export default function BudgetsCreate(){
                                          </th>
                                          <th
                                              class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
-                                             Precio
-                                         </th>
-                                         <th
-                                             class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
-                                             Iva
+                                             Total Item
                                          </th>
                                          <th
                                              class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
@@ -299,11 +339,10 @@ export default function BudgetsCreate(){
                                  </thead>
          
                                  <tbody>
-                                     <tr>
-                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-            
-                                                   
-                                             <label className='mb-3 block text-base font-medium  text-gray-200'></label>
+  <tr>
+    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        
+                <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                             <select 
                             className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-8 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
                              type="text" 
@@ -320,32 +359,6 @@ export default function BudgetsCreate(){
          
          
                          </td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                           <label className='mb-3 block text-base font-medium  text-gray-200'></label>
-                            <input 
-                            className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                             type="text" 
-                              value= {input.data.descripcion}
-                              name= "descripcion"
-                              placeholder='Descripcion'
-                          onChange={(e)=> handleChange(e)}
-                             />
-                                         </td>
-         
-         
-                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm pb-2">
-                           
-                           <input
-                           id='amount'
-                           className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                           value={selectedItems.cantidad}
-                           name='cantidad'
-                           placeholder='Cantidad'
-                           onChange={(e)=> handleItem(e)}
-                           />
-                          </td>
-         
-         
          
                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
          
@@ -353,6 +366,7 @@ export default function BudgetsCreate(){
                          <input
                                 className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base  font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
                                 value={selectedItems.precio}
+                                type='number'
                                 name='precio'
                                 placeholder='Precio'
                                 onChange={(e)=> handleItem(e)}
@@ -365,26 +379,84 @@ export default function BudgetsCreate(){
                         <input
                           className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
                           value={selectedItems.iva}
+                          type='number'
                           name='iva'
                           placeholder='IVA'
                           onChange={(e)=> handleItem(e)}
                          />
                    </td>
 
+                   <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm pb-2">
+                           
+                           <input
+                           id='amount'
+                           className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                           value={selectedItems.cantidad}
+                           type='number'
+                           name='cantidad'
+                           placeholder='Cantidad'
+                           onChange={(e)=> handleItem(e)}
+                           />
+                          </td>
+
                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         
                    <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                         <input 
                         className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                          value= {input.data.total}
-                          name= "total"
+                          value= {selectedItems.subtotal}
+                          name= "subtotal"
                           onChange={(e)=> handleChange(e)}
+                          readOnly
                     />
 
                         </td>
+
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm pb-2">
+                           
+                           <input
+                           id='total'
+                           className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                           value={input.data.total}
+                           name='total'
+                           placeholder='Total'
+                           onChange={(e)=> handleChange(e)}
+                           readOnly
+                           />
+                          </td>
+                        
          
-                                     </tr>
+  </tr>
+                                     
+                    {finalItems.map((item) => (
+                      <tr key={item.id}>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {item.item}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {item.precio || 0}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {item.iva || 0}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {item.cantidad || 1}
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          {((parseFloat(item.precio || 0)+parseFloat(item.iva || 0))*parseFloat(item.cantidad || 1)).toFixed(2)}
+                        </td>
+
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+
+                        <button class="bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline"
+                          onClick={() => handleRemoveItem(item.id)}>Eliminar
+                        </button>
+                        </td>
+                      </tr>
+                    ))}
+                  
                                  </tbody>
+
                              </table>
                              
                              <div
@@ -392,15 +464,15 @@ export default function BudgetsCreate(){
          
                                  <div class="inline-flex mt-2 xs:mt-0 space-x-5">
          
-                                 <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
-                                  type="submit" >
-                                <button type="submit">Crear Presupuesto</button>
-                                </div>
-         
                                  <button
                                  type='button'
                                  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
-                                 onClick={(e)=> addItem(e)}> Agregar Fila </button>
+                                 onClick={(e)=> addItem(e)}> Agregar Item </button>
+
+                                 <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
+                                  type="submit" >
+                                <button type="submit" onClick={(e) => handleSubmit(e)}>Crear Presupuesto</button>
+                                </div>
          
                                  </div>
                              </div>
@@ -411,8 +483,5 @@ export default function BudgetsCreate(){
              </div>
          </div>
     </div>
-    
   )
 }
-
-
