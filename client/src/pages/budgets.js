@@ -290,7 +290,7 @@ export default function BudgetsCreate(){
                          </div>    
                      </div>
 
-                     <div>
+                     {/* <div>
                      <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                             <input 
                             className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -300,7 +300,7 @@ export default function BudgetsCreate(){
                               placeholder='Descripcion'
                           onChange={(e)=> handleChange(e)}
                              />
-                     </div>
+                     </div> */}
          
                      <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
          
@@ -445,9 +445,11 @@ export default function BudgetsCreate(){
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {((parseFloat(item.precio || 0)+parseFloat(item.iva || 0))*parseFloat(item.cantidad || 1)).toFixed(2)}
                         </td>
-                        <button class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <button class=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
                           onClick={() => handleRemoveItem(item.id)}>Eliminar
                         </button>
+                        </td>
                       </tr>
                     ))}
                   
@@ -465,9 +467,10 @@ export default function BudgetsCreate(){
                                  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
                                  onClick={(e)=> addItem(e)}> Agregar Item </button>
 
-                                 <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
+                                 <div className="
+                                 "
                                   type="submit" >
-                                <button type="submit" onClick={(e) => handleSubmit(e)}>Crear Presupuesto</button>
+                                <button  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full" type="submit" onClick={(e) => handleSubmit(e)}>Crear Presupuesto</button>
                                 </div>
          
                                  </div>
