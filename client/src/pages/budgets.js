@@ -445,10 +445,8 @@ export default function BudgetsCreate(){
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {((parseFloat(item.precio || 0)+parseFloat(item.iva || 0))*parseFloat(item.cantidad || 1)).toFixed(2)}
                         </td>
-
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-
-                        <button class="bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline"
+                        <button class=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
                           onClick={() => handleRemoveItem(item.id)}>Eliminar
                         </button>
                         </td>
@@ -469,9 +467,10 @@ export default function BudgetsCreate(){
                                  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
                                  onClick={(e)=> addItem(e)}> Agregar Item </button>
 
-                                 <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
+                                 <div className="
+                                 "
                                   type="submit" >
-                                <button type="submit" onClick={(e) => handleSubmit(e)}>Crear Presupuesto</button>
+                                <button  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full" type="submit" onClick={(e) => handleSubmit(e)}>Crear Presupuesto</button>
                                 </div>
          
                                  </div>

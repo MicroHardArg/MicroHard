@@ -22,7 +22,8 @@
       "type": "text"
     },
     "total": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     },
     "tipo": {
       "type": "string",

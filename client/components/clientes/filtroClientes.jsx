@@ -39,7 +39,12 @@ function Table({ data, searchTerm }) {
                         Dirección
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Cuenta Corriente
+                    <select className='uppercase'>
+                    <option > Cuenta Corriente</option>
+                      <option > Adeuda</option>
+                     <option> No adeuda</option>
+                     </select>
+
                     </th>
                     <th scope="col" className="px-6 py-3">
                         Detalle Cliente

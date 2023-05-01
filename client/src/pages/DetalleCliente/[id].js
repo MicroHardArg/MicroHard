@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Tabs from '/components/clientes/detalleCliente';
 import Link from 'next/link';
+import { useRef } from 'react';
+import Head from 'next/head';
 
-
-export const MyPage = () => {
-    const [data, setData] = useState({ clientes: [], presupuestos: [], proyectos: [], recurrentes: [], usuarios: [] });
+export const detalleCliente = () => {
+    const [data, setData] = useState({ clientes: [], presupuestos: [], proyectos: [], recurrentes: [], usuarios: [], cuentas: [],  abonos: [], });
     const [cliente, setCliente] = useState(null);
     const router = useRouter();
   
@@ -16,10 +17,10 @@ export const MyPage = () => {
       setCliente(clienteData);
     };
 //Select para proyectos
-    const [productoSeleccionado, setProductoSeleccionado] = useState("");
+    const [proyectoSeleccionado, setproyectoSeleccionado] = useState("");
 
-    const productosFiltrados = data.proyectos.filter(
-      (proyecto) => proyecto.attributes.descripcion === productoSeleccionado
+    const proyectosFiltrados = data.proyectos.filter(
+      (proyecto) => proyecto.attributes.descripcion === proyectoSeleccionado
     );
     //Select para presupuestos
     const [presupuestoSeleccionado, setPresupuestoSeleccionado] = useState("");
@@ -27,15 +28,29 @@ export const MyPage = () => {
     const presupuestoFiltrados = data.presupuestos.filter(
       (presupuesto) => presupuesto.attributes.descripcion === presupuestoSeleccionado
     );
-  
+
+    //Verifica si tiene o no una deuda
+
+    const [cuentasData, setCuentasData] = useState([]);
+    const [abonosData, setAbonosData] = useState([]);
+    
+console.log(cuentasData)
+console.log(abonosData)
+
+
+ 
     useEffect(() => {
       const fetchClienteData = async () => {
-        const [clientesResponse, presupuestosResponse, proyectosResponse, recurrentesResponse, usersResponse] = await Promise.all([
+        const [clientesResponse, presupuestosResponse, proyectosResponse, recurrentesResponse, usersResponse, cuentasResponse, abonosResponse] = await Promise.all([
           fetch('http://localhost:1337/api/clientes').then((response) => response.json()),
           fetch('http://localhost:1337/api/presupuestos').then((response) => response.json()),
           fetch('http://localhost:1337/api/proyectos').then((response) => response.json()),
           fetch('http://localhost:1337/api/recurrentes').then((response) => response.json()),
           fetch('http://localhost:1337/api/users').then((response) => response.json()),
+          fetch('http://localhost:1337/api/cuentas').then((response) => response.json()),
+          fetch('http://localhost:1337/api/abonos/').then((response) => response.json()),
+     
+
         ]);
   
         setData({
@@ -44,8 +59,13 @@ export const MyPage = () => {
           proyectos: proyectosResponse.data,
           recurrentes: recurrentesResponse.data,
           usuarios: usersResponse.data,
+          cuentas: cuentasResponse.data,
+          abonos: abonosResponse.data
+
         });
-  
+        setCuentasData(cuentasResponse.data);
+        setAbonosData(abonosResponse.data);
+        
         handleTabChange();
       };
   
@@ -66,7 +86,47 @@ export const MyPage = () => {
         const handleGenerarFactura = () => {
           setNumeroFactura(numeroFactura + 1);
         };
-   
+
+ // Fecha actual
+ const [fechaActual, setFechaActual] = useState(new Date().toISOString().slice(0, 10));
+
+
+//agregar item a la factura
+const [items, setItems] = useState([]);
+
+//imprimir factura
+const facturaRef = useRef();
+
+const handleImprimirFactura = () => {
+  const facturaHtml = facturaRef.current.innerHTML;
+  const ventanaImpresion = window.open('', 'FACTURA', 'height=600,width=800');
+  ventanaImpresion.document.write(`
+    <html>
+      <head>
+        <title>FACTURA</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+        <style>
+          @media print {
+            .print\\:hidden { visibility: hidden; }
+            .print\\:block { display: block; }
+            #factura { position: absolute; left: 0; top: 0; }
+          }
+        </style>
+      </head>
+      <body>
+        <div id="factura" class="print:block">
+          ${facturaHtml}
+        </div>
+      </body>
+    </html>
+  `);
+  ventanaImpresion.document.close();
+  ventanaImpresion.focus();
+  ventanaImpresion.print();
+  ventanaImpresion.close();
+};
+
+
 
   const tabs = [
     {
@@ -109,6 +169,9 @@ export const MyPage = () => {
         </div>
       ),
     },
+
+
+    //Presupuesto
     {
       title: 	<Link rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-4 h-4 fill-white">
@@ -140,7 +203,7 @@ export const MyPage = () => {
                   </tr>
               </thead>
               <tbody>
-              {presupuestos && presupuestos.map((presupuesto) => (
+              {data.presupuestos.map((presupuesto) => (
  
                   <tr key={presupuesto.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
@@ -168,6 +231,8 @@ export const MyPage = () => {
       </div>
       ,
     },
+
+    //Proyecto
 
     {
       title: 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
@@ -244,6 +309,8 @@ export const MyPage = () => {
       </div>
       </div>,
     },
+
+    //Estado de deuda
     {
       title: 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 fill-white">
@@ -264,9 +331,9 @@ export const MyPage = () => {
                   Periodo
               </th>
               <th scope="col" class="px-6 py-3">
-                  Descripcion
+                  Como realizó el pago
               </th>
-              <th scope="col" class="px-6 py-3">Ñ
+              <th scope="col" class="px-6 py-3">
                   Total de la deuda
               </th>
 
@@ -282,42 +349,62 @@ export const MyPage = () => {
           </tr>
       </thead>
       <tbody>
+   
+{data.cuentas.map((cuenta) => {
+  const abono = data.abonos.find((a) => a.periodo === cuenta.periodo);
+
+  return (
+    <tr key={cuenta.periodo} className='bg-gradient-to-r from-gray-00 from-10% via-sky-100 via-30% to-gray-100 to-90% border-blue-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+      <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+        <div className="pl-3">
+          <div className="text-base font-semibold">{abono.attributes.fecha}</div>
+        </div>
+      </th>
+      
+      <td className="px-6 py-4">
+      {abono.attributes.nota}
+      </td>
+      <td className="px-6 py-4 ">
+        <a href="" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" className="font-medium text-blue-600 dark:text-Red-500 hover:underline">
+          {cuenta.attributes.monto}
+        </a>
+      </td>
+      <td className="px-6 py-4">
+        <a href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" className="font-medium text-green-600 dark:text-Red-500 hover:underline">
+          {abono ? abono.attributes.monto : '-'}
+        </a>
+      </td>
+      <td className="px-6 py-4">
+        <a href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" className="font-medium text-red-600 dark:text-red-500 hover:underline">
+          {cuenta.attributes.deuda}
+        </a>
+      </td>
+      <td className="px-6 py-4">
+  {cuenta.attributes.deuda > 0 ? (
+    <div className="flex items-center">
+      <div className="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>
+      Adeuda
+    </div>
+  ) : (
+    <div className="flex items-center">
+      <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
+      No Adeuda
+    </div>
+  )}
+</td>
+
+    </tr>
+  );
+})}
+</tbody>
+
     
-          <tr class=" bg-gradient-to-r from-gray-00 from-10% via-sky-100 via-30% to-gray-100 to-90% border-blue-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                              <div class="pl-3">
-                      <div class="text-base font-semibold">29/01/2023</div>
-                      <div class="text-base font-semibold px-8">A</div>
-                      <div class="text-base font-semibold">18/03/2023</div>
-                  </div>  
-              </th>
-             
-              <td class="px-6 py-4">
-           Detalle de lo abonado o no hasta el momento
-              </td>
-              <td class="px-6 py-4 ">
-              <a href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-blue-600 dark:text-Red-500 hover:underline">$98.320</a>
-              </td>
-              <td class="px-6 py-4">
-                  <a href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-green-600 dark:text-Red-500 hover:underline">$50.360</a>
-              </td>
-              <td class="px-6 py-4">
-                  <a href="/DetalleCliente/DetalleCliente" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" class="font-medium text-red-600 dark:text-red-500 hover:underline">$47.960</a>
-              </td>
-
-
-              <td class="px-6 py-4">
-                  <div class="flex items-center">
-                      <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>  Adeuda
-                  </div>
-              </td>
-          </tr>
-         
-      </tbody>
   </table>
   </div>
 </div>,
     },
+
+    //Factura 
     {
       title: 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-5 h-5 fill-white">
@@ -330,13 +417,14 @@ export const MyPage = () => {
        <div>
 
    
-          <div className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
+          <div  ref={facturaRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
             <div className="flex justify-between mb-4">
               <div>
                 <h1 className="text-lg font-bold">Remito de venta</h1>
                 <h1 className="text-lg font-bold">Fecha:</h1>
                 <div className="p-2 bg-gray-100 rounded-lg">
-                <input type="date" value="2022-12-31" className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:border-blue-500 focus:outline-none focus:shadow-outline-blue" />
+                <input type="date" value={fechaActual} onChange={(e) => setFechaActual(e.target.value)} />
+
 </div>
 
               </div>
@@ -362,15 +450,16 @@ export const MyPage = () => {
                 <p className="font-bold text-right">{numeroFactura}</p>
 
               </div>
-            </div>
-{/* //Factura */}
+          
+            
+
 
 {/* seleccionar proyecto */}
             <div>
       <select
         className="block appearance-none w-full bg-blue-50 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        value={productoSeleccionado}
-        onChange={(event) => setProductoSeleccionado(event.target.value)}
+        value={proyectoSeleccionado}
+        onChange={(event) => setproyectoSeleccionado(event.target.value)}
       >
         <option value="" >Seleccione un proyecto</option>
         {data.proyectos.map((proyecto) => (
@@ -397,18 +486,33 @@ export const MyPage = () => {
           
         ))}
       </select>
+      
 
-      <table className="w-full text-xl ">
+      <table  ref={facturaRef} className="w-full text-xl ">
         <thead className="bg-gray-500">
           <tr>
-            <th className="py-2 px-8 text-left text-gray-100 ">Producto</th>
-            <th className="py-2 text-center text-gray-100">Horas de trabajo/precio</th>
-            <th className="py-2 text-center text-gray-100">materiales/iva</th>
+            <th className="py-2 px-8 text-left text-gray-100 ">proyecto</th>
+            <th className="py-2 text-center text-gray-100">
+            <select className='bg-gray-500'>
+            <option > Horas de trabajo</option>
+            <option> precio</option>
+              
+              </select>
+              </th>
+            <th className="py-2 text-center text-gray-100">
+            <select className='bg-gray-500'>
+            <option > Materiales</option>
+            <option> iva</option>
+              
+              </select>
+            </th>
             <th className="py-2 text-center text-gray-100">total</th>
           </tr>
         </thead>
+        
         <tbody>
-          {productosFiltrados.map((proyecto) => (
+          
+          {proyectosFiltrados.map((proyecto) => (
             <tr
               key={proyecto.id}
               className="bg-white p-6 rounded-lg shadow-lg w-full h-full"
@@ -433,17 +537,50 @@ export const MyPage = () => {
         </tbody>
       </table>
     </div>
+    <div className="bg-white p-4  shadow-lg px-12 w-full h-full">
 
-  
 
- 
+
+    {items.map((item, index) => (
       
-   
- 
+  <tr key={index} >
+        <div className="flex items-end gap-48 mb-6 md:grid-cols-3">
+    <div class="relative">
+    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Detalle</label></td>
+    </div>
+    <div class="relative ">
+    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Horas de Trabajo / precio</label></td>
+    </div>
+    <div class="relative">
+    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Materiales/IVA</label></td>
+    </div>
+    <div class="relative">
+    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">total</label></td>
+    <td ><button onClick={() => setItems(items.filter((_, i) => i !== index))} className='text-red-500'>Eliminar</button></td>
+    </div>
+</div>
+
+  </tr>
+  
+))}
+  </div>
 
 
+    </div>
 
-  <button onClick={handleGenerarFactura} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+ {/* Boton generar factura */}
+
+ <button 
+    onClick={() => setItems([...items, {}])}
+    className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
+
+    >Agregar item</button>
+
+  <button onClick={handleImprimirFactura} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
     Generar factura
     </button>
 
@@ -468,6 +605,7 @@ export const MyPage = () => {
   
     
     </div>
+    
     </div>
 </div>
 
@@ -476,4 +614,4 @@ export const MyPage = () => {
 
 
 
-export default MyPage;
+export default detalleCliente;
