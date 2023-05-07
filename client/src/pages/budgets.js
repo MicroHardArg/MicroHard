@@ -247,9 +247,9 @@ export default function BudgetsCreate(){
 <div class="antialiased fot-nsans bg-zinc-800">
            
             
-           <img src="home.jpg" alt="backgroud" className='h-full w-full fixed bg-cover' /> 
+           <img src="home.jpg" alt="backgroud" className='h-full w-full absolute bg-cover' /> 
          
-             <div class="container mx-auto px-4 sm:px-8 pb-48 absolute ">
+             <div class="container mx-auto px-4 sm:px-8 pb-48 relative">
          
                  <div class="pt-16">
          
@@ -290,19 +290,19 @@ export default function BudgetsCreate(){
                          </div>    
                      </div>
 
-                     {/* <div>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'></label>
+                     <div>
+                     <label className='mb-3 block text-base font-medium  text-white'></label>
                             <input 
-                            className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            className="w-full rounded-md border border-[#ffffff] bg-gray-50 bg-opacity-5 py-3 px-6 text-base font-medium text-white outline-none focus:border-[#6A64F1] focus:shadow-md"
                              type="text" 
                               value= {input.data.descripcion}
                               name= "descripcion"
                               placeholder='Descripcion'
                           onChange={(e)=> handleChange(e)}
                              />
-                     </div> */}
-         
-                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                     </div>
+                        <div className='pt-4'>
+                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-y-auto h-96">
          
                          <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
          
@@ -476,6 +476,7 @@ export default function BudgetsCreate(){
                                  </div>
                              </div>
                          </div>
+                     </div>
                      </div>
           </form>
                  </div>

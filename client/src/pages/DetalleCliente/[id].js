@@ -26,7 +26,7 @@ export const detalleCliente = () => {
     const [presupuestoSeleccionado, setPresupuestoSeleccionado] = useState("");
 
     const presupuestoFiltrados = data.presupuestos.filter(
-      (presupuesto) => presupuesto.attributes.descripcion === presupuestoSeleccionado
+      (presupuestos) => presupuestos.data === presupuestoSeleccionado
     );
 
     //Verifica si tiene o no una deuda
@@ -186,44 +186,39 @@ const handleImprimirFactura = () => {
                  
                   <tr>
                       <th scope="col" class="px-6 py-3">
-                          Id del Proyecto
+                          Cliente
                       </th>
                       <th scope="col" class="px-6 py-3">
                       Descripcion
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          Precio
+                          Total
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          IVA
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                         Total
+                          Detalle Presupuesto
                       </th>
                   </tr>
               </thead>
               <tbody>
-              {data.presupuestos.map((presupuesto) => (
+              {presupuestos && (
  
-                  <tr key={presupuesto.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
+                  <tr key={presupuestos.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
-                          {presupuesto.id}
+                          {presupuestos.cliente}
                       </th>
                       <td class="px-6 py-4">
-                      {presupuesto.attributes.descripcion}
+                      {presupuestos.attributes.descripcion}
                       </td>
                       <td class="px-6 py-4">
-                      {presupuesto.attributes.precio}
+                      {presupuestos.attributes.total}
                       </td>
                       <td class="px-6 py-4">
-                      {presupuesto.attributes.iva}
-                      </td>
-                      <td class="px-6 py-4">
-                          <a href="#" class="font-medium text-white hover:underline">{presupuesto.attributes.total}</a>
+                      info
+                      
                       </td>
                   </tr>
                 
-))}
+)}
               </tbody>
           </table>
           
@@ -470,7 +465,7 @@ const handleImprimirFactura = () => {
           
         ))}
       </select>
-      {/* seleccionar presupuesto */}
+      seleccionar presupuesto
 
       <select
         className="block appearance-none w-full bg-blue-100 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -482,6 +477,7 @@ const handleImprimirFactura = () => {
           <option key={presupuesto.id} value={presupuesto.attributes.descripcion}>
             {presupuesto.attributes.descripcion}
             {presupuesto.attributes.horas}
+            {presupuesto.cliente}
           </option>
           
         ))}
@@ -523,15 +519,15 @@ const handleImprimirFactura = () => {
               <td className="py-2 text-center">{proyecto.attributes.total}</td>
             </tr>
           ))}
-                 {presupuestoFiltrados.map((presupuesto) => (
+                 {presupuestoFiltrados.map((presupuestos) => (
             <tr
-              key={presupuesto.id}
+              key={presupuestos.id}
               className="bg-white p-4 rounded-lg shadow-lg w-full h-full"
             >
-              <td className="py-2 px-8 ">{presupuesto.attributes.descripcion}</td>
-              <td className="py-2 text-center">{presupuesto.attributes.precio}</td>
-              <td className="py-2 text-center">{presupuesto.attributes.iva}</td>
-              <td className="py-2 text-center">{presupuesto.attributes.total}</td>
+              <td className="py-2 px-8 ">{presupuestos.attributes.descripcion}</td>
+              <td className="py-2 text-center">{presupuestos.attributes.precio}</td>
+              <td className="py-2 text-center">{presupuestos.attributes.iva}</td>
+              <td className="py-2 text-center">{presupuestos.attributes.total}</td>
             </tr>
           ))}
         </tbody>
