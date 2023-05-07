@@ -247,7 +247,7 @@ export default function BudgetsCreate(){
 <div class="antialiased fot-nsans bg-zinc-800">
            
             
-           <img src="home.jpg" alt="backgroud" className='h-full w-full absolute bg-cover' /> 
+           <img src="home.jpg" alt="backgroud" className='h-full w-full absolute bg-cover'/> 
          
              <div class="container mx-auto px-4 sm:px-8 pb-48 relative">
          
