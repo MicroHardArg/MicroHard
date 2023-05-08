@@ -14,7 +14,6 @@ export default function EstimateCreate(){
        id:"",
        item:"",
        cantidad:"",
-       horas:""
      });
 
     const [finalItems, setFinalItems]= useState([]);
@@ -76,7 +75,6 @@ export default function EstimateCreate(){
         id:"",
         item:"",
         cantidad:"",
-        horas:""
       })
       document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
     };
@@ -89,21 +87,6 @@ export default function EstimateCreate(){
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
-      setInput({
-        data:{
-          cliente:"",
-          descripcion:"",
-          cantidad:"",
-          horas:""
-           }
-     })
-      setSelectedItems({
-        id:"",
-        item:"",
-        cantidad:"",
-        horas:""
-      })
-      setFinalItems([]);
 
      try {
         let body={
@@ -129,6 +112,21 @@ export default function EstimateCreate(){
         alert("Estimación creada satisfactoriamente");
         const data = await response.json();
         console.log(data);
+
+        setInput({
+          data:{
+            cliente:"",
+            descripcion:"",
+            cantidad:"",
+            horas:""
+             }
+       })
+        setSelectedItems({
+          id:"",
+          item:"",
+          cantidad:"",
+        })
+        setFinalItems([]);
         
       } catch (error) {
         console.error(error);
@@ -313,16 +311,16 @@ export default function EstimateCreate(){
 
                         <div class="inline-flex mt-2 xs:mt-0 space-x-5">
 
+                        <button
+                        type='button'
+                        className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
+                        onClick={(e)=> addItem(e)}> Agregar Item </button>
+
                         <div className="
                                  "
                                   type="submit" >
                                 <button  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full" type="submit" onClick={(e) => handleSubmit(e)}>Crear Estimación</button>
                                 </div>
-
-                        <button
-                        type='button'
-                        className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
-                        onClick={(e)=> addItem(e)}> Agregar Fila </button>
 
                         </div>
                     </div>

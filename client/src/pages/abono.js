@@ -5,7 +5,7 @@ import Link from 'next/link'
 function validate(input) {
   let errors = {};
   if (!input.fecha) {
-      errors.fecha = 'Se requiere una fecha en el formato YYYY-MM-DD';
+      errors.fecha = 'Ingresa una fecha';
   } else {
       const regex = /^\d{4}-\d{2}-\d{2}$/;
       if (!regex.test(input.fecha)) {
@@ -76,15 +76,6 @@ export default function AbonoCreate() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setInput({
-      data:{
-        cliente: "",
-        monto: "",
-        fecha: "",
-        nota: "",
-        tipo: "Abono"
-      }
-    })
   
     const validationErrors = validate(input.data);
     setErrors(validationErrors);
@@ -119,6 +110,16 @@ export default function AbonoCreate() {
     
       alert("Recursos creados satisfactoriamente");
       console.log(await abono.json(), await cuenta.json());
+
+      setInput({
+        data:{
+          cliente: "",
+          monto: "",
+          fecha: "",
+          nota: "",
+          tipo: "Abono"
+        }
+      });
     
     } catch (error) {
       console.error(error);
@@ -177,7 +178,7 @@ export default function AbonoCreate() {
                      <label className='mb-3 block text-base font-medium text-gray-200' >Fecha:</label>
                    <input 
                    className="w-full rounded-md border  border-[#fcfcfc] bg-transparent py-3 px-6 text-base font-medium text-[#ffffff] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    type="date value=YYYY-MM-DD" 
+                    type="date" 
                      value= {input.data.fecha}
                      name= "fecha"
                  onChange={(e)=> handleChange(e)}
