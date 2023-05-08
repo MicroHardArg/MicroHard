@@ -64,7 +64,7 @@ export default function ServicioRecurrenteCreate() {
 
         let body= {
           data: {
-            cliente: input.data.cliente,
+            cliente: parseInt(input.data.cliente),
             servicio: input.data.servicio,
             descripcion: input.data.descripcion,
             monto: parseFloat(input.data.monto),
