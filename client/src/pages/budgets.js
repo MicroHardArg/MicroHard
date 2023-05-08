@@ -166,22 +166,6 @@ export default function BudgetsCreate(){
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
-      setInput({
-        data:{
-          cliente:"",
-          descripcion:"",
-          total:""
-           }
-     })
-      setSelectedItems({
-        id:"",
-        item:"",
-        precio:"",
-        iva:"",
-        cantidad:"",
-        subtotal:""
-      })
-      setFinalItems([]);
 
      try {
         let body={
@@ -233,6 +217,23 @@ export default function BudgetsCreate(){
         const accountData= await accountResponse.json();
         console.log(budgetData);
         console.log(accountData);
+
+        setInput({
+          data:{
+            cliente:"",
+            descripcion:"",
+            total:""
+             }
+       })
+        setSelectedItems({
+          id:"",
+          item:"",
+          precio:"",
+          iva:"",
+          cantidad:"",
+          subtotal:""
+        })
+        setFinalItems([]);
         
       } catch (error) {
         console.error(error);
