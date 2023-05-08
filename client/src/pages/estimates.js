@@ -13,7 +13,8 @@ export default function EstimateCreate(){
     const [selectedItems, setSelectedItems]= useState({
        id:"",
        item:"",
-       cantidad:""
+       cantidad:"",
+       horas:""
      });
 
     const [finalItems, setFinalItems]= useState([]);
@@ -74,7 +75,8 @@ export default function EstimateCreate(){
       setSelectedItems({
         id:"",
         item:"",
-        cantidad:""
+        cantidad:"",
+        horas:""
       })
       document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
     };
@@ -91,13 +93,15 @@ export default function EstimateCreate(){
         data:{
           cliente:"",
           descripcion:"",
+          cantidad:"",
           horas:""
            }
      })
       setSelectedItems({
         id:"",
         item:"",
-        cantidad:""
+        cantidad:"",
+        horas:""
       })
       setFinalItems([]);
 
@@ -111,12 +115,6 @@ export default function EstimateCreate(){
                }
         }
         console.log("BODY", body);
-
-        if (!input.data.cliente) {
-          alert("Llena los campos necesarios");
-          throw new Error("Input error");
-        };
-
         const response = await fetch('http://localhost:1337/api/proyectos/', {
           method: 'POST',
           headers: {
@@ -142,12 +140,12 @@ export default function EstimateCreate(){
 
   return (
 
-<div class="antialiased fot-nsans bg-zinc-800">
+<div class="antialiased fot-nsans bg-zinc-800 overflow-auto">
            
             
-  <img src="home.jpg" alt="backgroud" className='h-full w-full fixed bg-cover' /> 
+  <img src="home.jpg" alt="backgroud" className='h-full w-full   absolute bg-cover' /> 
 
-    <div class="container mx-auto px-4 sm:px-8 pb-48 absolute ">
+    <div class="container mx-auto px-4 sm:px-8 relative pb-48 ">
 
         <div class="pt-16">
 
@@ -165,7 +163,7 @@ export default function EstimateCreate(){
 
                     <div class="relative">
 
-                    <div className='mb-3'>
+                    <div className='mb-4'>
 
                      <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                    <select 
@@ -187,22 +185,35 @@ export default function EstimateCreate(){
                     </div>               
                 </div>    
             </div>
-
+           
             <div>
-                     <label className='mb-3 block text-base font-medium  text-gray-200'></label>
+                     <label className='mb-3 block text-base font-medium  text-white'></label>
                             <input 
-                            className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            className="w-full rounded-md border border-[#ffffff] bg-gray-50 bg-opacity-5 py-3 px-6 text-base font-medium text-white outline-none focus:border-[#6A64F1] focus:shadow-md"
                              type="text" 
                               value= {input.data.descripcion}
                               name= "descripcion"
                               placeholder='Descripcion'
                           onChange={(e)=> handleChange(e)}
                              />
-                     </div>
+                     </div> 
+                     
+                    <div>
+                     <label className='mb-6 block text-base font-medium  text-gray-200'></label>
+                   <input 
+                   className="w-full rounded-md border border-[#fcfafa] bg-gray-50 bg-opacity-5 py-3 px-6 text-base font-medium text-[#faf8f8] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                     value= {input.data.horas}
+                     name= "horas"
+                     placeholder='Horas Laborales'
+                     onChange={(e)=> handleChange(e)}
+                    />
+                    </div>
 
-            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                    <div className='pt-4'>
 
-                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-y-auto h-96">
+
+                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden ">
 
                     <table class="min-w-full leading-normal">
 
@@ -210,7 +221,7 @@ export default function EstimateCreate(){
 
                             <tr>
                                 <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
+                                    class=" px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
                                     Items
                                 </th>
                                 <th
@@ -219,7 +230,10 @@ export default function EstimateCreate(){
                                 </th>
                                 <th
                                     class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
-                                    Horas laborales
+                                    
+                                </th>
+
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
                                 </th>
                             </tr>
                         </thead>
@@ -246,8 +260,6 @@ export default function EstimateCreate(){
 
 
                 </td>
-
-
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm pb-2">
                   
                   <input
@@ -264,18 +276,12 @@ export default function EstimateCreate(){
 
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 
-                <label className='mb-3 block text-base font-medium  text-gray-200'></label>
-                   <input 
-                   className="w-full rounded-md border border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                     value= {input.data.horas}
-                     name= "horas"
-                     placeholder='Horas Laborales'
-                     onChange={(e)=> handleChange(e)}
-                    />
+              
+                </td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                 </td>
 
-                            </tr>
-
+              </tr>
                             {finalItems.map((item) => (
                       <tr key={item.id}>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -284,11 +290,21 @@ export default function EstimateCreate(){
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {item.cantidad || 1}
                         </td>
-                        <button class="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <button class=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
                           onClick={() => handleRemoveItem(item.id)}>Eliminar
                         </button>
+                        </td>
                       </tr>
                     ))}
+
+
+
+
+
+
                         </tbody>
                     </table>
                     
@@ -297,19 +313,21 @@ export default function EstimateCreate(){
 
                         <div class="inline-flex mt-2 xs:mt-0 space-x-5">
 
+                        <div className="
+                                 "
+                                  type="submit" >
+                                <button  className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full" type="submit" onClick={(e) => handleSubmit(e)}>Crear Estimación</button>
+                                </div>
+
                         <button
                         type='button'
                         className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
                         onClick={(e)=> addItem(e)}> Agregar Fila </button>
 
-                        <div className=" bg-blue-900 hover:bg-blue-700 text-white py-2 px-8 rounded-full focus:outline-none focus:shadow-outline "
-                          type="submit" >
-                          <button type="submit" onClick={(e) => handleSubmit(e)}>Crear Estimación</button>
-                        </div>
-
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
  </form>
         </div>
@@ -317,4 +335,4 @@ export default function EstimateCreate(){
 </div>
 
     )
-  }
+    }
