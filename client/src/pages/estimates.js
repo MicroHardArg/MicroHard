@@ -75,6 +75,8 @@ export default function EstimateCreate(){
         id:"",
         item:"",
         cantidad:"",
+        //horas:""
+
       })
       document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
     };
@@ -87,6 +89,23 @@ export default function EstimateCreate(){
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
+
+      setInput({
+        data:{
+          cliente:"",
+          descripcion:"",
+          cantidad:"",
+          horas:""
+           }
+     })
+      setSelectedItems({
+        id:"",
+        item:"",
+        cantidad:"",
+        //horas:""
+      })
+      setFinalItems([]);
+
 
      try {
         let body={
