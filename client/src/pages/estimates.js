@@ -76,7 +76,7 @@ export default function EstimateCreate(){
         id:"",
         item:"",
         cantidad:"",
-        horas:""
+        //horas:""
       })
       document.getElementsByName("item")[0].value = document.getElementsByName("item")[0].options[0].value;
     };
@@ -101,7 +101,7 @@ export default function EstimateCreate(){
         id:"",
         item:"",
         cantidad:"",
-        horas:""
+        //horas:""
       })
       setFinalItems([]);
 
