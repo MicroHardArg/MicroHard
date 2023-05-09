@@ -11,12 +11,29 @@ export default function ServicioRecurrenteCreate() {
       monto: "",
       fecha: "",
       renovable: "",
-      tipo: "Recurrente",
+      tipo: "Recurrente"
     },
   });
 
   const [clients, setClients] = useState([]);
-  const [cuenta, setCuenta] = useState(null);
+
+  // Parses the number and replace the comma
+
+  useEffect(() => {
+    var {monto}= input.data;
+
+    if (monto) {
+      monto=monto.toString().replace("," , ".");
+    }
+
+      setInput((input) => ({
+        ...input,
+        data: {
+          ...input.data,
+          monto: monto
+        },
+      }));
+  }, [input.data.monto]);
 
   useEffect(() => {
     async function fetchData() {
@@ -24,14 +41,7 @@ export default function ServicioRecurrenteCreate() {
 
       const clientsJson = await clientsResponse.json();
       const clientsData = clientsJson.data;
-      console.log(clientsData);
       setClients(clientsData);
-
-
-      const cuentaResponse = await fetch("http://localhost:1337/api/cuenta");
-      const cuentaJson = await cuentaResponse.json();
-      setCuenta(cuentaJson.data);
-
     }
     fetchData();
   }, []);
@@ -50,15 +60,27 @@ export default function ServicioRecurrenteCreate() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (input.data.renovable === "true") {
       try {
+
+        let body= {
+          data: {
+            cliente: parseInt(input.data.cliente),
+            servicio: input.data.servicio,
+            descripcion: input.data.descripcion,
+            monto: parseFloat(input.data.monto),
+            fecha: input.data.fecha,
+            renovable: input.data.renovable,
+            tipo: "Recurrente"
+          }
+        };
+        console.log("BODY", body);
 
         const servicioResponse = await fetch('http://localhost:1337/api/recurrentes/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(input)
+          body: JSON.stringify(body)
         });
     
 
@@ -67,7 +89,7 @@ export default function ServicioRecurrenteCreate() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(input.data),
+          body: JSON.stringify(body)
         });
     
         if (!servicioResponse.ok || !cuentaResponse.ok) {
@@ -78,19 +100,23 @@ export default function ServicioRecurrenteCreate() {
     
         alert("Recursos creados satisfactoriamente");
         console.log(await servicioResponse.json(), await cuentaResponse.json());
+
+        setInput({
+          data: {
+            cliente: "",
+            servicio: "",
+            descripcion: "",
+            monto: "",
+            fecha: "",
+            renovable: "",
+            tipo: "Recurrente"
+          }
+        });
         
       } catch (error) {
         console.error(error);
       }
-    }
-
-    
   };
-
-  function validateInput() {
-    // validate input
-    return true;
-  }
 
     
   return (

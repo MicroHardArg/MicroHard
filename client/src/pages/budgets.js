@@ -166,29 +166,13 @@ export default function BudgetsCreate(){
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(input)
-      setInput({
-        data:{
-          cliente:"",
-          descripcion:"",
-          total:""
-           }
-     })
-      setSelectedItems({
-        id:"",
-        item:"",
-        precio:"",
-        iva:"",
-        cantidad:"",
-        subtotal:""
-      })
-      setFinalItems([]);
 
      try {
         let body={
           data:{
             cliente: parseInt(input.data.cliente),
             descripcion: input.data.descripcion,
-            total: input.data.total,
+            total: parseFloat(input.data.total),
             items: finalItems
                }
         }
@@ -198,7 +182,7 @@ export default function BudgetsCreate(){
           data:{
             cliente: parseInt(input.data.cliente),
             tipo: "Presupuesto",
-            monto: input.data.total
+            monto: parseFloat(input.data.total)
           }
         }
         console.log("ACCOUNT", account);
@@ -233,6 +217,23 @@ export default function BudgetsCreate(){
         const accountData= await accountResponse.json();
         console.log(budgetData);
         console.log(accountData);
+
+        setInput({
+          data:{
+            cliente:"",
+            descripcion:"",
+            total:""
+             }
+       })
+        setSelectedItems({
+          id:"",
+          item:"",
+          precio:"",
+          iva:"",
+          cantidad:"",
+          subtotal:""
+        })
+        setFinalItems([]);
         
       } catch (error) {
         console.error(error);
