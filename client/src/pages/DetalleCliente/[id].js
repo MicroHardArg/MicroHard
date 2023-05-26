@@ -5,81 +5,86 @@ import Tabs from '/components/clientes/detalleCliente';
 import Link from 'next/link';
 import { useRef } from 'react';
 import Head from 'next/head';
+export async function getStaticPaths() {
+  // Lógica para obtener los IDs de los clientes desde la API
+  try {
+    const response = await fetch('http://localhost:1337/api/clientes?populate=*'); 
+    const data = await response.json();
 
-export const detalleCliente = () => {
-    const [data, setData] = useState({ clientes: [], presupuestos: [], proyectos: [], recurrentes: [], usuarios: [], cuentas: [],  abonos: [], });
-    const [cliente, setCliente] = useState(null);
-    const router = useRouter();
-  
-    const handleTabChange = () => {
-      const id = router.query.id;
-      const clienteData = data.clientes && data.clientes.find((cliente) => cliente.id === parseInt(id));
-      setCliente(clienteData);
+    // Genera los paths para cada ID de cliente
+    const paths = data.data.map((cliente) => ({
+      params: { id: cliente.id.toString() },
+    }));
+
+    return {
+      paths,
+      fallback: false,
     };
-//Select para proyectos
-    const [proyectoSeleccionado, setproyectoSeleccionado] = useState("");
+  } catch (error) {
+    console.error('Error al obtener los IDs de los clientes:', error);
+    return {
+      paths: [],
+      fallback: false,
+    };
+  }
+}
 
-    const proyectosFiltrados = data.proyectos.filter(
-      (proyecto) => proyecto.attributes.descripcion === proyectoSeleccionado
-    );
-    //Select para presupuestos
-    const [presupuestoSeleccionado, setPresupuestoSeleccionado] = useState("");
+export async function getStaticProps({ params }) {
+  const clienteId = params.id;
 
-    const presupuestoFiltrados = data.presupuestos.filter(
-      (presupuestos) => presupuestos.data === presupuestoSeleccionado
-    );
+  // Lógica para obtener los datos del cliente y sus presupuestos desde la API
+  try {
+    const response = await fetch(`http://localhost:1337/api/clientes/${clienteId}?populate=*`); // Reemplaza con la URL de tu API para obtener los datos del cliente
+    const data = await response.json();
 
-    //Verifica si tiene o no una deuda
+    return {
+      props: {
+        cliente: data.data,
+      },
+    };
+  } catch (error) {
+    console.error('Error al obtener los datos del cliente:', error);
+    return {
+      props: {
+        cliente: null,
+      },
+    };
+  }
+}
 
-    const [cuentasData, setCuentasData] = useState([]);
-    const [abonosData, setAbonosData] = useState([]);
-    
-console.log(cuentasData)
-console.log(abonosData)
+export default function DetalleCliente({ cliente }) {
 
+  if (!cliente) {
+    return <div>Error al cargar el cliente</div>;
+  }
 
- 
-    useEffect(() => {
-      const fetchClienteData = async () => {
-        const [clientesResponse, presupuestosResponse, proyectosResponse, recurrentesResponse, usersResponse, cuentasResponse, abonosResponse] = await Promise.all([
-          fetch('http://localhost:1337/api/clientes').then((response) => response.json()),
-          fetch('http://localhost:1337/api/presupuestos').then((response) => response.json()),
-          fetch('http://localhost:1337/api/proyectos').then((response) => response.json()),
-          fetch('http://localhost:1337/api/recurrentes').then((response) => response.json()),
-          fetch('http://localhost:1337/api/users').then((response) => response.json()),
-          fetch('http://localhost:1337/api/cuentas').then((response) => response.json()),
-          fetch('http://localhost:1337/api/abonos/').then((response) => response.json()),
-     
+  const { presupuestos } = cliente.attributes;
+  const { proyectos } = cliente.attributes;
+  const { cuentas } = cliente.attributes;
+  const { abonos } = cliente.attributes;
 
-        ]);
+  const [activeTab, setActiveTab] = useState(0);
+
+const handleTabChange = (index) => {
+  setActiveTab(index);
+
+  if (index === 0) {
+    console.log("Mostrando información del cliente:", cliente);
+  } else if (index === 1) {
+    console.log("Mostrando presupuestos:", presupuestos);
+  } else if (index === 2) {
+    console.log("Mostrando proyectos:", proyectos);
+  } else if (index === 3) {
+    console.log("Mostrando cuentas:", cuentas);
+  } else {
+    console.log("Mostrando abonos:", abonos);
+  }
+};
+
   
-        setData({
-          clientes: clientesResponse.data,
-          presupuestos: presupuestosResponse.data,
-          proyectos: proyectosResponse.data,
-          recurrentes: recurrentesResponse.data,
-          usuarios: usersResponse.data,
-          cuentas: cuentasResponse.data,
-          abonos: abonosResponse.data
-
-        });
-        setCuentasData(cuentasResponse.data);
-        setAbonosData(abonosResponse.data);
-        
-        handleTabChange();
-      };
   
-      if (router.query.id) {
-        fetchClienteData();
-      }
-    }, [router.query.id])
 
 
-   
-    const presupuestos = cliente && cliente.data && cliente.data.presupuestos;
-
-
-   
         const [numeroFactura, setNumeroFactura] = useState(1); // initialize invoice number to 1
       
         // increment the invoice number when the user clicks the "Generar" button
@@ -96,34 +101,17 @@ const [items, setItems] = useState([]);
 
 //imprimir factura
 const facturaRef = useRef();
+const facturaImpresionRef = useRef(null);
 
 const handleImprimirFactura = () => {
-  const facturaHtml = facturaRef.current.innerHTML;
+  
+  const facturaHtml = facturaImpresionRef.current.innerHTML;
   const ventanaImpresion = window.open('', 'FACTURA', 'height=600,width=800');
-  ventanaImpresion.document.write(`
-    <html>
-      <head>
-        <title>FACTURA</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
-        <style>
-          @media print {
-            .print\\:hidden { visibility: hidden; }
-            .print\\:block { display: block; }
-            #factura { position: absolute; left: 0; top: 0; }
-          }
-        </style>
-      </head>
-      <body>
-        <div id="factura" class="print:block">
-          ${facturaHtml}
-        </div>
-      </body>
-    </html>
-  `);
-  ventanaImpresion.document.close();
-  ventanaImpresion.focus();
+  window.print();
+  ventanaImpresion.document.write(facturaHtml);
   ventanaImpresion.print();
   ventanaImpresion.close();
+  
 };
 
 
@@ -173,72 +161,83 @@ const handleImprimirFactura = () => {
 
     //Presupuesto
     {
-      title: 	<Link rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-4 h-4 fill-white">
-<path d="M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H120z"/></svg>     
- <span className='text-gray-100' >Presupuesto</span>
-    </Link>
-  ,
-      content: <div>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-xl text-left text-gray-100 dark:text-gray-100">
-              <thead class="text-xs text-white uppercase bg-gray-600 border-b border-blue-400 dark:text-white">
-                 
+      title: (
+        <a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-4 h-4 fill-white">
+            <path d="M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H120z" />
+          </svg>
+          <span className="text-gray-100">Presupuesto</span>
+        </a>
+      ),
+      content: (
+        <div>
+          {presupuestos.data.length === 0 ? (
+            <div class="text-gray-100 text-4xl text-center bg-gray-600 border-b border-blue-400 dark:text-white">No se encontraron presupuestos para este cliente </div>
+          ) : (
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table class="w-full text-xl text-left text-gray-100 dark:text-gray-100">
+                <thead class="text-xs text-white uppercase bg-gray-600 border-b border-blue-400 dark:text-white">
                   <tr>
-                      <th scope="col" class="px-6 py-3">
-                          Cliente
-                      </th>
-                      <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
+                      Id del Proyecto
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                       Descripcion
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Total
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Detalle Presupuesto
-                      </th>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Items
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Total
+                    </th>
                   </tr>
-              </thead>
-              <tbody>
-              {presupuestos && (
- 
-                  <tr key={presupuestos.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
+                </thead>
+                <tbody>
+                  {presupuestos.data.map((presupuesto) => (
+                    <tr key={presupuesto.attributes.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
-                          {presupuestos.cliente}
+                        {presupuesto.id}
                       </th>
-                      <td class="px-6 py-4">
-                      {presupuestos.attributes.descripcion}
+                      <td class="px-6 py-4">{presupuesto.attributes.descripcion}</td>
+                      <td className="px-6 py-4">
+                        {presupuesto.attributes.items?.map((item) => (
+                          <div key={item.id}>
+                            {item.item} - {item.cantidad}
+                          </div>
+                        ))}
                       </td>
                       <td class="px-6 py-4">
-                      {presupuestos.attributes.total}
+                        <a href="#" class="font-medium text-white hover:underline">
+                          {presupuesto.attributes.total}
+                        </a>
                       </td>
-                      <td class="px-6 py-4">
-                      info
-                      
-                      </td>
-                  </tr>
-                
-)}
-              </tbody>
-          </table>
-          
-      </div>
-      </div>
-      ,
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ),
     },
-
+    
     //Proyecto
 
     {
-      title: 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
+      title:( 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 fill-white">
         <circle cx="12" cy="12" r="10"></circle>
         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
       </svg>
       <span className='text-gray-100'>Proyectos</span>
     </a>
-  ,
-      content: <div>
+  ),
+      content:( 
+      <div>
+                  {proyectos.data.length === 0 ? (
+            <div class="text-gray-100 text-4xl text-center bg-gray-600 border-b border-amber-400 dark:text-white">No se encontraron proyectos para este cliente </div>
+          ) : (
+
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-xl text-left text-gray-100 dark:text-gray-100">
               <thead class="text-xs text-white uppercase bg-gray-600 border-b border-amber-400 dark:text-white">
@@ -253,26 +252,18 @@ const handleImprimirFactura = () => {
                           Horas de trabajo
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          Materiales
+                      Tipo
                       </th>
                       <th scope="col" class="px-6 py-3">
-                          Precio
+                      Items
                       </th>
-                      <th scope="col" class="px-6 py-3">
-                          Iva
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                          Total
-                      </th>
-
-
 
                   </tr>
               </thead>
               <tbody>
-              {data.proyectos.map((proyecto) => (
+              {proyectos.data.map((proyecto) => ( 
 
-                  <tr class="bg-gray-600 border-b border-amber-400 hover:bg-gray-500">
+                  <tr key={proyecto.attributes.id} class="bg-gray-600 border-b border-amber-400 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
                       {proyecto.id}
                       </th>
@@ -283,39 +274,34 @@ const handleImprimirFactura = () => {
                       {proyecto.attributes.horas}
                       </td>
                       <td class="px-6 py-4">
-                      {proyecto.attributes.materiales}
+                      {proyecto.attributes.tipo}
                       </td>
-                      <td class="px-6 py-4">
-                      {proyecto.attributes.precio}
-                      </td>
-                      <td class="px-6 py-4">
-                      {proyecto.attributes.iva}
-                      </td>
-                      <td class="px-6 py-4">
-                      {proyecto.attributes.total}
-                      </td>
-
-
-
-                  </tr>
+                      <td className="px-6 py-4">
+                      {proyecto.attributes.items?.map(item => (
+                     <div key={item.id}>
+                    {item.item} - {item.cantidad}
+                     </div>
+                       ))}
+                    </td>
+                    </tr>
                   ))}
-              </tbody>
-          </table>
-      </div>
-      </div>,
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ),
     },
-
     //Estado de deuda
     {
-      title: 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
+      title: (	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-400 dark:text-gray-400">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 fill-white">
   <path fill="none" d="M0 0h24v24H0z"/><path d="M5.373 4.51A9.962 9.962 0 0 1 12 2c5.523 0 10 4.477 10 10a9.954 9.954 0 0 1-1.793 5.715L17.5 12H20A8 8 0 0 0 6.274 6.413l-.9-1.902zm13.254 14.98A9.962 9.962 0 0 1 12 22C6.477 22 2 17.523 2 12c0-2.125.663-4.095 1.793-5.715L6.5 12H4a8 8 0 0 0 13.726 5.587l.9 1.902zM8.5 14H14a.5.5 0 1 0 0-1h-4a2.5 2.5 0 1 1 0-5h1V7h2v1h2.5v2H10a.5.5 0 1 0 0 1h4a2.5 2.5 0 1 1 0 5h-1v1h-2v-1H8.5v-2z"/>
 </svg>     
  <span className='text-gray-100'>Estado de Deuda</span>
     </a>
-,
-      content:
-      
+),
+      content:(
     
        <div className='bg-gradient-to-r from-gray-200 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700' >     
        <div className='flex flex-col items-center pb-10 py-6'>
@@ -345,19 +331,19 @@ const handleImprimirFactura = () => {
       </thead>
       <tbody>
    
-{data.cuentas.map((cuenta) => {
-  const abono = data.abonos.find((a) => a.periodo === cuenta.periodo);
-
+      {cuentas.data.map((cuenta) => {
+  const pagos = abonos.data.filter((abono) => abono.periodo === cuenta.periodo);
+  const abono = pagos[0];
   return (
     <tr key={cuenta.periodo} className='bg-gradient-to-r from-gray-00 from-10% via-sky-100 via-30% to-gray-100 to-90% border-blue-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
       <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
         <div className="pl-3">
-          <div className="text-base font-semibold">{abono.attributes.fecha}</div>
+          <div className="text-base font-semibold">{abono?.attributes?.fecha}</div>
         </div>
       </th>
       
       <td className="px-6 py-4">
-      {abono.attributes.nota}
+      {abono?.attributes?.nota}
       </td>
       <td className="px-6 py-4 ">
         <a href="" type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" className="font-medium text-blue-600 dark:text-Red-500 hover:underline">
@@ -396,23 +382,24 @@ const handleImprimirFactura = () => {
     
   </table>
   </div>
-</div>,
-    },
+</div>
+   )
+  },
 
     //Factura 
     {
-      title: 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
+      title:( 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-5 h-5 fill-white">
  <path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/>
 </svg>
  <span className='text-gray-100'>Factura</span>
     </a>
-    ,
-      content:
+    ),
+      content:(
        <div>
 
    
-          <div  ref={facturaRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
+          <div  ref={facturaImpresionRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
             <div className="flex justify-between mb-4">
               <div>
                 <h1 className="text-lg font-bold">Remito de venta</h1>
@@ -451,7 +438,7 @@ const handleImprimirFactura = () => {
 
 {/* seleccionar proyecto */}
             <div>
-      <select
+      {/* <select
         className="block appearance-none w-full bg-blue-50 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         value={proyectoSeleccionado}
         onChange={(event) => setproyectoSeleccionado(event.target.value)}
@@ -464,10 +451,10 @@ const handleImprimirFactura = () => {
           </option>
           
         ))}
-      </select>
-      seleccionar presupuesto
+      </select> */}
+      {/* seleccionar presupuesto */}
 
-      <select
+      {/* <select
         className="block appearance-none w-full bg-blue-100 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         value={presupuestoSeleccionado}
         onChange={(event) => setPresupuestoSeleccionado(event.target.value)}
@@ -477,11 +464,10 @@ const handleImprimirFactura = () => {
           <option key={presupuesto.id} value={presupuesto.attributes.descripcion}>
             {presupuesto.attributes.descripcion}
             {presupuesto.attributes.horas}
-            {presupuesto.cliente}
           </option>
           
         ))}
-      </select>
+      </select> */}
       
 
       <table  ref={facturaRef} className="w-full text-xl ">
@@ -506,32 +492,7 @@ const handleImprimirFactura = () => {
           </tr>
         </thead>
         
-        <tbody>
-          
-          {proyectosFiltrados.map((proyecto) => (
-            <tr
-              key={proyecto.id}
-              className="bg-white p-6 rounded-lg shadow-lg w-full h-full"
-            >
-              <td className="py-2 px-8">{proyecto.attributes.descripcion}</td>
-              <td className="py-2 text-center">{proyecto.attributes.horas}</td>
-              <td className="py-2 text-center">{proyecto.attributes.materiales}</td>
-              <td className="py-2 text-center">{proyecto.attributes.total}</td>
-            </tr>
-          ))}
-                 {presupuestoFiltrados.map((presupuestos) => (
-            <tr
-              key={presupuestos.id}
-              className="bg-white p-4 rounded-lg shadow-lg w-full h-full"
-            >
-              <td className="py-2 px-8 ">{presupuestos.attributes.descripcion}</td>
-              <td className="py-2 text-center">{presupuestos.attributes.precio}</td>
-              <td className="py-2 text-center">{presupuestos.attributes.iva}</td>
-              <td className="py-2 text-center">{presupuestos.attributes.total}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+       </table>
     </div>
     <div className="bg-white p-4  shadow-lg px-12 w-full h-full">
 
@@ -580,8 +541,8 @@ const handleImprimirFactura = () => {
     Generar factura
     </button>
 
-      </div>,
-    },
+      </div>
+    )},
   ];
 
   return (
@@ -597,7 +558,7 @@ const handleImprimirFactura = () => {
       }}
     >
    
-    <Tabs tabs={tabs} onTabChange={handleTabChange} />
+   <Tabs tabs={tabs} onTabChange={handleTabChange} />
   
     
     </div>
@@ -608,6 +569,138 @@ const handleImprimirFactura = () => {
   );
     };
 
+  
 
 
-export default detalleCliente;
+
+
+
+
+// import { useEffect, useState } from 'react';
+// import { useRouter } from 'next/router';
+
+
+// export default function MyComponent() {
+//   const router = useRouter();
+//   const [presupuestos, setPresupuestos] = useState([]);
+//   const clienteId = 3
+//   useEffect(() => {
+//     // Función para obtener los datos de la API
+//     async function fetchPresupuestos() {
+//       try {
+//         const response = await fetch('http://localhost:1337/api/presupuestos?populate=*');
+//         const data = await response.json();
+//         setPresupuestos(data.data);
+//       } catch (error) {
+//         console.error('Error al obtener los presupuestos:', error);
+//       }
+//     }
+
+//     fetchPresupuestos();
+//   }, []);
+
+//   // Función para filtrar los presupuestos de cada cliente
+//   function filtrarPresupuestosPorCliente(clienteId) {
+//     return presupuestos.filter((presupuesto) => presupuesto.attributes.cliente.data.id === clienteId);
+//   }
+
+//   // Ejemplo de uso
+  
+//   const presupuestosCliente = filtrarPresupuestosPorCliente(clienteId);
+
+//   return (
+//     <div>
+//       <h1>Presupuestos del cliente {clienteId}:</h1>
+//       <ul>
+//         {presupuestosCliente.map((presupuesto) => (
+//           <li key={presupuesto.id}>
+//             Descripción: {presupuesto.attributes.descripcion}<br />
+//             Total: {presupuesto.attributes.total}<br />
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export async function getStaticPaths() {
+//   // Lógica para obtener los IDs de los clientes desde la API
+//   try {
+//     const response = await fetch('http://localhost:1337/api/clientes'); // Reemplaza con la URL de tu API para obtener los clientes
+//     const data = await response.json();
+
+//     // Genera los paths para cada ID de cliente
+//     const paths = data.data.map((cliente) => ({
+//       params: { id: cliente.id.toString() },
+//     }));
+
+//     return {
+//       paths,
+//       fallback: false,
+//     };
+//   } catch (error) {
+//     console.error('Error al obtener los IDs de los clientes:', error);
+//     return {
+//       paths: [],
+//       fallback: false,
+//     };
+//   }
+// }
+
+// export async function getStaticProps({ params }) {
+//   const clienteId = params.id;
+
+//   // Lógica para obtener los datos del cliente y sus presupuestos desde la API
+//   try {
+//     const response = await fetch(`http://localhost:1337/api/clientes/${clienteId}?populate=*`); // Reemplaza con la URL de tu API para obtener los datos del cliente
+//     const data = await response.json();
+
+//     return {
+//       props: {
+//         cliente: data.data,
+//       },
+//     };
+//   } catch (error) {
+//     console.error('Error al obtener los datos del cliente:', error);
+//     return {
+//       props: {
+//         cliente: null,
+//       },
+//     };
+//   }
+// }
+
+// export default function DetalleCliente({ cliente }) {
+//   if (!cliente) {
+//     return <div>Error al cargar el cliente</div>;
+//   }
+
+//   const { presupuestos } = cliente.attributes;
+
+//   return (
+//     <div>
+//       <h1>Presupuestos del cliente {cliente.attributes.nombre}:</h1>
+//       <ul>
+//         {presupuestos.data.map((presupuesto) => (
+//           <li key={presupuesto.id}>
+//             Descripción: {presupuesto.attributes.descripcion}<br />
+//             Total: {presupuesto.attributes.total}<br />
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
