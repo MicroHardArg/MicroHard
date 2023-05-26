@@ -10,7 +10,7 @@ function FiltroCliente() {
     const [searchTerm, setSearchTerm] = useState('');
   
     useEffect(() => {
-      fetch('http://localhost:1337/api/clientes/')
+      fetch('http://localhost:1337/api/clientes?populate=*')
         .then((response) => response.json())
         .then((json) => setData(json));
     }, []);
@@ -23,6 +23,7 @@ function FiltroCliente() {
       <div>
         <SearchBar onSearch={handleSearch} />
         <Table data={data} searchTerm={searchTerm } />
+       
        
       </div>
     );

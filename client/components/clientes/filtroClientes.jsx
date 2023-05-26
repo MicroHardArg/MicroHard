@@ -9,17 +9,19 @@ function Table({ data, searchTerm }) {
     console.log(searchTerm);
     // const filteredData = data.data.filter((item) =>
     const [clienteId, setClienteId] = useState(null);
+    const [filterOption, setFilterOption] = useState('all'); // 'all' es el valor predeterminado
 
 
     const filteredData = Array.isArray(data.data) ? data.data.filter((item) =>
-      item.attributes.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+        item.attributes.nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (filterOption === 'all' || (filterOption === 'adeuda' && item.attributes.adeuda) || (filterOption === 'noadeuda' && !item.attributes.adeuda))
     ) : [];
-  
     
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+               
                 <tr>
                     <th scope="col" className="px-6 py-3">
                         Cliente
@@ -39,14 +41,13 @@ function Table({ data, searchTerm }) {
                         Dirección
                     </th>
                     <th scope="col" className="px-6 py-3">
-                    <select className='uppercase'>
-                    <option > Cuenta Corriente</option>
-                      <option > Adeuda</option>
-                     <option> No adeuda</option>
-                     </select>
-
-                    </th>
-                    <th scope="col" className="px-6 py-3">
+                            <select className='uppercase' value={filterOption} onChange={(e) => setFilterOption(e.target.value)}>
+                                <option value="all">Cuenta Corriente</option>
+                                <option value="adeuda">Adeuda</option>
+                                <option value="noadeuda">No adeuda</option>
+                            </select>
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                         Detalle Cliente
                     </th>
                 </tr>
@@ -75,12 +76,33 @@ function Table({ data, searchTerm }) {
                     <td className="px-6 py-4">
                     {item.attributes.direccion}
                     </td>
+
                     <td className="px-6 py-4">
-                        <div className="flex items-center">
-                            <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> No Adeuda
-                        </div>
-                    </td>
-                    <td className="px-6 py-4">
+  <div className="flex items-center">
+    {item.attributes.cuentas && item.attributes.cuentas.data ? (
+      item.attributes.cuentas.data.map((cuenta) => (
+        <div
+          key={cuenta.id}
+          className={`h-2.5 w-2.5 rounded-full ${cuenta.attributes.deuda > 0 ? 'bg-red-500' : 'bg-green-500'} mr-2`}
+        ></div>
+      ))
+    ) : (
+      <div>No se encontraron datos de cuentas.</div>
+    )}
+    {item.attributes.cuentas && item.attributes.cuentas.data ? (
+      item.attributes.cuentas.data.map((cuenta) => (
+        <span key={cuenta.id}>
+          {cuenta.attributes.deuda > 0 ? 'Adeuda' : 'No adeuda'}
+        </span>
+      ))
+    ) : (
+      <div>No se encontraron datos de cuentas.</div>
+    )}
+  </div>
+</td>
+
+        
+                                        <td className="px-6 py-4">
 
                     <Link href={`/DetalleCliente/${item.id}`} onClick={() => setClienteId(item.id)} type="button" data-modal-target="editUserModal" data-modal-show="editUserModal" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Info</Link>
 
