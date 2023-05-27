@@ -17,6 +17,7 @@ export default function NavBar() {
     recurringState:false,
     crearRecurenteState:false,
     enlazarRecurenteState:false,
+    itemsteState:false,
     userState: false,
 
 
@@ -63,6 +64,10 @@ export default function NavBar() {
                       name === "enlazarRecurenteState"
                         ? !showDropdown.userState
                         : (showDropdown.userState = false),
+        itemsteState:
+                      name === "enlazarRecurenteState"
+                        ? !showDropdown.userState
+                        : (showDropdown.userState = false),
       
     });
   };
@@ -88,6 +93,7 @@ export default function NavBar() {
         recurringState: false,
         crearRecurenteState: false,
         enlazarRecurenteState: false,
+        itemsteState: false,
       });
     };
 
@@ -153,6 +159,9 @@ export default function NavBar() {
             </li>
             <li>
             <a href="/recurring" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Servicios</a>
+            </li>
+            <li>
+            <a href="/items" className="text-white hover:bg-gray-50 border-b border-gray-100 md:hover:bg-transparent md:border-0 block pl-3 pr-4 py-2 md:hover:text-blue-500 md:p-0">Items</a>
             </li>
 
             <li className=' pl-80'>
