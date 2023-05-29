@@ -6,7 +6,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function sendEmailToClient(client, service) {
   const msg = {
-    to: client.attributes.cliente.data.attributes.email,
+    to: 'edinson@codigopalante.org',
     from: 'perezea1010@gmail.com',
     subject: 'Se ha cargado un servicio recurrente en tu cuenta',
     text: `Se ha cargado un servicio recurrente en tu cuenta por el monto de ${service.attributes.monto}.`,
