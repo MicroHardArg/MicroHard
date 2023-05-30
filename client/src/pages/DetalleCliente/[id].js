@@ -5,6 +5,8 @@ import Tabs from '/components/clientes/detalleCliente';
 import Link from 'next/link';
 import { useRef } from 'react';
 import Head from 'next/head';
+
+
 export async function getStaticPaths() {
   // Lógica para obtener los IDs de los clientes desde la API
   try {
@@ -84,13 +86,14 @@ const handleTabChange = (index) => {
   
   
 
+const [numeroFactura, setNumeroFactura] = useState("00000000001");
 
-        const [numeroFactura, setNumeroFactura] = useState(1); // initialize invoice number to 1
-      
-        // increment the invoice number when the user clicks the "Generar" button
-        const handleGenerarFactura = () => {
-          setNumeroFactura(numeroFactura + 1);
-        };
+// increment the invoice number when the user clicks the "Generar" button
+const handleGenerarFactura = () => {
+  const nextNumeroFactura = (parseInt(numeroFactura) + 1).toString().padStart(5, "0");
+  setNumeroFactura(nextNumeroFactura);
+};
+;
 
  // Fecha actual
  const [fechaActual, setFechaActual] = useState(new Date().toISOString().slice(0, 10));
@@ -402,7 +405,7 @@ const handleImprimirFactura = () => {
           <div  ref={facturaImpresionRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
             <div className="flex justify-between mb-4">
               <div>
-                <h1 className="text-lg font-bold">Remito de venta</h1>
+                <h1 className="text-lg font-bold">Presupuesto</h1>
                 <h1 className="text-lg font-bold">Fecha:</h1>
                 <div className="p-2 bg-gray-100 rounded-lg">
                 <input type="date" value={fechaActual} onChange={(e) => setFechaActual(e.target.value)} />
@@ -421,14 +424,14 @@ const handleImprimirFactura = () => {
         <p className="font-bold font-serif uppercase">Cliente: {cliente.attributes.nombre}</p>
         <p>{cliente.attributes.contacto}</p>
         <p>{cliente.attributes.direccion}</p>
-        <p>CABA, Argentina</p>
+        
       </div>
     )}
   </div>
 </div>
 
               <div>
-                <p className="font-bold text-right ">Número de boleta:</p>
+                <p className="font-bold text-right ">Número de Presupuesto:</p>
                 <p className="font-bold text-right">{numeroFactura}</p>
 
               </div>
@@ -473,7 +476,7 @@ const handleImprimirFactura = () => {
       <table  ref={facturaRef} className="w-full text-xl ">
         <thead className="bg-gray-500">
           <tr>
-            <th className="py-2 px-8 text-left text-gray-100 ">proyecto</th>
+            <th className="py-2 px-8 text-left text-gray-100 ">Detalle</th>
             <th className="py-2 text-center text-gray-100">
             <select className='bg-gray-500'>
             <option > Horas de trabajo</option>
