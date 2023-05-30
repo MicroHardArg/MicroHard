@@ -14,7 +14,10 @@ function Table({ data, searchTerm }) {
 
     const filteredData = Array.isArray(data.data) ? data.data.filter((item) =>
         item.attributes.nombre.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filterOption === 'all' || (filterOption === 'adeuda' && item.attributes.adeuda) || (filterOption === 'noadeuda' && !item.attributes.adeuda))
+        (filterOption === 'all' ||
+  (filterOption === 'adeuda' && item.attributes.cuentas && item.attributes.cuentas.data && item.attributes.cuentas.data.some((cuenta) => cuenta.attributes.deuda > 0)) ||
+  (filterOption === 'noadeuda' && (!item.attributes.cuentas || !item.attributes.cuentas.data || item.attributes.cuentas.data.every((cuenta) => cuenta.attributes.deuda === 0))))
+
     ) : [];
     
     return (
@@ -80,26 +83,20 @@ function Table({ data, searchTerm }) {
                     <td className="px-6 py-4">
   <div className="flex items-center">
     {item.attributes.cuentas && item.attributes.cuentas.data ? (
-      item.attributes.cuentas.data.map((cuenta) => (
-        <div
-          key={cuenta.id}
-          className={`h-2.5 w-2.5 rounded-full ${cuenta.attributes.deuda > 0 ? 'bg-red-500' : 'bg-green-500'} mr-2`}
-        ></div>
-      ))
+      <div className={`h-2.5 w-2.5 rounded-full ${item.attributes.cuentas.data.some((cuenta) => cuenta.attributes.deuda > 0) ? 'bg-red-500' : 'bg-green-500'} mr-2`}></div>
     ) : (
       <div>No se encontraron datos de cuentas.</div>
     )}
     {item.attributes.cuentas && item.attributes.cuentas.data ? (
-      item.attributes.cuentas.data.map((cuenta) => (
-        <span key={cuenta.id}>
-          {cuenta.attributes.deuda > 0 ? 'Adeuda' : 'No adeuda'}
-        </span>
-      ))
+      <span>
+        {item.attributes.cuentas.data.reduce((totalDeuda, cuenta) => totalDeuda + cuenta.attributes.deuda, 0) > 0 ? 'Adeuda' : 'No adeuda'}
+      </span>
     ) : (
       <div>No se encontraron datos de cuentas.</div>
     )}
   </div>
 </td>
+
 
         
                                         <td className="px-6 py-4">
