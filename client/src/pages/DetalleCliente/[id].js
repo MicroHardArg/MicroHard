@@ -399,7 +399,7 @@ const handleImprimirFactura = () => {
     </a>
     ),
       content:(
-       <div>
+       <div className="print:m-10 print:mx-auto print:max-w-full print:p-4">
 
    
           <div  ref={facturaImpresionRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
