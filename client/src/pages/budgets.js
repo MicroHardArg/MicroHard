@@ -14,7 +14,7 @@ export default function BudgetsCreate(){
        id:"",
        item:"",
        precio:"",
-       iva:"",
+       sugerido:"",
        cantidad:"",
        subtotal: ""
      });
@@ -28,15 +28,15 @@ export default function BudgetsCreate(){
     // Parses the numbers and replaces the commas
 
     useEffect(() => {
-      var {precio, iva, subtotal}= selectedItems;
+      var {precio, sugerido, subtotal}= selectedItems;
       var {total}= input.data;
 
       if (precio) {
         precio=precio.toString().replace("," , ".");
       }
 
-      if (iva) {
-        iva=iva.toString().replace("," , ".");
+      if (sugerido) {
+        sugerido=sugerido.toString().replace("," , ".");
       }
 
       if (subtotal) {
@@ -50,7 +50,7 @@ export default function BudgetsCreate(){
         setSelectedItems({
           ...selectedItems,
           precio: precio,
-          iva: iva,
+          sugerido: sugerido,
           subtotal: subtotal
         })
   
@@ -66,9 +66,9 @@ export default function BudgetsCreate(){
     // Calculates the total for each item
 
     useEffect(() => {
-      let {precio, iva, cantidad}= selectedItems;
+      let {precio, sugerido, cantidad}= selectedItems;
 
-      let subtotal=(parseFloat(precio||0)+parseFloat(iva||0))*parseFloat(cantidad||1);
+      let subtotal=(parseFloat(precio||0)+parseFloat(sugerido||0))*parseFloat(cantidad||1);
 
       setSelectedItems({
         ...selectedItems,
@@ -83,9 +83,9 @@ export default function BudgetsCreate(){
 
       finalItems.map((item) => {
         let precio= parseFloat(item.precio || 0);
-        let iva= parseFloat(item.iva || 0);
+        let sugerido= parseFloat(item.sugerido || 0);
         let cantidad= parseInt(item.cantidad || 1);
-        let totalItem= (precio+iva)*cantidad;
+        let totalItem= (precio)*cantidad;
         total+=totalItem;
       })
 
@@ -135,6 +135,7 @@ export default function BudgetsCreate(){
         ...selectedItems,
         id: selectedItem.id,
         item: selectedItem.attributes.nombre,
+        sugerido:selectedItem.attributes.precio,
       })
     }
 
@@ -151,7 +152,7 @@ export default function BudgetsCreate(){
         id:"",
         item:"",
         precio:"",
-        iva:"",
+        sugerido:"",
         cantidad:"",
         subtotal:""
       })
@@ -229,7 +230,7 @@ export default function BudgetsCreate(){
           id:"",
           item:"",
           precio:"",
-          iva:"",
+          sugerido:"",
           cantidad:"",
           subtotal:""
         })
@@ -322,7 +323,7 @@ export default function BudgetsCreate(){
                                          </th>
                                          <th
                                              class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
-                                             IVA
+                                             Sugerido
                                          </th>
                                          <th
                                              class="px-5 py-3 border-b-2 border-gray-200 bg-zinc-700 text-left text-xs font-semibold text-gray-50 uppercase tracking-wider">
@@ -379,10 +380,10 @@ export default function BudgetsCreate(){
                       <label className='mb-3 block text-base font-medium  text-gray-200'></label>
                         <input
                           className="w-full rounded-md border  border-[#7b7777] bg-transparent py-3 px-6 text-base font-medium text-[#444343] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                          value={selectedItems.iva}
+                          value={selectedItems.sugerido}
                           type='number'
-                          name='iva'
-                          placeholder='IVA'
+                          name='sugerido'
+                          placeholder='Sugerido'
                           onChange={(e)=> handleItem(e)}
                          />
                    </td>
@@ -438,7 +439,7 @@ export default function BudgetsCreate(){
                           {item.precio || 0}
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {item.iva || 0}
+                          {item.sugerido || 0}
                         </td>
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {item.cantidad || 1}
