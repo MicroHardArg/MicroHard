@@ -5,11 +5,13 @@ const ItemList = () => {
   const [newName, setNewName] = useState('');
   const [newPrice, setNewPrice] = useState('');
 
+
   useEffect(() => {
     fetch('http://localhost:1337/api/items/')
       .then(response => response.json())
       .then(data => setItems(data.data));
   }, []);
+
 
   const deleteItem = (itemId) => {
     fetch(`http://localhost:1337/api/items/${itemId}`, {
@@ -53,10 +55,12 @@ const ItemList = () => {
     <div>
       <h1><strong>Lista de Items</strong></h1>
       <br/>
+
       <ul>
         {items.map(item => (
           <li key={item.id}>
             <h2>Id: {item.id}</h2>
+
             {item.attributes && (
               <div>
                 <h2>Nombre: {item.attributes.nombre}</h2>
@@ -70,6 +74,7 @@ const ItemList = () => {
               <button onClick={() => updateItem(item.id, { nombre: newName, precio: newPrice })}>Modificar</button>
             </div>
             <br/>
+
           </li>
         ))}
       </ul>
@@ -78,6 +83,5 @@ const ItemList = () => {
 };
 
 export default ItemList;
-
 
 
