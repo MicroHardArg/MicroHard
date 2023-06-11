@@ -1,79 +1,81 @@
 
-  import React, { useEffect, useState } from 'react';
-
-  const ServiceList = () => {
-    const [services, setServices] = useState([]);
-
-    useEffect(() => {
-      fetch('http://localhost:1337/api/recurrentes?populate=*')
-        .then(response => response.json())
-        .then(data => setServices(data.data));
-    }, []);
-
-    // Agrupar los servicios por cliente
-    const groupedServices = services.reduce((acc, service) => {
-      const cliente = service.attributes.cliente.data.attributes.nombre;
-      if (!acc[cliente]) {
-        acc[cliente] = [];
-      }
-      acc[cliente].push(service);
-      return acc;
-    }, {});
-
-    return (
-      <div>
-        <h1><strong>Lista de Servicios</strong></h1>
-        <br />
-        {Object.entries(groupedServices).map(([cliente, servicios]) => (
-          <div key={cliente}>
-            <h2><strong>Cliente: {cliente}</strong></h2>
-            <ul>
-              {servicios.map(service => (
-                <li key={service.id}>
-                  <p>Servicio: {service.attributes.servicio}</p>
-                  <p>Descripción: {service.attributes.descripcion}</p>
-                  <p>Fecha: {service.attributes.fecha}</p>
-                  <p>Monto: {service.attributes.monto}</p>
-                  <p>Renovable: {service.attributes.renovable ? 'True' : 'False'}</p>
-                  <br />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  export default ServiceList;
-
-
-
-
-=======
 import React, { useEffect, useState } from 'react';
 
-const ServiceList = () => {
-  const [services, setServices] = useState([]);
+const ItemList = () => {
+  const [items, setItems] = useState([]);
+  const [newName, setNewName] = useState('');
+  const [newPrice, setNewPrice] = useState('');
+
 
   useEffect(() => {
-    fetch('http://localhost:1337/api/recurrentes?populate=*')
+    fetch('http://localhost:1337/api/items/')
       .then(response => response.json())
-      .then(data => setServices(data.data));
+      .then(data => setItems(data.data));
   }, []);
+
+
+  const deleteItem = (itemId) => {
+    fetch(`http://localhost:1337/api/items/${itemId}`, {
+      method: 'DELETE',
+    })
+      .then(response => response.json())
+      .then(() => {
+        setItems(prevItems => prevItems.filter(item => item.id !== itemId));
+      })
+      .catch(error => {
+        console.error('Error al eliminar el elemento:', error);
+      });
+  };
+
+  const updateItem = (itemId, updatedAttributes) => {
+    fetch(`http://localhost:1337/api/items/${itemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedAttributes),
+    })
+      .then(response => response.json())
+      .then(updatedItem => {
+        setItems(prevItems => prevItems.map(item => item.id === itemId ? updatedItem : item));
+      })
+      .catch(error => {
+        console.error('Error al actualizar el elemento:', error);
+      });
+  };
+
+  const handleNameChange = (event) => {
+    setNewName(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setNewPrice(event.target.value);
+  };
 
   return (
     <div>
-      <h1>Lista de Servicios</h1>
+      <h1><strong>Lista de Items</strong></h1>
+      <br/>
+
       <ul>
-        {services.map(service => (
-          <li key={service.id}>
-          <p>Servicio: {service.attributes.servicio}</p>
-          <p>Descripción: {service.attributes.descripcion}</p>
-          <p>Fecha: {service.attributes.fecha}</p>
-          <p>Monto: {service.attributes.monto}</p>
-          <p>Renovable: {service.attributes.renovable}</p>
-          <hr />
+        {items.map(item => (
+          <li key={item.id}>
+            <h2>Id: {item.id}</h2>
+
+            {item.attributes && (
+              <div>
+                <h2>Nombre: {item.attributes.nombre}</h2>
+                <p>Precio: {item.attributes.precio}</p>
+              </div>
+            )}
+            <button onClick={() => deleteItem(item.id)}>Eliminar</button>
+            <div>
+              <input type="text" placeholder="Nuevo nombre" value={newName} onChange={handleNameChange} />
+              <input type="text" placeholder="Nuevo precio" value={newPrice} onChange={handlePriceChange} />
+              <button onClick={() => updateItem(item.id, { nombre: newName, precio: newPrice })}>Modificar</button>
+            </div>
+            <br/>
+
           </li>
         ))}
       </ul>
@@ -81,52 +83,4 @@ const ServiceList = () => {
   );
 };
 
-export default  ServiceList;
-
-
-
-
-
-
-// const ServicesPage = ({ services }) => {
-//   return (
-//     <div>
-//       <h1>Listado de Servicios por Cliente</h1>
-//       {services.map((service, index) => (
-//         <div key={index}>
-//           <h2>Cliente: {service.cliente}</h2>
-//           <p>Servicio: {service.servicio}</p>
-//           <p>Descripción: {service.descripcion}</p>
-//           <p>Fecha: {service.fecha}</p>
-//           <p>Monto: {service.monto}</p>
-//           <p>Renovable: {service.renovable ? 'Sí' : 'No'}</p>
-//           <hr />
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export async function getStaticProps() {
-//   // Aquí puedes realizar la llamada a la API o cargar el JSON desde un archivo local
-//   const response = await fetch('http://localhost:1337/api/recurrentes'); // Reemplaza con la URL de tu JSON
-//   const data = await response.json();
-
-//   const services = data.data.map(item => ({
-//     cliente: item.attributes.cliente.data.attributes.nombre,
-//     servicio: item.attributes.servicio,
-//     descripcion: item.attributes.descripcion,
-//     fecha: item.attributes.fecha,
-//     monto: item.attributes.monto,
-//     renovable: item.attributes.renovable,
-//   }));
-// console.log(services)
-//   return {
-//     props: {
-//       services,
-//     },
-//   };
-// }
-
-// export default ServicesPage;
-
+export default ItemList;
