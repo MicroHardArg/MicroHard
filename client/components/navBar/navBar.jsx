@@ -123,7 +123,7 @@ export default function NavBar() {
 
     <div className="max-w-2xl">
     
-    <nav className="border-gray-200 top-0 w-full bg-transparent z-50 "> 
+    <nav className="border-gray-200 top-0 w-full bg-transparent z-50 navbar no-print"> 
  
     <div className="container mx-auto flex pl-12 pr-20 items-center gap-14 p-3 w-full z-40  ">
 

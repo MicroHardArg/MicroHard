@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <div className=' fixed w-full bottom-0 bg-zinc-800'>
         
-<footer className="px-4 divide-y dark:dark:bg-gray-800 h-24 pt-0">
+<footer className="px-4 divide-y dark:dark:bg-gray-800 h-24 pt-0 footer no-print">
 
 	<div className="container flex flex-col justify-between pt-3 mx-auto space-y-8 lg:flex-row lg:space-y-0">
 
