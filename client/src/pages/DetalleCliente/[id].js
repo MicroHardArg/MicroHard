@@ -86,36 +86,36 @@ const handleTabChange = (index) => {
   
   
 
-const [numeroFactura, setNumeroFactura] = useState("00000000001");
+// const [numeroFactura, setNumeroFactura] = useState("00000000001");
 
-// increment the invoice number when the user clicks the "Generar" button
-const handleGenerarFactura = () => {
-  const nextNumeroFactura = (parseInt(numeroFactura) + 1).toString().padStart(5, "0");
-  setNumeroFactura(nextNumeroFactura);
-};
-;
+// // increment the invoice number when the user clicks the "Generar" button
+// const handleGenerarFactura = () => {
+//   const nextNumeroFactura = (parseInt(numeroFactura) + 1).toString().padStart(5, "0");
+//   setNumeroFactura(nextNumeroFactura);
+// };
+// ;
 
- // Fecha actual
- const [fechaActual, setFechaActual] = useState(new Date().toISOString().slice(0, 10));
+//  // Fecha actual
+//  const [fechaActual, setFechaActual] = useState(new Date().toISOString().slice(0, 10));
 
 
-//agregar item a la factura
-const [items, setItems] = useState([]);
+// //agregar item a la factura
+// const [items, setItems] = useState([]);
 
-//imprimir factura
-const facturaRef = useRef();
-const facturaImpresionRef = useRef(null);
+// //imprimir factura
+// const facturaRef = useRef();
+// const facturaImpresionRef = useRef(null);
 
-const handleImprimirFactura = () => {
+// const handleImprimirFactura = () => {
   
-  const facturaHtml = facturaImpresionRef.current.innerHTML;
-  const ventanaImpresion = window.open('', 'FACTURA', 'height=600,width=800');
-  window.print();
-  ventanaImpresion.document.write(facturaHtml);
-  ventanaImpresion.print();
-  ventanaImpresion.close();
+//   const facturaHtml = facturaImpresionRef.current.innerHTML;
+//   const ventanaImpresion = window.open('', 'FACTURA', 'height=600,width=800');
+//   window.print();
+//   ventanaImpresion.document.write(facturaHtml);
+//   ventanaImpresion.print();
+//   ventanaImpresion.close();
   
-};
+// };
 
 
 
@@ -179,7 +179,7 @@ const handleImprimirFactura = () => {
           ) : (
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table class="w-full text-xl text-left text-gray-100 dark:text-gray-100">
-                <thead class="text-xs text-white uppercase bg-gray-600 border-b border-blue-400 dark:text-white">
+                <thead class="text-xs text-white uppercase bg-gray-600 border-b border-blue-600 dark:text-white">
                   <tr>
                     <th scope="col" class="px-6 py-3">
                       Id del Proyecto
@@ -193,27 +193,42 @@ const handleImprimirFactura = () => {
                     <th scope="col" class="px-6 py-3">
                       Total
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                  Detalle
+                    </th>
+
                   </tr>
                 </thead>
                 <tbody>
                   {presupuestos.data.map((presupuesto) => (
-                    <tr key={presupuesto.attributes.id} class="bg-gray-600 border-b border-blue-400 hover:bg-gray-500">
+                    <tr key={presupuesto.attributes.id} class="bg-gray-600 border-b border-blue-600 hover:bg-gray-500">
                       <th scope="row" class="px-6 py-4 font-medium text-gray-50 whitespace-nowrap dark:text-gray-100">
                         {presupuesto.id}
                       </th>
                       <td class="px-6 py-4">{presupuesto.attributes.descripcion}</td>
-                      <td className="px-6 py-4">
-                        {presupuesto.attributes.items?.map((item) => (
-                          <div key={item.id}>
-                            {item.item} - {item.cantidad}
-                          </div>
-                        ))}
-                      </td>
+                      <td class="px-6 py-4">{presupuesto.attributes.descripcion}</td>
                       <td class="px-6 py-4">
                         <a href="#" class="font-medium text-white hover:underline">
                           {presupuesto.attributes.total}
                         </a>
                       </td>
+
+                      <td className="px-6 py-4">
+              <Link href={`/DetallePresupuesto/${presupuesto.id}`} passHref>
+                <div className="text-white bg-blue-900 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-xl px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:underline cursor-pointer">
+                  Info
+                  <svg aria-hidden="true" class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+
+                </div>
+              </Link>
+            </td>
+                      {/* <td className="px-6 py-4">
+                        {presupuesto.attributes.items?.map((item) => (
+                          <div key={item.id}>
+                            {item.item} - {item.cantidad}
+                          </div>
+                        ))}
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
@@ -390,162 +405,162 @@ const handleImprimirFactura = () => {
   },
 
     //Factura 
-    {
-      title:( 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-5 h-5 fill-white">
- <path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/>
-</svg>
- <span className='text-gray-100'>Factura</span>
-    </a>
-    ),
-      content:(
-       <div className="print:m-10 print:mx-auto print:max-w-full print:p-4">
+//     {
+//       title:( 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
+// <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-5 h-5 fill-white">
+//  <path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/>
+// </svg>
+//  <span className='text-gray-100'>Factura</span>
+//     </a>
+//     ),
+//       content:(
+//        <div className="print:m-10 print:mx-auto print:max-w-full print:p-4">
 
    
-          <div  ref={facturaImpresionRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
-            <div className="flex justify-between mb-4">
-              <div>
-                <h1 className="text-lg font-bold">Presupuesto</h1>
-                <h1 className="text-lg font-bold">Fecha:</h1>
-                <div className="p-2 bg-gray-100 rounded-lg">
-                <input type="date" value={fechaActual} onChange={(e) => setFechaActual(e.target.value)} />
+//           <div  ref={facturaImpresionRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
+//             <div className="flex justify-between mb-4">
+//               <div>
+//                 <h1 className="text-lg font-bold">Presupuesto</h1>
+//                 <h1 className="text-lg font-bold">Fecha:</h1>
+//                 <div className="p-2 bg-gray-100 rounded-lg">
+//                 <input type="date" value={fechaActual} onChange={(e) => setFechaActual(e.target.value)} />
 
-</div>
+// </div>
 
-              </div>
-              <div>
-                <img src="/logo scj.png" alt="Logo de la empresa" className="h-24 " />
-              </div>
-            </div>
-            <div>
-  <div className="flex justify-between mb-4">
-    {cliente && cliente.attributes && (
-      <div>
-        <p className="font-bold font-serif uppercase">Cliente: {cliente.attributes.nombre}</p>
-        <p>{cliente.attributes.contacto}</p>
-        <p>{cliente.attributes.direccion}</p>
+//               </div>
+//               <div>
+//                 <img src="/logo scj.png" alt="Logo de la empresa" className="h-24 " />
+//               </div>
+//             </div>
+//             <div>
+//   <div className="flex justify-between mb-4">
+//     {cliente && cliente.attributes && (
+//       <div>
+//         <p className="font-bold font-serif uppercase">Cliente: {cliente.attributes.nombre}</p>
+//         <p>{cliente.attributes.contacto}</p>
+//         <p>{cliente.attributes.direccion}</p>
         
-      </div>
-    )}
-  </div>
-</div>
+//       </div>
+//     )}
+//   </div>
+// </div>
 
-              <div>
-                <p className="font-bold text-right ">Número de Presupuesto:</p>
-                <p className="font-bold text-right">{numeroFactura}</p>
+//               <div>
+//                 <p className="font-bold text-right ">Número de Presupuesto:</p>
+//                 <p className="font-bold text-right">{numeroFactura}</p>
 
-              </div>
+//               </div>
           
             
 
 
-{/* seleccionar proyecto */}
-            <div>
-      {/* <select
-        className="block appearance-none w-full bg-blue-50 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        value={proyectoSeleccionado}
-        onChange={(event) => setproyectoSeleccionado(event.target.value)}
-      >
-        <option value="" >Seleccione un proyecto</option>
-        {data.proyectos.map((proyecto) => (
-          <option key={proyecto.id} value={proyecto.attributes.descripcion} >
-            {proyecto.attributes.descripcion}
-            {proyecto.attributes.horas}
-          </option>
+// {/* seleccionar proyecto */}
+//             <div>
+//       {/* <select
+//         className="block appearance-none w-full bg-blue-50 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+//         value={proyectoSeleccionado}
+//         onChange={(event) => setproyectoSeleccionado(event.target.value)}
+//       >
+//         <option value="" >Seleccione un proyecto</option>
+//         {data.proyectos.map((proyecto) => (
+//           <option key={proyecto.id} value={proyecto.attributes.descripcion} >
+//             {proyecto.attributes.descripcion}
+//             {proyecto.attributes.horas}
+//           </option>
           
-        ))}
-      </select> */}
-      {/* seleccionar presupuesto */}
+//         ))}
+//       </select> */}
+//       {/* seleccionar presupuesto */}
 
-      {/* <select
-        className="block appearance-none w-full bg-blue-100 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        value={presupuestoSeleccionado}
-        onChange={(event) => setPresupuestoSeleccionado(event.target.value)}
-      >
-        <option value="">Seleccione un presupuesto</option>
-        {data.presupuestos.map((presupuesto) => (
-          <option key={presupuesto.id} value={presupuesto.attributes.descripcion}>
-            {presupuesto.attributes.descripcion}
-            {presupuesto.attributes.horas}
-          </option>
+//       {/* <select
+//         className="block appearance-none w-full bg-blue-100 border border-gray-200 text-gray-700 py-2 px-8 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+//         value={presupuestoSeleccionado}
+//         onChange={(event) => setPresupuestoSeleccionado(event.target.value)}
+//       >
+//         <option value="">Seleccione un presupuesto</option>
+//         {data.presupuestos.map((presupuesto) => (
+//           <option key={presupuesto.id} value={presupuesto.attributes.descripcion}>
+//             {presupuesto.attributes.descripcion}
+//             {presupuesto.attributes.horas}
+//           </option>
           
-        ))}
-      </select> */}
+//         ))}
+//       </select> */}
       
 
-      <table  ref={facturaRef} className="w-full text-xl ">
-        <thead className="bg-gray-500">
-          <tr>
-            <th className="py-2 px-8 text-left text-gray-100 ">Detalle</th>
-            <th className="py-2 text-center text-gray-100">
-            <select className='bg-gray-500'>
-            <option > Horas de trabajo</option>
-            <option> precio</option>
+//       <table  ref={facturaRef} className="w-full text-xl ">
+//         <thead className="bg-gray-500">
+//           <tr>
+//             <th className="py-2 px-8 text-left text-gray-100 ">Detalle</th>
+//             <th className="py-2 text-center text-gray-100">
+//             <select className='bg-gray-500'>
+//             <option > Horas de trabajo</option>
+//             <option> precio</option>
               
-              </select>
-              </th>
-            <th className="py-2 text-center text-gray-100">
-            <select className='bg-gray-500'>
-            <option > Materiales</option>
-            <option> iva</option>
+//               </select>
+//               </th>
+//             <th className="py-2 text-center text-gray-100">
+//             <select className='bg-gray-500'>
+//             <option > Materiales</option>
+//             <option> iva</option>
               
-              </select>
-            </th>
-            <th className="py-2 text-center text-gray-100">total</th>
-          </tr>
-        </thead>
+//               </select>
+//             </th>
+//             <th className="py-2 text-center text-gray-100">total</th>
+//           </tr>
+//         </thead>
         
-       </table>
-    </div>
-    <div className="bg-white p-4  shadow-lg px-12 w-full h-full">
+//        </table>
+//     </div>
+//     <div className="bg-white p-4  shadow-lg px-12 w-full h-full">
 
 
 
-    {items.map((item, index) => (
+//     {items.map((item, index) => (
       
-  <tr key={index} >
-        <div className="flex items-end gap-48 mb-6 md:grid-cols-3">
-    <div class="relative">
-    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
-    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Detalle</label></td>
-    </div>
-    <div class="relative ">
-    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Horas de Trabajo / precio</label></td>
-    </div>
-    <div class="relative">
-    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
-    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Materiales/IVA</label></td>
-    </div>
-    <div class="relative">
-    <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
-    <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">total</label></td>
-    <td ><button onClick={() => setItems(items.filter((_, i) => i !== index))} className='text-red-500'>Eliminar</button></td>
-    </div>
-</div>
+//   <tr key={index} >
+//         <div className="flex items-end gap-48 mb-6 md:grid-cols-3">
+//     <div class="relative">
+//     <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+//     <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Detalle</label></td>
+//     </div>
+//     <div class="relative ">
+//     <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+//     <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Horas de Trabajo / precio</label></td>
+//     </div>
+//     <div class="relative">
+//     <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+//     <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">Materiales/IVA</label></td>
+//     </div>
+//     <div class="relative">
+//     <td ><input type="text" id="small_filled" class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-xl text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
+//     <label for="small_filled" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">total</label></td>
+//     <td ><button onClick={() => setItems(items.filter((_, i) => i !== index))} className='text-red-500'>Eliminar</button></td>
+//     </div>
+// </div>
 
-  </tr>
+//   </tr>
   
-))}
-  </div>
+// ))}
+//   </div>
 
 
-    </div>
+//     </div>
 
- {/* Boton generar factura */}
+//  {/* Boton generar factura */}
 
- <button 
-    onClick={() => setItems([...items, {}])}
-    className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
+//  <button 
+//     onClick={() => setItems([...items, {}])}
+//     className="text-gray-50  bg-blue-900  py-2 px-8 hover:bg-blue-700  rounded-full"
 
-    >Agregar item</button>
+//     >Agregar item</button>
 
-  <button onClick={handleImprimirFactura} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-    Generar factura
-    </button>
+//   <button onClick={handleImprimirFactura} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+//     Generar factura
+//     </button>
 
-      </div>
-    )},
+//       </div>
+    // )},
   ];
 
   return (
