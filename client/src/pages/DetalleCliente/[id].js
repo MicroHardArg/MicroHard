@@ -198,10 +198,6 @@ const handleTabChange = (index) => {
                     <th scope="col" class="px-6 py-3">
                       Total
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                  Detalle del Presupuesto
-                    </th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -211,23 +207,7 @@ const handleTabChange = (index) => {
                         {presupuesto.id}
                       </th>
                       <td class="px-6 py-4">{presupuesto.attributes.descripcion}</td>
-                      <td class="px-6 py-4">{presupuesto.attributes.tipo}</td>
-                      <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-white hover:underline">
-                          {presupuesto.attributes.total}
-                        </a>
-                      </td>
-
                       <td className="px-6 py-4">
-              <Link href={`/DetallePresupuesto/${presupuesto.id}`} passHref>
-                <div className="text-white bg-blue-900 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-xl px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:underline cursor-pointer">
-                  Info
-                  <svg aria-hidden="true" class="w-6 h-6 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-
-                </div>
-              </Link>
-            </td>
-                      {/* <td className="px-6 py-4">
                         {presupuesto.attributes.items?.map((item) => (
                           <div key={item.id}>
                             {item.item} - {item.cantidad}
@@ -499,16 +479,16 @@ const handleTabChange = (index) => {
   },
 
     //Factura 
-//     {
-//       title:( 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
-// <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-6 h-6 fill-white">
-//  <path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/>
-// </svg>
-//  <span className='text-gray-100'>Factura</span>
-//     </a>
-//     ),
-//       content:(
-//        <div className="print:m-10 print:mx-auto print:max-w-full print:p-4">
+    {
+      title:( 	<a rel="noopener noreferrer" href="#" className="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b dark:border-gray-800 dark:text-gray-400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" className="w-5 h-5 fill-white">
+ <path d="M320 464c8.8 0 16-7.2 16-16V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320zM0 64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64z"/>
+</svg>
+ <span className='text-gray-100'>Factura</span>
+    </a>
+    ),
+      content:(
+       <div className="print:m-10 print:mx-auto print:max-w-full print:p-4">
 
    
 //           <div  ref={facturaImpresionRef} className="bg-white p-4 rounded-lg shadow-lg px-12 w-full h-full">
