@@ -1039,7 +1039,6 @@ export default function DetallePresupuesto() {
             </div>
             <div className='pt-10'> 
         
-
             <Link href={`/DetalleCliente/${presupuesto?.data?.attributes?.cliente?.data?.id}`}>
           <button className="text-gray-50 text-xl bg-gray-900 px-12 py-1 hover:bg-gray-700 rounded-full button no-print ">Volver al detalle de  
           <p>{presupuesto?.data?.attributes?.cliente?.data?.attributes?.nombre}</p>
@@ -1047,11 +1046,8 @@ export default function DetallePresupuesto() {
           
           </Link>
     </div>
-    </div>
-
-             
+    </div> 
             </div> 
-   
     </section>
     </div> 
      </div>

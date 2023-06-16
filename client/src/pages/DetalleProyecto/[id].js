@@ -47,8 +47,6 @@ export default function Detalleproyecto() {
           <div class="relative rounded-lg bg-white p-14 shadow-lg sm:p-12">
           <div class="container mx-auto">
 
-      
-
     
     <div class="-mx-4 flex flex-wrap lg:justify-between">
       <div class=" px-4 lg:w-1/2 xl:w-6/12">
@@ -1025,7 +1023,6 @@ export default function Detalleproyecto() {
           </Link>
     </div>
     </div>
-
              
             </div> 
    
