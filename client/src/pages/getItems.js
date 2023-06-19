@@ -52,53 +52,50 @@ const ItemList = () => {
   };
 
   return (
-    <div>
- <div>
-      <h1 className=' text-xl pl-52 pb-8'>Lista de Items</h1>
-      </div> 
-<ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+          <div>
+ 
+                  <div className="flex items-center justify-center rounded  w-full shadow-lg leading-normal bg-gray-200 ">
 
-   <li className="pb-3 sm:pb-4">
+                  <a className="  p-5 border-b  ">
 
-      <div className="flex items-center space-x-4">
+                  <p className="font-bold text-lg mb-1 text-black ">Lista De Items</p>
 
-         <div className="flex-shrink-0 pl-5">
+                  </a>
 
-            <img className="w-20 h-20 rounded-full" src="/vector Herramientas.jpg" alt="image"/>
+                  </div>
 
-         </div>
+                
 
-         <div class="flex-1 min-w-0 pl-8">
+                <div className=' overflow-y h-[555px]'>
+                  <div className="font-sans flex items-center justify-center bg-blue-darker w-full py-8 ">
 
-            <div>
-              
-            {items.map(item => (
-          <li key={item.id}>
-            <h2 className="text-sm font-medium text-gray-900 truncate dark:text-white">Id: {item.id}</h2>
+                <div className="overflow-hidden bg-white rounded max-w-4xl w-full shadow-lg  leading-normal ">
+                  
+                {items.map(item => (
+                  <div key={item.id}>
+                    <a  class="block  hover:bg-gray-50 p-4  border-b">
 
-            {item.attributes && (
-              <div className="text-sm text-gray-500 truncate dark:text-gray-400" >
-                <h2>Nombre: {item.attributes.nombre}</h2>
-                <p>Precio: {item.attributes.precio}</p>
-              </div>
-            )}
-          <div className="inline-flex items-center  pl-72">
-            <button className=" text-base font-semibold text-gray-900 dark:text-white" onClick={() => deleteItem(item.id)}>Eliminar</button>
+                    {item.attributes && (
+                        <p class="font-bold text-lg mb-1 text-black ">{item.attributes.nombre}</p>
+                        )}
+                        
+                        <p class="text-grey-darker mb-2">Id: {item.id}</p>
+                    {item.attributes && (
+                        <p class="text-grey-darker mb-2">Precio: {item.attributes.precio}</p>
+                        )}
+                        <div className=' flex items-end justify-end'>
+                    <button className="text-base font-semibold text-gray-100  bg-indigo-800 h-full w-32 rounded-xl px-1 py-1 hover:bg-red-700 cursor-pointer" onClick={() => deleteItem(item.id)}>Eliminar</button>
+                    </div>
+                    </a>
+
+                        </div>
+                      ))}
+             
+                
+                </div>
+                </div>
             </div>
-            
-          </li>
-        ))}
-            
-            </div>
-
-         </div>
-
-      </div>
-
-   </li>
-   
-</ul>
-            
+       
 
 
 
