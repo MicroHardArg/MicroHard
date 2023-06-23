@@ -23,11 +23,14 @@ const ItemList = () => {
       .then(response => response.json())
       .then(() => {
         setItems(prevItems => prevItems.filter(item => item.id !== itemId));
+        setNewName(''); // Restablecer el valor de newName a una cadena vacía
+        setNewPrice(''); // Restablecer el valor de newPrice a una cadena vacía
       })
       .catch(error => {
         console.error('Error al eliminar el elemento:', error);
       });
   };
+  
 
   const updateItem = (itemId) => {
     const updatedItem = {
