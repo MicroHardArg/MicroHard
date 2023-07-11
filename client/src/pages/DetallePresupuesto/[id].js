@@ -171,7 +171,7 @@ export default function DetallePresupuesto() {
             {item.precio}
           </td>
           <td class="px-6 py-4">
-            {item.subtotal}
+          {((parseFloat(item.precio || 0)+parseFloat(item.iva || 0))*parseFloat(item.cantidad || 1)).toFixed(2)}
           </td>
         </tr>
       ))}
